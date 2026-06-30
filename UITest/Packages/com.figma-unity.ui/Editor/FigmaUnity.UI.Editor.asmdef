@@ -1,0 +1,20 @@
+{
+  "name": "FigmaUnity.UI.Editor",
+  "rootNamespace": "FigmaUnity.UI.Editor",
+  "references": [
+    "FigmaUnity.UI.Runtime",
+    "Unity.TextMeshPro",
+    "Newtonsoft.Json"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

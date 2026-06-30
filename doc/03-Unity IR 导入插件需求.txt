@@ -1,0 +1,75 @@
+Unity IR 导入 — 模块需求摘要（Phase 1）
+=======================================
+
+详细实现步骤、API 草案、单测与验收清单见：
+  doc/04-Phase1开发手册.txt
+
+范围
+----
+Figma 导出包 → Unity UI Prefab 视觉复刻。
+全量重建；无 Lua / binding / 增量。
+
+输入
+----
+  {exportDir}/
+    *-full.json
+    *.png（与 json 同目录，imageFile 引用）
+
+  样例：figmajson/examples/main-screen-1080x2340-export/
+
+技术栈
+------
+  Unity 2022.3 LTS | Newtonsoft.Json | TextMeshPro | uGUI
+
+IR 格式要点
+-----------
+  type: frame | text | image
+  anchor: top-left
+  layout.type: none | horizontal | vertical
+  TEXT: text.color（fills 为空）
+  IMAGE: meta.assetPath
+  无 binding 字段
+
+模块清单
+--------
+
+  Editor/Figma/     FigmaV2JsonModels, FigmaToIRConverter, FigmaV2NodeMapper,
+                    StyleMapper, TypeMapper, AssetResolver
+
+  Editor/IR/        IRNode, IRReader, IRValidator
+
+  Editor/Build/     CoordTranslator, PrefabBuilder,
+                    FrameBuilder, TextBuilder, ImageBuilder, LayoutBuilder
+
+  Editor/UI/        IRImporterWindow（Tools > Figma UI Importer）
+
+  Runtime/          IRBinding（irId, figmaNodeId, irVersion）
+
+CoordTranslator
+---------------
+  根据 IR constraints 设置 anchorMin/Max、pivot，再用 Figma x/y 计算 anchoredPosition。
+  不再对全部节点使用 center/center。
+
+  例 top-status-bar（CENTER + MIN）：
+    anchor (0.5, 1)，Pos (0, -77)，Width 1000，Height 132
+
+  公式详见 doc/05-Figma导出插件制作规范.txt §十一
+
+降级（v1）
+----------
+  VECTOR → 占位 + Warning
+  LINE   → 细线 Image
+  shadow → 不渲染，日志汇总
+  圆角   → 无 Sprite 则方形
+
+依赖
+----
+  com.unity.nuget.newtonsoft-json
+  com.unity.textmeshpro
+  com.unity.ugui
+
+关联
+----
+  doc/00-项目范围与开发路线.txt
+  doc/02-Figma JSON → IR 转换规范.txt
+  doc/04-Phase1开发手册.txt

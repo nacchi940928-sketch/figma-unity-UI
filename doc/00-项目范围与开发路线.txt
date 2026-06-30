@@ -1,0 +1,81 @@
+Figma ↔ Unity UI 复刻 — 项目范围与开发路线
+============================================
+
+更新：2026-06-29
+当前阶段：Phase 1 — Figma → Unity（验收通过，可进入 Phase 2 或按需迭代）
+
+一、项目目标（仅此两项）
+------------------------
+
+  1. Figma → Unity：Figma 导出后，在 Unity 中复刻 UI（Prefab）     ← Phase 1 已完成
+  2. Unity → Figma：Unity 导出后，在 Figma 中复刻 UI（后续）       ← Phase 2
+
+  中间格式：IR（内存 IRNode 树 / 可选 .ir.json 调试落盘）
+
+二、不在范围内
+--------------
+
+  Lua / xLua / binding / Button 事件
+  isDirty / IRDiffPatcher / 增量更新（v1 全量重建 Prefab）
+  ScrollRect / Mask 100% 一致
+
+三、Phase 1 流水线
+------------------
+
+  figmajson/.../main-screen-1080x2340-export/
+    full.json + rectangle.png
+         ↓
+  FigmaToIRConverter（Unity Editor）
+         ↓
+  IRNode 树
+         ↓
+  PrefabBuilder
+         ↓
+  Assets/UI/Generated/main-screen-1080x2340.prefab
+
+四、完成状态
+------------
+
+  ☑ Figma Full Design Exporter v2
+  ☑ 样例导出包（json + rectangle.png）
+  ☑ 开发文档（doc/00~05）
+  ☑ Unity Package com.figma-unity.ui（main-screen 全量验收通过）
+
+五、Phase 1 步骤摘要
+--------------------
+
+  详见 doc/04-Phase1开发手册.txt §六（13 步）
+
+  1 Package 骨架
+  2 Figma JSON 反序列化
+  3~5 Figma → IR 转换 + 资源
+  6~7 IR 校验 + 坐标
+  8~10 Prefab 构建（Frame/Text/Image/Layout）
+  11~12 IRBinding + Importer 窗口
+  13 main-screen 验收
+
+六、Package 位置
+----------------
+
+  UITest/Packages/com.figma-unity.ui/
+
+七、文档索引
+------------
+
+  doc/00-项目范围与开发路线.txt       本文（总览）
+  doc/01-Figma导出规范（v2）.txt      Figma 插件（已完成）
+  doc/02-Figma JSON → IR 转换规范.txt 字段映射
+  doc/03-Unity IR 导入插件需求.txt    模块需求摘要
+  doc/04-Phase1开发手册.txt           ★ 实施主文档（API、测试、验收）
+  doc/05-Figma导出插件制作规范.txt    Figma 插件制作（Unity 消费对齐）
+  doc/06-坐标系约定.txt               坐标 + Export 写入策略
+  doc/07-v3-Figma工具对接.txt         ★ v3 Full Exporter + Import/Export Profile
+  doc/figma工具说明.TXT               Figma 插件侧规范（Tool 1 & 2）
+  doc/Figma-Unity 双向同步方案.txt    Phase 2 概要
+
+八、样例数据
+------------
+
+  figmajson/examples/main-screen-1080x2340-export/
+    main-screen-1080x2340-full.json
+    rectangle.png

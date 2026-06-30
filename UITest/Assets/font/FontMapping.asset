@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1849811e35a698a4fb5ac2140caa43ee, type: 3}
+  m_Name: FontMapping
+  m_EditorClassIdentifier: 
+  entries:
+  - figmaFamily: Inter
+    font: {fileID: 11400000, guid: dfcc2e242c4983944905442b69c65725, type: 2}
+    boldFont: {fileID: 0}

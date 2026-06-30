@@ -1,0 +1,74 @@
+Figma 插件导出规范（v2）— Full Design Exporter
+================================================
+
+状态：已实现（Phase 1 输入源）
+插件名：Full Design Exporter v2
+
+目的
+----
+为 Unity Phase 1（Figma → Unity 复刻）提供导出包。
+详见 doc/00-项目范围与开发路线.txt
+插件制作详细规范见 doc/05-Figma导出插件制作规范.txt
+
+一、导出包结构
+--------------
+
+  {export-dir}/
+    {screen-name}-full.json
+    {imageFile}.png              与 json 同目录
+
+  样例：
+    figmajson/examples/main-screen-1080x2340-export/
+      main-screen-1080x2340-full.json
+      rectangle.png
+
+二、JSON 顶层
+-------------
+
+  {
+    "metadata": {
+      "exportedAt", "componentName", "rootIrId",
+      "totalElements", "rootNormalized": true,
+      "plugin": "Full Design Exporter v2"
+    },
+    "node": { ... }
+  }
+
+三、节点字段（已实现）
+----------------------
+
+  id, irId, name, type, visible
+  x, y, rootX, rootY, width, height, opacity
+  fills, strokes, strokeWeight, effects, cornerRadius, layout
+  children[]
+  TEXT：characters, fontFamily, fontSize, fontWeight, textAlignHorizontal
+  IMAGE fill：imageHash, imageFile
+
+四、irId
+--------
+
+  {slug(name)}__{node.id 冒号改下划线}
+  例：top-status-bar__6_5、rectangle__6_117
+
+五、坐标
+--------
+
+  rootNormalized=true：rootX/rootY 相对屏幕根（根为 0,0）
+  x/y：相对父节点
+  Unity 导入用 x/y；根强制 (0,0)
+
+六、Phase 1 已满足 / 待增强
+----------------------------
+
+  ☑ irId、坐标、fills、layout、TEXT、IMAGE+png
+  □ VECTOR 导出 svg/png（v3，Unity 侧 v1 可占位）
+  □ 不需要 binding（本项目无 Lua 需求）
+
+七、Unity 消费方式
+------------------
+
+  IRImporterWindow 选择导出包目录
+    → FigmaToIRConverter
+    → PrefabBuilder
+  映射细节：doc/02-Figma JSON → IR 转换规范.txt
+  实现步骤：doc/04-Phase1开发手册.txt

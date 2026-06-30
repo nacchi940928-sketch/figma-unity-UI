@@ -1,0 +1,270 @@
+Figma JSON → IR 转换规范（Phase 1）
+====================================
+
+文档目的
+--------
+Full Design Exporter v2 的 full.json → IRNode 树。
+供 Unity FigmaToIRConverter 实现；IR 树直接交给 PrefabBuilder。
+
+当前阶段：Phase 1 Figma → Unity 的第一步（转换层）
+
+关联文档
+--------
+- doc/00-项目范围与开发路线.txt
+- doc/04-Phase1开发手册.txt（实现主文档）
+- doc/03-Unity IR 导入插件需求.txt
+
+样例输入（导出包）
+------------------
+  figmajson/examples/main-screen-1080x2340-export/
+    main-screen-1080x2340-full.json    ← 节点树
+    rectangle.png                      ← IMAGE fill 外置资源（与 JSON 同目录）
+
+  历史样例（已废弃，仅参考）：
+    figmajson/examples/top-status-bar.ir.json          ← 手工推算 IR 样例
+
+一、Figma v2 导出格式概要
+-------------------------
+
+  插件：Full Design Exporter v2
+
+  顶层结构：
+  {
+    "metadata": { ... },
+    "node": { ... }          // 单棵完整节点树（非 structure 嵌套）
+  }
+
+  metadata 字段：
+    exportedAt        ISO 时间
+    componentName     界面名，如 main-screen-1080x2340
+    rootIrId          根节点 irId
+    totalElements     节点总数（164）
+    rootNormalized    true = 已提供 rootX/rootY 相对屏幕根
+    plugin            "Full Design Exporter v2"
+
+  每个节点常见字段：
+    id                Figma 节点 id，如 "6:5"
+    irId              稳定业务 id，如 "top-status-bar__6_5"
+    name              图层名
+    type              FRAME | TEXT | VECTOR | RECTANGLE | LINE
+    visible           是否可见
+    x, y              相对父节点坐标（Y 向下）
+    rootX, rootY      相对屏幕根坐标（rootNormalized 时 root 为 0,0）
+    width, height     尺寸
+    rotation, opacity, blendMode
+    fills[]           SOLID / IMAGE（已是 #hex）
+    strokes[], strokeWeight, strokeAlign
+    effects[]         DROP_SHADOW 等
+    cornerRadius
+    constraints       horizontal / vertical
+    layoutSizingHorizontal / layoutSizingVertical
+    layout            完整 Auto Layout（layoutMode, itemSpacing, padding*, primaryAxisAlignItems...）
+    children[]
+    characters, segments, fontFamily, fontSize, fontWeight, textAlignHorizontal  （TEXT）
+
+  IMAGE fill 节点额外字段（在 fills[0] 内）：
+    type: "IMAGE"
+    imageHash         资源 hash
+    imageFile         外置文件名，如 "rectangle.png"（与 JSON 同目录）
+
+二、导出包约定
+--------------
+
+  一个界面 = 一个文件夹（或至少一组文件）：
+    {screen-name}-full.json
+    *.png / *.svg          ← imageFile / vectorFile 引用的资源
+
+  资源路径解析（Unity ConverterSettings）：
+    AssetBaseDir   = JSON 文件所在目录（默认）
+    完整路径       = AssetBaseDir + "/" + imageFile
+    例：.../main-screen-1080x2340-export/rectangle.png
+
+  导入 Unity 时：
+    复制 png → Assets/UI/Generated/{screen}/rectangle.png
+    IR meta.assetPath = "UI/Generated/{screen}/rectangle.png"
+
+  当前样例包内容：
+    main-screen-1080x2340-full.json   ~268 KB
+    rectangle.png                     ~1 MB（节点 rectangle__6_117 的 IMAGE fill）
+
+三、文件与坐标约定
+------------------
+
+  IR 根节点：
+    id     = node.irId（根：main-screen-1080x2340__6_4）
+    x = 0, y = 0          ← 使用 rootX/rootY 或强制归一化，不用画布 x=282,y=-1163
+    width / height        = node.width / node.height
+    anchor = "top-left"
+
+  子节点：
+    x, y   = node.x, node.y（相对父级，插件已算好，无需 LayoutSimulator）
+    可选校验：node.rootX, node.rootY 用于单测与 debug
+
+  ConverterSettings（代码中可改，v2 下多数为默认值）：
+    bool UseRootNormalized = true     // 根强制 0,0
+    string AssetBaseDir                  // 默认 = JSON 目录
+    string AnchorDefault = "top-left"
+
+  IR 中 x/y 语义：
+    相对父节点左上角，Y 向下（Figma 惯例）。
+    Unity Import：CoordTranslator 按 anchor=top-left 转 RectTransform。
+
+四、整体流水线
+--------------
+
+  导出包（full.json + png）
+       ↓  FigmaToIRConverter.Convert(exportDir)
+  IRNode 树（内存，可选落盘 .ir.json 调试）
+       ↓  PrefabBuilder
+  Unity Prefab + 图片资源
+
+  转换器模块（Editor，待实现）：
+    FigmaToIRConverter.cs      入口，读 metadata + node
+    FigmaV2NodeMapper.cs       单节点 Figma → IRNode 映射
+    StyleMapper.cs               fills/strokes/effects → IR
+    TypeMapper.cs                FRAME/TEXT/... → frame/text/image
+    AssetResolver.cs             imageFile → meta.assetPath
+
+  已不需要（v2）：
+    LayoutSimulator.cs
+    IdGenerator.cs（插件已给 irId）
+    rgb 字符串解析（已是 #hex）
+
+五、字段映射总表（v2 → IR）
+---------------------------
+
+5.1 根 / metadata
+
+  Figma v2                            IR
+  ─────────────────────────────────   ─────────────────────────────
+  metadata.componentName              meta.screenName
+  metadata.rootIrId                   id（根）
+  node.irId                           id
+  node.id                             meta.figmaNodeId
+  node.name                           meta.figmaName
+  metadata.exportedAt                 meta.exportedAt
+  metadata.plugin                     meta.figmaExporter
+  metadata.rootNormalized             meta.rootNormalized
+  （固定）                            version = "1.0.0"
+  （固定）                            type = "frame"
+  node.width / height                 width / height
+  rootX=0, rootY=0 或强制            x / y（根）
+  （固定）                            anchor = "top-left"
+
+5.2 节点通用
+
+  Figma v2                            IR
+  ─────────────────────────────────   ─────────────────────────────
+  irId                                id
+  id                                  meta.figmaNodeId
+  name                                meta.figmaName
+  type                                type（见 §六）
+  x, y                                x, y
+  rootX, rootY                        meta.rootX, meta.rootY（可选）
+  width, height                       width, height
+  opacity                             opacity
+  fills (SOLID)                       fills[]
+  fills (IMAGE)                       type=image + meta.imageHash/imageFile/assetPath
+  strokes[0] + strokeWeight           stroke
+  cornerRadius                        cornerRadius
+  effects (DROP_SHADOW)               meta.shadow
+  layout                              layout（见 §5.4）
+  visible=false                       meta.visible=false，Import 可跳过或隐藏
+
+5.3 TEXT
+
+  Figma v2                            IR text
+  ─────────────────────────────────   ─────────────────────
+  characters                          content
+  fontFamily                          fontFamily
+  fontSize                            fontSize
+  fontWeight                          meta.fontWeight；bold = weight >= 700
+  textAlignHorizontal                 align（LEFT→left, CENTER→center, RIGHT→right）
+  fills[0].color（SOLID）             color
+  segments[0].color                   可与 fills 交叉校验
+  fills                               TEXT 节点 IR fills 留空[]（字色在 text.color）
+
+5.4 layout
+
+  Figma layout.layoutMode             IR layout.type
+  ─────────────────────────────────     ─────────────────────────
+  NONE                                  none
+  HORIZONTAL                            horizontal
+  VERTICAL                              vertical
+  itemSpacing                           gap
+  paddingTop/Right/Bottom/Left          paddingTop/Right/Bottom/Left
+  primaryAxisAlignItems                 layout.meta.mainAlign
+  counterAxisAlignItems                 layout.meta.crossAlign
+
+5.5 图片资源
+
+  fills[0].imageFile                    meta.imageFile = "rectangle.png"
+  fills[0].imageHash                    meta.imageHash
+  AssetBaseDir + imageFile              meta.assetPath（Unity 工程内路径，转换时写入）
+
+  样例（rectangle__6_117）：
+    imageFile: "rectangle.png"
+    磁盘：figmajson/examples/main-screen-1080x2340-export/rectangle.png
+    IR meta.assetPath: "UI/Generated/main-screen-1080x2340/rectangle.png"
+
+5.6 anchor、constraints 与 CoordTranslator
+
+  IR 记录 constraints.horizontal / constraints.vertical（来自 Figma 导出）。
+
+  Unity Import 按约束映射 anchor（非一律 center/center）：
+
+    Figma horizontal MIN/CENTER/MAX     → anchor.x = 0 / 0.5 / 1
+    Figma vertical MIN/CENTER/MAX       → anchor.y = 1 / 0.5 / 0（Unity 顶=1）
+    STRETCH / SCALE                     → 对应轴 min-max 拉伸 + offset
+
+  位置（非拉伸）：
+    posX = (x + width * pivot.x) - parent.width * anchorX
+    posY = -(y + height * (1 - pivot.y) - parent.height * (1 - anchorY))
+
+  例 top-status-bar（CENTER + MIN）：anchor (0.5,1)，pos (0, -77)。
+
+  详细公式与验收：doc/05-Figma导出插件制作规范.txt §十一
+
+六、类型映射与降级
+------------------
+
+  Figma type          IR type     说明
+  ─────────────────   ─────────   ─────────────────────────────
+  FRAME               frame       Image + 可选 LayoutGroup
+  TEXT                text        TMP
+  RECTANGLE + SOLID   frame       Image 纯色
+  RECTANGLE + IMAGE   image       RawImage + assetPath
+  VECTOR              image       占位；meta.figmaType=VECTOR
+  LINE                frame       height=max(strokeWeight,1)，fills=描边色
+
+七、irId 规则（插件已生成，Converter 原样采用）
+----------------------------------------------
+
+  格式：{slug(name)}__{figmaId 冒号改下划线}
+  Converter：IR.id = node.irId
+  IRBinding.irId 与之一致
+
+八、转换示例：top-status-bar
+----------------------------
+
+  top-status-bar__6_5     x=40, y=77（相对根）
+  frame__6_6              x=48, y=43
+  frame__6_9              x=341.5, y=43
+  frame__6_12             x=711, y=43
+
+九、开发顺序（Phase 1 转换层）
+----------------------------
+
+  Step 1  FigmaV2NodeMapper + StyleMapper + TypeMapper
+  Step 2  AssetResolver（rectangle.png）
+  Step 3  FigmaToIRConverter 整树 → IRNode
+  Step 4  164 节点 + 坐标断言
+  Step 5  对接 PrefabBuilder（doc/03 Step 4 起）
+
+十、验收标准
+------------
+
+  □ 164 节点 irId → IR.id，无重复
+  □ 根 x=0,y=0；top-status-bar 40,77
+  □ chip 内框 48 / 341.5 / 711
+  □ rectangle.png 复制并写入 meta.assetPath

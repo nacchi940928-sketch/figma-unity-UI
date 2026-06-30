@@ -1,0 +1,219 @@
+Figma ↔ Unity 坐标系约定
+==========================
+
+状态：Phase 2 双向同步基准
+适用：Full Design Exporter v2 JSON、Unity IRExporter、Figma Import 插件
+
+关联：doc/05-Figma导出插件制作规范.txt | doc/Figma-Unity 双向同步方案.txt
+
+
+一、总原则
+----------
+
+  1. JSON 里的 x/y 一律按 Figma 语义：相对父节点左上角，Y 轴向下。
+  2. Unity 侧用 RectTransform + 锚点还原；不在运行时重算 Auto Layout。
+  3. 根节点 screen（main-screen-1080x2340）在两侧语义不同，但 JSON 统一为 Figma 语义。
+  4. rootNormalized=true 时，根节点 JSON 坐标恒为 (0, 0)。
+
+
+二、Figma 坐标系（JSON 权威）
+----------------------------
+
+  原点：父节点边框左上角
+  X 轴：向右为正
+  Y 轴：向下为正
+
+  根节点 main-screen-1080x2340：
+    x = 0, y = 0
+    width = 1080, height = 2340
+    锚点语义：左上角
+
+  子节点（含 inspiration-bubble、灵感 TEXT）：
+    x/y 相对直接父节点左上角
+    例：inspiration-bubble 在屏幕内 x=55, y=1935
+        灵感 TEXT 在 bubble 内 x=0, y=127
+
+
+三、Unity 坐标系（Prefab 还原）
+------------------------------
+
+  根节点 main-screen-1080x2340：
+    anchorMin = anchorMax = (0.5, 0.5)   ← 屏幕中心
+    pivot = (0.5, 0.5)
+    sizeDelta = (1080, 2340)
+    anchoredPosition = (0, 0)             ← 相对 Canvas 中心
+    语义：整块 UI 以 Canvas 中心为锚点居中
+
+  子节点（非根）：
+    锚点/轴心由 constraints 映射（见 §五）
+    anchoredPosition 相对父 RectTransform 上的锚点
+    例：inspiration-bubble anchor 左上角 → (0, 1)
+        灵感 TEXT anchor 左上角 → (0, 1)
+
+
+四、根节点差异（重要）
+----------------------
+
+  ┌─────────────────┬──────────────────────┬──────────────────────┐
+  │                 │ Figma / JSON         │ Unity Prefab         │
+  ├─────────────────┼──────────────────────┼──────────────────────┤
+  │ 原点            │ 屏幕左上角           │ Canvas 中心          │
+  │ 根 x/y          │ 0, 0                 │ anchoredPosition 0,0 │
+  │ 根锚点          │ 左上角（implicit）     │ center (0.5, 0.5)    │
+  │ 子节点 x/y 参照 │ 根边框左上角         │ 根 Rect 左上角       │
+  └─────────────────┴──────────────────────┴──────────────────────┘
+
+  ★ 虽然 Unity 根锚点在中心，但子节点 JSON 坐标仍是「相对根矩形左上角」，
+    不是相对 Canvas 中心。Import/Export 公式用 parent.width/height 换算，
+    不额外加减半屏偏移。
+
+
+五、constraints ↔ Unity 锚点
+-----------------------------
+
+  Figma constraints     Unity anchorMin/Max     说明
+  ────────────────────  ───────────────────────  ──────────────
+  horizontal MIN        x = 0                    左
+  horizontal CENTER     x = 0.5                  水平居中
+  horizontal MAX        x = 1                    右
+  vertical MIN          y = 1                    顶（Figma 顶 = Unity y:1）
+  vertical CENTER       y = 0.5                  垂直居中
+  vertical MAX          y = 0                    底
+
+
+六、Import 公式（Figma JSON → Unity）
+-------------------------------------
+
+  记：node.x, node.y = JSON 相对父左上角坐标
+      parent.width, parent.height = 父 IR 尺寸
+      pivot = 与 anchor 一致（点锚时）
+
+  pivotWorldX = node.x + node.width * pivot.x
+  pivotFromParentTopY = node.y + node.height * (1 - pivot.y)
+
+  anchoredPosition.x = pivotWorldX - parent.width * anchorX
+  anchoredPosition.y = -(pivotFromParentTopY - parent.height * (1 - anchorY))
+
+  左上角锚 + 左上角 pivot 化简：
+    anchoredPosition.x = node.x
+    anchoredPosition.y = -node.y
+
+  根节点（isRoot）：
+    不套用上述公式；强制 center anchor + sizeDelta + pos (0,0)。
+
+
+七、Export 公式（Unity → Figma JSON）
+-------------------------------------
+
+  为 Import 的精确逆运算（CoordReverseTranslator / PrefabYamlPatchReader）。
+
+  左上角锚 + 左上角 pivot 化简：
+    node.x = anchoredPosition.x
+    node.y = -anchoredPosition.y
+
+  例：灵感 TEXT anchoredPosition (0, -127)
+      → JSON x=0, y=127
+
+  根节点导出：
+    JSON x=0, y=0（rootNormalized）
+    不读 anchoredPosition。
+
+
+八、rootX / rootY
+-----------------
+
+  rootX = 从屏幕根左上角累加的绝对 X
+  rootY = 从屏幕根左上角累加的绝对 Y
+
+  用于 Export/Import 自检，不参与 Unity 运行时定位。
+
+  例：bubble rootY=1935，灵感 TEXT rootY=1935+127=2062
+
+
+九、Unity Export 写入策略（字体 vs Layout）
+------------------------------------------
+
+  模板：*-full.json（只读）
+  输出：*-unity-export.json
+
+  从 Unity 写入（layout 可调整）：
+    x, y, width, height, rotation
+    constraints.horizontal / vertical
+    characters（文案变更）
+    textAlignHorizontal, textAlignVertical（TMP 对齐）
+    若子坐标与模板 Auto Layout 不一致 → 记录 layoutAdjustments
+
+  保留模板不写入（字体）：
+    fontFamily, fontSize, fontWeight, fontStyle
+    segments[].fontFamily / fontSize / fontWeight / color
+    TEXT 的 fills（颜色跟 segments）
+
+  Import/Export 可勾选策略详见 doc/07-v3-Figma工具对接.txt
+
+  metadata.layoutAdjustments：
+    brokenAutoLayoutIrIds — Unity 坐标与 Auto Layout 流不一致的容器 irId
+    这些节点 layoutMode 会被改为 NONE，子节点 layoutPositioning=ABSOLUTE
+
+
+十、Auto Layout 与 Import
+-------------------------
+
+  1. JSON 必须烘焙最终 x/y（规范见 doc/05 §5.1）。
+  2. 若 Unity 改动导致子节点坐标与 Auto Layout 流式结果不一致，
+     Unity Export 会把父节点 layoutMode 改为 NONE，并写入 layoutAdjustments。
+  3. Figma Import 插件：layoutMode=NONE 时必须直接使用 JSON x/y，
+     不得再按 itemSpacing 重排。
+
+
+十一、贴图 / 矢量资源路径（assetDir）
+-----------------------------------
+
+  PNG 与 JSON 放在同一导出目录，JSON 内只写文件名：
+
+    "imageFile": "rectangle.png"
+    "vectorFile": "lightbulb.png"
+
+  绝对路径 = metadata.assetDir + "/" + 文件名
+
+  本仓库 main-screen 贴图目录：
+
+    e:/figma-unity-UI/figmajson/main-screen-1080x2340-export/
+
+  例：
+    e:/figma-unity-UI/figmajson/main-screen-1080x2340-export/lightbulb.png
+    e:/figma-unity-UI/figmajson/main-screen-1080x2340-export/rectangle.png
+
+  Unity Export 会在 metadata 写入：
+
+    "assetDir": "e:/figma-unity-UI/figmajson/main-screen-1080x2340-export"
+    "jsonPath": ".../main-screen-1080x2340-unity-export-N.json"
+
+  Figma Import 插件：
+
+    base = metadata.assetDir ?? dirname(jsonPath)
+    texturePath = base + "/" + (node.vectorFile || fill.imageFile)
+
+  ★ 不要用 Figma 客户端缓存（%APPDATA%\\Figma）——不可预测。
+    只用导出包 assetDir。
+
+
+十二、Figma Import 插件必读
+--------------------------
+
+  □ 根节点按 JSON (0,0) 理解，不要按 Unity center 理解
+  □ 子节点 x/y 相对父左上角，Y 向下
+  □ layoutMode != NONE 时仅当子坐标与 layout 一致才可重排；否则用 NONE
+  □ TEXT 节点：优先使用 JSON x/y/width/height，不要因 HUG 重算 Y
+  □ 匹配优先级：figmaNodeId > irId
+
+
+十三、验收样例（main-screen-1080x2340）
+---------------------------------------
+
+  节点                        Unity Pos(Y)    JSON y    说明
+  ──────────────────────────  ──────────────  ────────  ─────────────
+  main-screen（根）           0               0         根归一化
+  inspiration-bubble          -1935           1935      相对根左上角
+  灵感 TEXT（6:124）          -127            127       相对 bubble 左上角
+
+  Round-trip：Import → 改 Pos Y → Export → Figma Import 后 Y 应仍为 127。

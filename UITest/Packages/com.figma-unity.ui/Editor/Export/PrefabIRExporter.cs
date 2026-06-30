@@ -1,0 +1,202 @@
+using System.Collections.Generic;
+using FigmaUnity.UI;
+using FigmaUnity.UI.Editor.Build;
+using FigmaUnity.UI.Editor.IR;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace FigmaUnity.UI.Editor.Export
+{
+    public class UnityNodePatch
+    {
+        public string irId;
+        public string figmaNodeId;
+        public string type;
+        public bool visible;
+        public float x;
+        public float y;
+        public float width;
+        public float height;
+        public float rotation;
+        public float opacity;
+        public string constraintHorizontal = "MIN";
+        public string constraintVertical = "MIN";
+        public List<IRFill> fills = new List<IRFill>();
+        public IRText text;
+    }
+
+    public static class PrefabIRExporter
+    {
+        public static Dictionary<string, UnityNodePatch> Export(GameObject prefabRoot)
+        {
+            var patches = new Dictionary<string, UnityNodePatch>();
+            if (prefabRoot == null)
+                return patches;
+
+            var bindings = prefabRoot.GetComponentsInChildren<IRBinding>(true);
+            foreach (var binding in bindings)
+            {
+                if (binding == null || string.IsNullOrEmpty(binding.irId))
+                    continue;
+
+                var rt = binding.GetComponent<RectTransform>();
+                if (rt == null)
+                    continue;
+
+                RectTransform parentRt = null;
+                if (binding.gameObject != prefabRoot)
+                    parentRt = rt.transform.parent?.GetComponent<RectTransform>();
+
+                var patch = ExtractPatch(binding.gameObject, rt, parentRt, binding);
+                patches[binding.irId] = patch;
+            }
+
+            return patches;
+        }
+
+        public static void EnrichVisuals(GameObject prefabRoot, Dictionary<string, UnityNodePatch> patches)
+        {
+            if (prefabRoot == null || patches == null)
+                return;
+
+            foreach (var binding in prefabRoot.GetComponentsInChildren<IRBinding>(true))
+            {
+                if (binding == null || string.IsNullOrEmpty(binding.irId))
+                    continue;
+                if (!patches.TryGetValue(binding.irId, out var patch))
+                    continue;
+
+                var go = binding.gameObject;
+                patch.visible = go.activeSelf;
+                patch.opacity = ResolveOpacity(go);
+
+                if (go.TryGetComponent<TextMeshProUGUI>(out var tmp))
+                {
+                    patch.type = "text";
+                    patch.text = BuildTextContentPatch(tmp);
+                }
+                else if (go.TryGetComponent<RawImage>(out var raw) && raw.texture != null)
+                {
+                    patch.type = "image";
+                    if (raw.color.a < 1f)
+                        patch.opacity *= raw.color.a;
+                }
+                else if (go.TryGetComponent<Image>(out var image) && image.color.a > 0.01f)
+                {
+                    patch.type = "frame";
+                    patch.fills.Clear();
+                    patch.fills.Add(new IRFill
+                    {
+                        type = "solid",
+                        color = ColorUtil.ToHex(image.color),
+                        opacity = image.color.a
+                    });
+                }
+            }
+        }
+
+        /// <summary>
+        /// Overwrites patch layout from live RectTransform geometry (fixes LayoutGroup sizeDelta=0).
+        /// </summary>
+        public static void ApplyLayoutFromLiveRoot(GameObject prefabRoot, Dictionary<string, UnityNodePatch> patches)
+        {
+            if (prefabRoot == null || patches == null)
+                return;
+
+            var rootRt = prefabRoot.GetComponent<RectTransform>();
+            if (rootRt != null)
+                CoordReverseTranslator.PrepareForExport(rootRt);
+
+            foreach (var binding in prefabRoot.GetComponentsInChildren<IRBinding>(true))
+            {
+                if (binding == null || string.IsNullOrEmpty(binding.irId))
+                    continue;
+                if (!patches.TryGetValue(binding.irId, out var patch))
+                    continue;
+
+                var rt = binding.GetComponent<RectTransform>();
+                if (rt == null)
+                    continue;
+
+                RectTransform parentRt = null;
+                if (binding.gameObject != prefabRoot)
+                    parentRt = rt.transform.parent?.GetComponent<RectTransform>();
+
+                CoordReverseTranslator.ReadRectFromTransform(rt, parentRt, out var x, out var y, out var width, out var height);
+                patch.x = x;
+                patch.y = y;
+                patch.width = width;
+                patch.height = height;
+                patch.rotation = -rt.localEulerAngles.z;
+
+                var serialized = RectTransformSerializedReader.Read(rt);
+                ConstraintReverseTranslator.ReadConstraints(serialized, out patch.constraintHorizontal, out patch.constraintVertical);
+            }
+        }
+
+        static UnityNodePatch ExtractPatch(GameObject go, RectTransform rt, RectTransform parentRt, IRBinding binding)
+        {
+            CoordReverseTranslator.ReadRectFromTransform(rt, parentRt, out var x, out var y, out var width, out var height);
+            var serialized = RectTransformSerializedReader.Read(rt);
+            ConstraintReverseTranslator.ReadConstraints(serialized, out var horizontal, out var vertical);
+
+            var patch = new UnityNodePatch
+            {
+                irId = binding.irId,
+                figmaNodeId = binding.figmaNodeId,
+                visible = go.activeSelf,
+                x = x,
+                y = y,
+                width = width,
+                height = height,
+                rotation = -rt.localEulerAngles.z,
+                opacity = ResolveOpacity(go),
+                constraintHorizontal = horizontal,
+                constraintVertical = vertical
+            };
+
+            if (go.TryGetComponent<TextMeshProUGUI>(out var tmp))
+            {
+                patch.type = "text";
+                patch.text = BuildTextContentPatch(tmp);
+            }
+            else if (go.TryGetComponent<RawImage>(out var raw) && raw.texture != null)
+            {
+                patch.type = "image";
+                if (raw.color.a < 1f)
+                    patch.opacity *= raw.color.a;
+            }
+            else if (go.TryGetComponent<Image>(out var image) && image.color.a > 0.01f)
+            {
+                patch.type = "frame";
+                patch.fills.Add(new IRFill
+                {
+                    type = "solid",
+                    color = ColorUtil.ToHex(image.color),
+                    opacity = image.color.a
+                });
+            }
+
+            return patch;
+        }
+
+        static float ResolveOpacity(GameObject go)
+        {
+            if (go.TryGetComponent<CanvasGroup>(out var group))
+                return group.alpha;
+            return 1f;
+        }
+
+        static IRText BuildTextContentPatch(TextMeshProUGUI tmp)
+        {
+            TextAlignReverseMapper.FromTmp(tmp, out var horizontal, out var vertical);
+            return new IRText
+            {
+                content = tmp.text,
+                align = horizontal.ToLowerInvariant(),
+                alignVertical = vertical.ToLowerInvariant()
+            };
+        }
+    }
+}

@@ -1,0 +1,202 @@
+工具说明
+工具 1：Full design exporter
+用途： 将 Figma 设计稿导出为结构化 JSON，供 Unity 程序读取
+
+使用方式：
+
+在画布上选中一个图层（Frame / Component / Group 均可）
+点击「Export JSON」，自动下载 <图层名>-full.json
+导出内容：
+
+完整的层级树（children 永远是数组）
+每个节点：id、name、type、visible、locked、x/y、width/height、rotation、opacity、blendMode、isMask
+填充（fills）：SOLID 含 hex 颜色，渐变含 stops，IMAGE 类型只有容器（imageFile / imageHash 为 null）
+描边（strokes）：全类型，含 strokeCap/Join/Weight
+阴影与模糊效果（effects）
+圆角（cornerRadius / rectangleCornerRadii）
+自动布局（layout：mode、padding、spacing、wrap）
+布局网格（layoutGrids）
+文字（characters、segments、letterSpacing、lineHeight、textDecoration、textCase 等完整属性）
+组件属性（componentPropertyDefinitions、variantProperties、componentProperties）
+图片说明： 图片节点的 fills 中 type: "IMAGE" 的 imageFile/imageHash 均为 null，图片内容由 Unity 程序自行管理
+
+工具 2：Unity JSON importer
+用途： 将 Unity 修改后的 JSON 同步回 Figma，完整还原 Unity 的改动
+
+使用方式：
+
+上传 Unity 返回的 JSON 文件
+选择需要同步的属性（位置/可见性/文字/填充）
+点击「Import & sync」
+同步行为：
+
+Unity 的改动	Figma 的处理
+修改属性（位置/大小/文字/颜色等）	按 id 匹配，直接更新
+移动节点（父级变了）	从原父级摘出，挂到新父级，保留属性
+新增节点	在对应父级下创建 Frame
+删除节点	直接从 Figma 删除
+图片容器（已有，imageFile=null）	只同步位置/大小，图片内容不动
+图片容器（新增，imageFile=null）	跳过，设计师手动在 Figma 添加
+完成后通知栏显示：created / updated / deleted / moved / skipped 数量
+
+Unity 对接规范
+一、JSON 整体结构
+Figma 导出的 JSON 格式：
+
+json code
+{
+  "metadata": {
+    "exportedAt": "ISO8601时间",
+    "componentName": "根节点名称",
+    "totalElements": 42,
+    "rootNormalized": true,
+    "plugin": "Full Design Exporter v3"
+  },
+  "node": { /* 根节点，见下方节点结构 */ }
+}
+Unity 返回给 Figma 时，保持相同的 { "node": {...} } 结构，metadata 可选。
+
+二、节点结构（每个节点的字段）
+json code
+{
+  "id": "123:456",          // Figma 节点 ID（重要，不可修改）
+  "name": "Button",         // 节点名称
+  "type": "FRAME",          // 节点类型（见下方类型列表）
+  "visible": true,
+  "locked": false,
+  "x": 10,                  // 相对父级的 X 坐标
+  "y": 20,                  // 相对父级的 Y 坐标
+  "rootX": 100,             // 相对根节点的绝对 X（只读参考，不需要回传）
+  "rootY": 200,
+  "width": 200,
+  "height": 80,
+  "rotation": 0,            // 度数
+  "opacity": 1.0,
+  "blendMode": "NORMAL",
+  "isMask": false,
+  "maskType": "ALPHA",
+  "absoluteRenderBounds": { "x": 100, "y": 200, "width": 200, "height": 80 },
+  "fills": [ /* 见填充结构 */ ],
+  "strokes": [ /* 同 fills 结构 */ ],
+  "strokeWeight": 1,
+  "strokeAlign": "INSIDE",
+  "strokeCap": "NONE",
+  "strokeJoin": "MITER",
+  "effects": [ /* 见效果结构 */ ],
+  "cornerRadius": 8,
+  "layout": { /* 见布局结构 */ },
+  "constraints": { "horizontal": "LEFT", "vertical": "TOP" },
+  "children": [ /* 子节点数组，结构相同，递归 */ ]
+}
+三、节点类型（type 字段）
+type	说明
+FRAME	容器/布局框
+GROUP	组
+TEXT	文字节点
+RECTANGLE	矩形
+ELLIPSE	椭圆
+VECTOR	矢量图形
+COMPONENT	组件定义
+INSTANCE	组件实例
+COMPONENT_SET	变体组件集
+Unity 新增节点时，type 推荐用 FRAME（不填则默认创建为 FRAME）。
+
+四、填充结构（fills 数组）
+纯色：
+
+json code
+{ "type": "SOLID", "color": "#FF5733", "opacity": 1.0, "blendMode": "NORMAL" }
+线性渐变：
+
+json code
+{
+  "type": "GRADIENT_LINEAR",
+  "transform": { "a": 1, "b": 0, "tx": 0, "c": 0, "d": 1, "ty": 0 },
+  "stops": [
+    { "position": 0, "color": "#FFFFFF" },
+    { "position": 1, "color": "#000000" }
+  ],
+  "opacity": 1.0
+}
+图片容器（留空，Unity 自己管理）：
+
+json code
+{ "type": "IMAGE", "imageFile": null, "imageHash": null, "scaleMode": "FILL", "opacity": 1.0 }
+⚠️ Unity 返回 JSON 时，图片容器的 imageFile 和 imageHash 保持 null，Figma 不会修改 Figma 端已有的图片内容。
+
+五、文字节点额外字段
+json code
+{
+  "type": "TEXT",
+  "characters": "Hello World",
+  "fontFamily": "Inter",
+  "fontStyle": "Bold",
+  "fontSize": 16,
+  "fontWeight": 700,
+  "letterSpacing": { "value": 0, "unit": "PIXELS" },
+  "lineHeight": { "value": 120, "unit": "PERCENT" },
+  "textDecoration": "NONE",
+  "textCase": "ORIGINAL",
+  "textAutoResize": "HEIGHT",
+  "textAlignHorizontal": "LEFT",
+  "textAlignVertical": "TOP",
+  "maxLines": null,
+  "segments": [
+    {
+      "text": "Hello ",
+      "fontFamily": "Inter", "fontStyle": "Regular", "fontSize": 16,
+      "color": "#000000",
+      "letterSpacing": { "value": 0, "unit": "PIXELS" },
+      "lineHeight": { "unit": "AUTO" },
+      "textDecoration": "NONE",
+      "textCase": "ORIGINAL"
+    }
+  ]
+}
+Unity 修改文字时，segments 中的 text 拼接须等于 characters。
+
+六、布局结构（layout 对象）
+json code
+{
+  "layoutMode": "HORIZONTAL",   // NONE | HORIZONTAL | VERTICAL
+  "primaryAxisAlignItems": "MIN",   // MIN | MAX | CENTER | SPACE_BETWEEN
+  "counterAxisAlignItems": "CENTER",
+  "primaryAxisSizingMode": "FIXED", // FIXED | AUTO
+  "counterAxisSizingMode": "FIXED",
+  "paddingTop": 12,
+  "paddingRight": 16,
+  "paddingBottom": 12,
+  "paddingLeft": 16,
+  "itemSpacing": 8,
+  "clipsContent": true,
+  "layoutWrap": "NO_WRAP"       // NO_WRAP | WRAP
+}
+七、Unity 修改与回传规则
+✅ 可以修改的字段：
+
+x, y, width, height, rotation
+visible, opacity
+fills（颜色、渐变；图片保持 null）
+strokes, strokeWeight, effects
+cornerRadius
+characters, segments（文字内容与样式）
+layout（自动布局参数）
+constraints
+✅ Unity 可以新增节点：
+
+在 children 数组中添加新的节点对象
+新节点不要带 id 字段（或 id 留空）
+Figma 会在对应父级下创建新 Frame
+✅ Unity 可以删除节点：
+
+从 children 数组中移除该节点
+Figma 导入时会同步删除对应 Figma 层
+✅ Unity 可以移动节点（换父级）：
+
+把节点从 A 的 children 移到 B 的 children
+id 保持原值，Figma 会自动 re-parent
+❌ 禁止修改的字段：
+
+id（是 Figma 匹配节点的唯一标识，改了就找不到对应层了）
+type（节点类型不可改变）
+irId、rootX、rootY（只读参考值，Figma 忽略）

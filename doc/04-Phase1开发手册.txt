@@ -1,0 +1,341 @@
+Phase 1 开发手册 — Figma → Unity UI 复刻
+==========================================
+
+版本：2026-06-29
+状态：Phase 1 验收通过（2026-06-29）
+Unity 工程：UITest（2022.3 LTS）
+当前目标：跑通 main-screen-1080x2340 导出包 → Prefab
+
+文档索引
+--------
+  00  项目范围与路线        doc/00-项目范围与开发路线.txt
+  01  Figma 导出格式        doc/01-Figma导出规范（v2）.txt      ☑ 插件已完成
+  02  Figma JSON → IR       doc/02-Figma JSON → IR 转换规范.txt
+  03  Unity Import 需求     doc/03-Unity IR 导入插件需求.txt
+  04  开发手册（本文）      实现步骤、API、验收、进度表
+  --  Phase 2 回导          doc/Figma-Unity 双向同步方案.txt
+
+一、仓库布局
+------------
+
+  figma-unity-UI/
+  ├── doc/                                    规范与开发文档
+  ├── figmajson/examples/
+  │   ├── main-screen-1080x2340-export/       ☑ 验收用导出包
+  │   │   ├── main-screen-1080x2340-full.json
+  │   │   └── rectangle.png
+  │   └── top-status-bar.ir.json              旧样例，勿作验收基准
+  └── UITest/                                 Unity 2022.3 工程
+      └── Packages/
+          └── com.figma-unity.ui/             ← Package 建在这里（待创建）
+
+  导出包路径（开发机绝对路径示例）：
+    E:\figma-unity-UI\figmajson\examples\main-screen-1080x2340-export
+
+二、Package 初始化
+------------------
+
+2.1 创建路径
+
+  UITest/Packages/com.figma-unity.ui/
+  ├── package.json
+  ├── Runtime/
+  │   ├── FigmaUnity.UI.Runtime.asmdef
+  │   └── IRBinding.cs
+  ├── Editor/
+  │   ├── FigmaUnity.UI.Editor.asmdef
+  │   ├── IR/
+  │   ├── Figma/
+  │   ├── Build/
+  │   └── UI/
+  └── Tests/
+      ├── Editor/
+      │   └── FigmaUnity.UI.Editor.Tests.asmdef
+      └── Editor/*.cs                         转换与坐标单测
+
+2.2 package.json（草案）
+
+  {
+    "name": "com.figma-unity.ui",
+    "version": "0.1.0",
+    "displayName": "Figma Unity UI",
+    "description": "Import Figma export packages as Unity UI Prefabs.",
+    "unity": "2022.3",
+    "dependencies": {
+      "com.unity.ugui": "1.0.0",
+      "com.unity.textmeshpro": "3.0.7",
+      "com.unity.nuget.newtonsoft-json": "3.2.1"
+    }
+  }
+
+  创建 Package 后，在 UITest/Packages/manifest.json 的 dependencies 中加入：
+    "com.figma-unity.ui": "file:com.figma-unity.ui"
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+
+2.3 asmdef 要点
+
+  Runtime：仅 UnityEngine，无 Editor 引用
+  Editor：引用 Runtime + UnityEditor + TMP
+  Tests：引用 Editor，optional UnityEngine.TestRunner
+
+三、端到端流水线
+----------------
+
+  [用户] 选择导出包目录 exportDir
+       │
+       ▼
+  FigmaExportPackage.Locate(exportDir)
+       │  找到 *-full.json + 同目录 png
+       ▼
+  FigmaToIRConverter.Convert(exportDir, importSettings)
+       │  解析 metadata + node
+       │  AssetResolver 复制 png → Assets/UI/Generated/{screen}/
+       │  输出 IRNode 根树（内存）
+       ▼
+  IRValidator.Validate(root) → warnings[]
+       │
+       ▼
+  PrefabBuilder.Build(root, settings)
+       │  递归：RectTransform → 视觉 → IRBinding → children
+       ▼
+  PrefabUtility.SaveAsPrefabAsset → Assets/UI/Generated/{screen}.prefab
+       │
+       ▼
+  ImportReport.Log（节点数、降级、缺失资源）
+
+  v1 策略：每次导入**全量覆盖** Prefab，不做增量 diff。
+
+四、IR 数据模型（C# 草案）
+--------------------------
+
+  namespace FigmaUnity.UI.IR
+  {
+      class IRNode
+      {
+          string version;
+          string id;
+          string type;              // frame | text | image
+          float x, y;
+          float width, height;
+          string anchor;            // top-left
+          List<IRFill> fills;
+          IRStroke stroke;
+          float opacity;
+          float cornerRadius;
+          IRLayout layout;
+          IRText text;
+          Dictionary<string, object> meta;
+          List<IRNode> children;
+      }
+
+      class IRFill   { string type; string color; float opacity; }
+      class IRStroke { string color; float width; float opacity; }
+      class IRText   { string content; float fontSize; string fontFamily;
+                       string color; string align; bool bold; bool italic; }
+      class IRLayout { string type; float gap;
+                       float paddingTop, paddingRight, paddingBottom, paddingLeft;
+                       string align; Dictionary<string, object> meta; }
+  }
+
+  Figma v2 专用模型（仅 Editor 转换层使用）：
+    FigmaExportDocument { FigmaMetadata metadata; FigmaNode node; }
+    FigmaNode 字段与 full.json 一一对应（irId, id, type, x, y, fills, layout...）
+
+五、模块 API 草案
+-----------------
+
+5.1 Figma 转换层（Editor/Figma/）
+
+  FigmaExportPackage
+    static bool TryLocate(string dir, out string jsonPath, out string screenName)
+    static string[] FindMissingImageFiles(FigmaNode root, string dir)
+
+  FigmaToIRConverter
+    static IRNode Convert(string exportDir, FigmaImportSettings settings)
+    static IRNode ConvertFile(string jsonPath, FigmaImportSettings settings)
+
+  FigmaV2NodeMapper
+    static IRNode MapNode(FigmaNode node, FigmaNode parent, FigmaImportSettings settings)
+
+  StyleMapper / TypeMapper
+    见 doc/02 字段表
+
+  AssetResolver
+    static string CopyImage(string exportDir, string imageFile, string screenName)
+    // 返回 Unity 工程内路径，如 Assets/UI/Generated/main-screen-1080x2340/rectangle.png
+
+  FigmaImportSettings
+    string ExportDir
+    string GeneratedRoot = "Assets/UI/Generated"
+    bool UseRootNormalized = true
+
+5.2 构建层（Editor/Build/）
+
+  CoordTranslator
+    static void Apply(RectTransform rt, IRNode node, IRNode parent, bool isRoot)
+
+  PrefabBuilder
+    class BuildResult { GameObject root; ImportReport report; }
+    static BuildResult Build(IRNode root, PrefabBuildSettings settings)
+
+  FrameBuilder / TextBuilder / ImageBuilder / LayoutBuilder
+    static void Apply(GameObject go, IRNode node, ImportReport report)
+
+  PrefabBuildSettings
+    string PrefabOutputPath
+    FontMapping fontMapping          // ScriptableObject，可后补
+
+5.3 数据层（Editor/IR/）
+
+  IRReader.ReadFromFile(string path) → IRNode
+  IRReader.ReadFromFigmaExport(string exportDir) → IRNode   // 封装 Converter
+  IRValidator.Validate(IRNode root) → List<string> warnings
+
+5.4 UI（Editor/UI/）
+
+  IRImporterWindow
+    菜单：Tools > Figma UI Importer
+    字段：exportDir, prefabPath, optional previewCanvas
+    按钮：Validate（预检） / Import
+
+5.5 Runtime
+
+  IRBinding : MonoBehaviour
+    public string irId;
+    public string figmaNodeId;
+    public string irVersion;
+
+六、分步开发任务（带交付物）
+----------------------------
+
+  ┌──────┬─────────────────────────────────────┬──────────────────────────┐
+  │ Step │ 任务                                │ 交付 / 验证              │
+  ├──────┼─────────────────────────────────────┼──────────────────────────┤
+  │  1   │ Package + asmdef + Newtonsoft       │ Unity 编译通过           │
+  │  2   │ FigmaV2JsonModels + 反序列化        │ 能读 full.json 164 节点  │
+  │  3   │ FigmaV2NodeMapper + Style/Type      │ 单测：TEXT/FRAME 映射    │
+  │  4   │ AssetResolver                       │ rectangle.png 复制成功   │
+  │  5   │ FigmaToIRConverter 整树             │ IR 根 id=main-screen…    │
+  │  6   │ IRNode + IRValidator                │ id 唯一性校验通过        │
+  │  7   │ CoordTranslator                     │ 单测 48,43 / 341.5,43    │
+  │  8   │ PrefabBuilder + FrameBuilder        │ 场景里一个有色矩形位置对 │
+  │  9   │ TextBuilder + LayoutBuilder         │ 「灵感 128」+ 横排 layout│
+  │ 10   │ ImageBuilder                        │ rectangle 600×600 显示   │
+  │ 11   │ IRBinding + 递归完整树              │ 164 节点各有 Binding     │
+  │ 12   │ IRImporterWindow + Prefab 保存        │ 一键出 Prefab            │
+  │ 13   │ main-screen 全量验收                │ §八 checklist 全勾       │
+  └──────┴─────────────────────────────────────┴──────────────────────────┘
+
+  建议实现顺序：1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12 → 13
+
+七、单元测试用例（Tests/Editor/）
+--------------------------------
+
+  FigmaToIRConverterTests
+    Convert_MainScreen_RootId_MatchesMetadataRootIrId
+    Convert_MainScreen_TotalNodes_Is164
+    Convert_MainScreen_TextNode_128_HasContent灵感128
+    Convert_MainScreen_ImageNode_HasAssetPath
+
+  CoordTranslatorTests
+    TopStatusBar_FirstChip_X48_Y43
+    TopStatusBar_SecondChip_X341_5_Y43
+    TopStatusBar_ThirdChip_X711_Y43
+
+  测试数据路径（相对仓库根）：
+    figmajson/examples/main-screen-1080x2340-export/
+
+八、Phase 1 验收 Checklist
+--------------------------
+
+  导入操作
+    □ Tools > Figma UI Importer 可选导出包目录
+    □ 预检显示：164 节点、1 IMAGE、0 缺失 png
+    □ 生成 Prefab：Assets/UI/Generated/main-screen-1080x2340.prefab
+
+  视觉与布局
+    □ 根 1080×2340，背景 #fcf8eb
+    □ top-status-bar：40,77 / 1000×132 / 圆角 66 / 白底
+    □ 顶栏三 chip 水平间距符合 space-between
+    □ status-chips-row、subject-grid、bottom-nav 区域可辨认
+    □ TEXT「灵感 128」「预计总分 612」「周测 01:42」等文案正确
+    □ Inter 字体：找不到时用 TMP 默认，Console 有 Warning 可接受
+
+  资源
+    □ rectangle.png 在 Generated 目录且 RawImage 可见
+    □ VECTOR×13：占位 + Console 缺失清单
+    □ LINE×27：细线降级
+
+  数据
+    □ 每节点 IRBinding.irId 等于 full.json 的 irId
+    □ IRBinding.figmaNodeId 等于 full.json 的 id
+
+九、降级矩阵（v1 行为）
+------------------------
+
+  类型/场景              Unity 行为                         报告
+  ─────────────────────  ─────────────────────────────────  ──────
+  VECTOR                 RawImage 透明占位                  Warning
+  LINE                   1~2px Image，描边色                Info
+  DROP_SHADOW            不创建 Shadow                      Warning 汇总
+  cornerRadius > 0       无圆角 Sprite 则方形 Image         Warning
+  fontFamily 无映射      TMP 默认字体                       Warning
+  visible = false        GameObject.SetActive(false)        Info
+  layout space-between   H/V LayoutGroup + 子项宽设置       需 LayoutBuilder 特判
+
+十、Canvas / Prefab 约定
+------------------------
+
+  生成 Prefab 根节点：
+    - RectTransform：1080×2340，pivot (0.5,0.5)，anchoredPosition (0,0)
+    - 可选挂 Canvas + CanvasScaler（仅当导入到场景时由 Importer 处理）
+
+  CanvasScaler（若挂 Canvas）：
+    UI Scale Mode = Scale With Screen Size
+    Reference Resolution = 1080 × 2340
+    Match = 0.5
+
+  导入模式：
+    A) 仅生成 Prefab 资产（默认）
+    B) 同时实例化到当前场景指定 Canvas 下（Importer 可选项）
+
+十一、进度跟踪表（实施时更新）
+------------------------------
+
+  模块                          状态      备注
+  ────────────────────────────  ──────  ──────────
+  Package 骨架                  已完成
+  FigmaV2JsonModels             已完成
+  FigmaToIRConverter            已完成
+  IRNode / IRValidator          已完成
+  CoordTranslator               已完成
+  Frame/Text/Image Builder      已完成
+  IRBinding                     已完成
+  IRImporterWindow              已完成
+  main-screen 验收              已通过（2026-06-29）
+
+  Figma Exporter v2             已完成
+  导出样例包                    已完成
+
+十二、Phase 2（暂不开发）
+-------------------------
+
+  Unity Export → Figma Import 回导
+  详见 doc/Figma-Unity 双向同步方案.txt
+  前置：Phase 1 完成 + IRBinding 写入 figmaNodeId
+
+十三、常见问题
+--------------
+
+  Q: 导出包在仓库 figmajson/ 下，Unity 工程在 UITest/，如何引用？
+  A: Importer 用绝对或相对路径 Browse；或复制 export 包到 UITest/Assets/StreamingAssets/FigmaImports/ 仅供测试。
+
+  Q: 必须先写 .ir.json 文件吗？
+  A: 否。v1 推荐内存 IRNode 直传 PrefabBuilder；可选 Debug 菜单落盘 .ir.json 便于 diff。
+
+  Q: LayoutGroup 与绝对 x/y 是否冲突？
+  A: 有 layout 的节点仍挂 LayoutGroup；子节点 x/y 由 Figma 导出，v1 以 RectTransform 绝对位置为准，
+     LayoutGroup 主要影响运行时动态内容，静态复刻优先保证 anchoredPosition 正确。
+
+  Q: irId 含 __6_5 后缀是否太长？
+  A: 保持与 Figma 导出一致，不做二次改名；Phase 2 回导依赖 figmaNodeId 为主键。

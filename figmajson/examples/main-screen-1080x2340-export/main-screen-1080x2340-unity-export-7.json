@@ -1,0 +1,5242 @@
+{
+  "metadata": {
+    "exportedAt": "2026-06-30T06:47:16.1487497Z",
+    "componentName": "main-screen-1080x2340",
+    "rootIrId": "main-screen-1080x2340__6_4",
+    "totalElements": 115,
+    "rootNormalized": true,
+    "plugin": "Unity IRExporter v1",
+    "unityNodeCount": 156,
+    "removedNodeCount": 9,
+    "preserveTypography": true,
+    "exportProfile": {
+      "syncTransform": true,
+      "syncVisibility": true,
+      "syncConstraints": true,
+      "syncTextContent": true,
+      "syncTextAlignment": true,
+      "syncTypography": false,
+      "syncFills": false,
+      "syncLayoutAdjustments": true,
+      "pruneMissingNodes": true
+    },
+    "prunedIrIds": [
+      "card__6_35"
+    ],
+    "coordinateConvention": {
+      "version": "1",
+      "jsonOrigin": "parent-top-left",
+      "yAxis": "down",
+      "figmaRootAnchor": "top-left",
+      "unityRootAnchor": "center",
+      "rootNormalized": true,
+      "note": "JSON x/y are Figma semantics. Unity root uses center anchor; child coords are relative to parent top-left."
+    },
+    "layoutAdjustments": {
+      "brokenAutoLayoutCount": 14,
+      "brokenAutoLayoutIrIds": [
+        "top-status-bar__6_5",
+        "status-chips-row__6_15",
+        "frame__6_28",
+        "frame__6_37",
+        "frame__6_47",
+        "frame__6_46",
+        "frame__6_25",
+        "frame__6_56",
+        "frame__6_65",
+        "frame__6_74",
+        "frame__6_84",
+        "frame__6_93",
+        "frame__6_102",
+        "frame__6_110"
+      ],
+      "note": "Unity baked x/y no longer matches template Auto Layout; layoutMode set to NONE for these nodes."
+    },
+    "assetDir": "E:/figma-unity-UI/figmajson/examples/main-screen-1080x2340-export",
+    "jsonPath": "E:/figma-unity-UI/figmajson/examples/main-screen-1080x2340-export/main-screen-1080x2340-unity-export-7.json"
+  },
+  "node": {
+    "id": "6:4",
+    "irId": "main-screen-1080x2340__6_4",
+    "name": "main-screen-1080x2340",
+    "type": "FRAME",
+    "visible": true,
+    "x": 0,
+    "y": 0,
+    "rootX": 0,
+    "rootY": 0,
+    "width": 1078.0,
+    "height": 2340.0,
+    "rotation": 0.0,
+    "opacity": 1.0,
+    "fills": [
+      {
+        "type": "SOLID",
+        "color": "#fcf8eb",
+        "opacity": 1.0
+      }
+    ],
+    "strokes": [],
+    "strokeWeight": 1.0,
+    "cornerRadius": 0.0,
+    "effects": [],
+    "constraints": {
+      "horizontal": "CENTER",
+      "vertical": "CENTER"
+    },
+    "layoutSizingHorizontal": "FIXED",
+    "layoutSizingVertical": "FIXED",
+    "layout": {
+      "layoutMode": "NONE",
+      "primaryAxisAlignItems": "MIN",
+      "counterAxisAlignItems": "MIN",
+      "paddingTop": 0.0,
+      "paddingRight": 0.0,
+      "paddingBottom": 0.0,
+      "paddingLeft": 0.0,
+      "itemSpacing": 0.0
+    },
+    "fontSize": 0.0,
+    "fontWeight": 0,
+    "segments": [],
+    "children": [
+      {
+        "id": "6:5",
+        "irId": "top-status-bar__6_5",
+        "name": "top-status-bar",
+        "type": "FRAME",
+        "visible": true,
+        "x": 40.0,
+        "y": 77.0,
+        "rootX": 40.0,
+        "rootY": 77.0,
+        "width": 1000.0,
+        "height": 132.0,
+        "rotation": 0.0,
+        "opacity": 1.0,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff",
+            "opacity": 1.0
+          }
+        ],
+        "strokes": [],
+        "strokeWeight": 1.0,
+        "cornerRadius": 66.0,
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": "#3a445614",
+            "offset": {
+              "x": 0.0,
+              "y": 12.0
+            },
+            "radius": 24.0,
+            "spread": 0.0,
+            "visible": true
+          }
+        ],
+        "constraints": {
+          "horizontal": "CENTER",
+          "vertical": "MIN"
+        },
+        "layoutSizingHorizontal": "FIXED",
+        "layoutSizingVertical": "FIXED",
+        "layout": {
+          "layoutMode": "NONE",
+          "primaryAxisAlignItems": "SPACE_BETWEEN",
+          "counterAxisAlignItems": "CENTER",
+          "paddingTop": 0.0,
+          "paddingRight": 48.0,
+          "paddingBottom": 0.0,
+          "paddingLeft": 48.0,
+          "itemSpacing": 0.0
+        },
+        "fontSize": 0.0,
+        "fontWeight": 0,
+        "segments": [],
+        "children": [
+          {
+            "id": "6:6",
+            "irId": "frame__6_6",
+            "name": "Frame",
+            "type": "FRAME",
+            "visible": true,
+            "x": 48.0,
+            "y": 43.0,
+            "rootX": 88.0,
+            "rootY": 120.0,
+            "width": 178.0,
+            "height": 46.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 0.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "HUG",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "paddingTop": 0.0,
+              "paddingRight": 0.0,
+              "paddingBottom": 0.0,
+              "paddingLeft": 0.0,
+              "itemSpacing": 12.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:165",
+                "irId": "lightbulb-off__6_165",
+                "name": "lightbulb-off",
+                "type": "FRAME",
+                "visible": true,
+                "x": 0.0,
+                "y": 3.0,
+                "rootX": 88.0,
+                "rootY": 123.0,
+                "width": 40.0,
+                "height": 40.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FIXED",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "NONE",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:166",
+                    "irId": "vector__6_166",
+                    "name": "Vector",
+                    "type": "VECTOR",
+                    "visible": true,
+                    "x": 3.33200073,
+                    "y": 3.33203125,
+                    "rootX": 91.332,
+                    "rootY": 126.332031,
+                    "width": 33.336,
+                    "height": 33.336,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#ffffff",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [
+                      {
+                        "color": "#ffb940",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokeWeight": 2.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "STRETCH",
+                      "vertical": "STRETCH"
+                    },
+                    "layoutSizingHorizontal": "FIXED",
+                    "layoutSizingVertical": "FIXED",
+                    "characters": "💡",
+                    "fontFamily": "LiberationSans SDF",
+                    "fontSize": 24.00192,
+                    "fontWeight": 400,
+                    "textAlignHorizontal": "CENTER",
+                    "segments": [
+                      {
+                        "text": "💡",
+                        "fontFamily": "LiberationSans SDF",
+                        "fontSize": 24.00192,
+                        "fontWeight": 400,
+                        "color": "#ffffff"
+                      }
+                    ],
+                    "children": [],
+                    "textAlignVertical": "CENTER"
+                  }
+                ]
+              },
+              {
+                "id": "6:8",
+                "irId": "128__6_8",
+                "name": "灵感 128",
+                "type": "TEXT",
+                "visible": true,
+                "x": 52.0,
+                "y": 0.0,
+                "rootX": 140.0,
+                "rootY": 120.0,
+                "width": 126.0,
+                "height": 46.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#3a4456",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "HUG",
+                "layoutSizingVertical": "HUG",
+                "characters": "灵感 128",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontSize": 38.0,
+                "fontWeight": 400,
+                "textAlignHorizontal": "RIGHT",
+                "segments": [
+                  {
+                    "text": "灵感 128",
+                    "fontFamily": "Leefont蒙黑体 SDF",
+                    "fontStyle": "Semi Bold",
+                    "fontSize": 38.0,
+                    "fontWeight": 400,
+                    "color": "#3a4456"
+                  }
+                ],
+                "children": [],
+                "textAlignVertical": "TOP"
+              }
+            ],
+            "layoutPositioning": "ABSOLUTE"
+          },
+          {
+            "id": "6:9",
+            "irId": "frame__6_9",
+            "name": "Frame",
+            "type": "FRAME",
+            "visible": true,
+            "x": 362.5,
+            "y": 43.0,
+            "rootX": 402.5,
+            "rootY": 120.0,
+            "width": 240.0,
+            "height": 46.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 0.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "HUG",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "paddingTop": 0.0,
+              "paddingRight": 0.0,
+              "paddingBottom": 0.0,
+              "paddingLeft": 0.0,
+              "itemSpacing": 12.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:156",
+                "irId": "star__6_156",
+                "name": "star",
+                "type": "FRAME",
+                "visible": true,
+                "x": 0.0,
+                "y": 3.0,
+                "rootX": 402.5,
+                "rootY": 123.0,
+                "width": 40.0,
+                "height": 40.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FIXED",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "NONE",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:157",
+                    "irId": "vector__6_157",
+                    "name": "Vector",
+                    "type": "VECTOR",
+                    "visible": true,
+                    "x": 3.33200073,
+                    "y": 3.33203125,
+                    "rootX": 405.832,
+                    "rootY": 126.332031,
+                    "width": 33.33634,
+                    "height": 31.7867775,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#ffffff",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [
+                      {
+                        "color": "#ffd75b",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokeWeight": 2.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "STRETCH",
+                      "vertical": "STRETCH"
+                    },
+                    "layoutSizingHorizontal": "FIXED",
+                    "layoutSizingVertical": "FIXED",
+                    "characters": "⭐",
+                    "fontFamily": "LiberationSans SDF",
+                    "fontSize": 22.8864822,
+                    "fontWeight": 400,
+                    "textAlignHorizontal": "CENTER",
+                    "segments": [
+                      {
+                        "text": "⭐",
+                        "fontFamily": "LiberationSans SDF",
+                        "fontSize": 22.8864822,
+                        "fontWeight": 400,
+                        "color": "#ffffff"
+                      }
+                    ],
+                    "children": [],
+                    "textAlignVertical": "CENTER"
+                  }
+                ]
+              },
+              {
+                "id": "6:11",
+                "irId": "612__6_11",
+                "name": "预计总分 612",
+                "type": "TEXT",
+                "visible": true,
+                "x": 52.0,
+                "y": 0.0,
+                "rootX": 454.5,
+                "rootY": 120.0,
+                "width": 188.0,
+                "height": 46.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#3a4456",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "HUG",
+                "layoutSizingVertical": "HUG",
+                "characters": "预计总分 612",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontSize": 38.0,
+                "fontWeight": 400,
+                "textAlignHorizontal": "RIGHT",
+                "segments": [
+                  {
+                    "text": "预计总分 612",
+                    "fontFamily": "Leefont蒙黑体 SDF",
+                    "fontStyle": "Semi Bold",
+                    "fontSize": 38.0,
+                    "fontWeight": 400,
+                    "color": "#3a4456"
+                  }
+                ],
+                "children": [],
+                "textAlignVertical": "TOP"
+              }
+            ],
+            "layoutPositioning": "ABSOLUTE"
+          },
+          {
+            "id": "6:12",
+            "irId": "frame__6_12",
+            "name": "Frame",
+            "type": "FRAME",
+            "visible": true,
+            "x": 739.0,
+            "y": 43.0,
+            "rootX": 779.0,
+            "rootY": 120.0,
+            "width": 213.0,
+            "height": 46.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 0.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "HUG",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "paddingTop": 0.0,
+              "paddingRight": 0.0,
+              "paddingBottom": 0.0,
+              "paddingLeft": 0.0,
+              "itemSpacing": 12.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:162",
+                "irId": "hourglass__6_162",
+                "name": "hourglass",
+                "type": "FRAME",
+                "visible": true,
+                "x": 0.0,
+                "y": 3.0,
+                "rootX": 779.0,
+                "rootY": 123.0,
+                "width": 40.0,
+                "height": 40.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FIXED",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "NONE",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:163",
+                    "irId": "vector__6_163",
+                    "name": "Vector",
+                    "type": "VECTOR",
+                    "visible": true,
+                    "x": 8.332031,
+                    "y": 3.33203125,
+                    "rootX": 787.332031,
+                    "rootY": 126.332031,
+                    "width": 23.3359985,
+                    "height": 33.336,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#ffffff",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [
+                      {
+                        "color": "#7da6ff",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokeWeight": 2.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "STRETCH",
+                      "vertical": "STRETCH"
+                    },
+                    "layoutSizingHorizontal": "FIXED",
+                    "layoutSizingVertical": "FIXED",
+                    "characters": "⏳",
+                    "fontFamily": "LiberationSans SDF",
+                    "fontSize": 24.00192,
+                    "fontWeight": 400,
+                    "textAlignHorizontal": "CENTER",
+                    "segments": [
+                      {
+                        "text": "⏳",
+                        "fontFamily": "LiberationSans SDF",
+                        "fontSize": 24.00192,
+                        "fontWeight": 400,
+                        "color": "#ffffff"
+                      }
+                    ],
+                    "children": [],
+                    "textAlignVertical": "CENTER"
+                  }
+                ]
+              },
+              {
+                "id": "6:14",
+                "irId": "01-42__6_14",
+                "name": "周测 01:42",
+                "type": "TEXT",
+                "visible": true,
+                "x": 52.0,
+                "y": 0.0,
+                "rootX": 831.0,
+                "rootY": 120.0,
+                "width": 161.0,
+                "height": 46.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#3a4456",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "HUG",
+                "layoutSizingVertical": "HUG",
+                "characters": "周测 01:42",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontSize": 38.0,
+                "fontWeight": 400,
+                "textAlignHorizontal": "RIGHT",
+                "segments": [
+                  {
+                    "text": "周测 01:42",
+                    "fontFamily": "Leefont蒙黑体 SDF",
+                    "fontStyle": "Semi Bold",
+                    "fontSize": 38.0,
+                    "fontWeight": 400,
+                    "color": "#3a4456"
+                  }
+                ],
+                "children": [],
+                "textAlignVertical": "TOP"
+              }
+            ],
+            "layoutPositioning": "ABSOLUTE"
+          }
+        ]
+      },
+      {
+        "id": "6:15",
+        "irId": "status-chips-row__6_15",
+        "name": "status-chips-row",
+        "type": "FRAME",
+        "visible": true,
+        "x": 40.0,
+        "y": 273.0,
+        "rootX": 40.0,
+        "rootY": 273.0,
+        "width": 1000.0,
+        "height": 62.0,
+        "rotation": 0.0,
+        "opacity": 1.0,
+        "fills": [],
+        "strokes": [],
+        "strokeWeight": 1.0,
+        "cornerRadius": 0.0,
+        "effects": [],
+        "constraints": {
+          "horizontal": "CENTER",
+          "vertical": "MIN"
+        },
+        "layoutSizingHorizontal": "FIXED",
+        "layoutSizingVertical": "HUG",
+        "layout": {
+          "layoutMode": "NONE",
+          "primaryAxisAlignItems": "MIN",
+          "counterAxisAlignItems": "MIN",
+          "paddingTop": 0.0,
+          "paddingRight": 0.0,
+          "paddingBottom": 0.0,
+          "paddingLeft": 0.0,
+          "itemSpacing": 24.0
+        },
+        "fontSize": 0.0,
+        "fontWeight": 0,
+        "segments": [],
+        "children": [
+          {
+            "id": "6:16",
+            "irId": "status-chip__6_16",
+            "name": "status-chip",
+            "type": "FRAME",
+            "visible": true,
+            "x": 0.0,
+            "y": 0.0,
+            "rootX": 40.0,
+            "rootY": 273.0,
+            "width": 175.0,
+            "height": 62.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e2f5e0",
+                "opacity": 1.0
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 40.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "HUG",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "paddingTop": 12.0,
+              "paddingRight": 24.0,
+              "paddingBottom": 12.0,
+              "paddingLeft": 24.0,
+              "itemSpacing": 12.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:17",
+                "irId": "node__6_17",
+                "name": "正常找灵感",
+                "type": "TEXT",
+                "visible": true,
+                "x": 24.0,
+                "y": 12.0,
+                "rootX": 64.0,
+                "rootY": 285.0,
+                "width": 127.0,
+                "height": 38.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#3a4456",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "HUG",
+                "layoutSizingVertical": "HUG",
+                "characters": "正常找灵感",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontSize": 32.0,
+                "fontWeight": 400,
+                "textAlignHorizontal": "RIGHT",
+                "segments": [
+                  {
+                    "text": "正常找灵感",
+                    "fontFamily": "Leefont蒙黑体 SDF",
+                    "fontStyle": "Semi Bold",
+                    "fontSize": 32.0,
+                    "fontWeight": 400,
+                    "color": "#3a4456"
+                  }
+                ],
+                "children": [],
+                "textAlignVertical": "TOP"
+              }
+            ],
+            "layoutPositioning": "ABSOLUTE"
+          },
+          {
+            "id": "6:18",
+            "irId": "status-chip__6_18",
+            "name": "status-chip",
+            "type": "FRAME",
+            "visible": true,
+            "x": 205.0,
+            "y": 0.0,
+            "rootX": 245.0,
+            "rootY": 273.0,
+            "width": 171.0,
+            "height": 62.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#ffe8d0",
+                "opacity": 1.0
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 40.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "HUG",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "paddingTop": 12.0,
+              "paddingRight": 24.0,
+              "paddingBottom": 12.0,
+              "paddingLeft": 24.0,
+              "itemSpacing": 12.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:19",
+                "irId": "node__6_19",
+                "name": "手速",
+                "type": "TEXT",
+                "visible": true,
+                "x": 24.0,
+                "y": 12.0,
+                "rootX": 269.0,
+                "rootY": 285.0,
+                "width": 51.0,
+                "height": 38.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#3a4456",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "HUG",
+                "layoutSizingVertical": "HUG",
+                "characters": "手速",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontSize": 32.0,
+                "fontWeight": 400,
+                "textAlignHorizontal": "RIGHT",
+                "segments": [
+                  {
+                    "text": "手速",
+                    "fontFamily": "Leefont蒙黑体 SDF",
+                    "fontStyle": "Semi Bold",
+                    "fontSize": 32.0,
+                    "fontWeight": 400,
+                    "color": "#3a4456"
+                  }
+                ],
+                "children": [],
+                "textAlignVertical": "TOP"
+              },
+              {
+                "id": "6:20",
+                "irId": "frame__6_20",
+                "name": "Frame",
+                "type": "FRAME",
+                "visible": true,
+                "x": 87.0,
+                "y": 25.0,
+                "rootX": 332.0,
+                "rootY": 298.0,
+                "width": 60.0,
+                "height": 12.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 6.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FIXED",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "HORIZONTAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:21",
+                    "irId": "rectangle__6_21",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 332.0,
+                    "rootY": 298.0,
+                    "width": 40.0,
+                    "height": 12.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#ffb940",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 6.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FIXED",
+                    "layoutSizingVertical": "FILL",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  }
+                ]
+              }
+            ],
+            "layoutPositioning": "ABSOLUTE"
+          },
+          {
+            "id": "6:22",
+            "irId": "status-chip__6_22",
+            "name": "status-chip",
+            "type": "FRAME",
+            "visible": true,
+            "x": 406.0,
+            "y": 0.0,
+            "rootX": 446.0,
+            "rootY": 273.0,
+            "width": 184.0,
+            "height": 62.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#e0ecff",
+                "opacity": 1.0
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 40.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "HUG",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "CENTER",
+              "paddingTop": 12.0,
+              "paddingRight": 24.0,
+              "paddingBottom": 12.0,
+              "paddingLeft": 24.0,
+              "itemSpacing": 12.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:23",
+                "irId": "01-42__6_23",
+                "name": "周测 01:42",
+                "type": "TEXT",
+                "visible": true,
+                "x": 24.0,
+                "y": 12.0,
+                "rootX": 470.0,
+                "rootY": 285.0,
+                "width": 136.0,
+                "height": 38.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#3a4456",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "HUG",
+                "layoutSizingVertical": "HUG",
+                "characters": "周测 01:42",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontSize": 32.0,
+                "fontWeight": 400,
+                "textAlignHorizontal": "RIGHT",
+                "segments": [
+                  {
+                    "text": "周测 01:42",
+                    "fontFamily": "Leefont蒙黑体 SDF",
+                    "fontStyle": "Semi Bold",
+                    "fontSize": 32.0,
+                    "fontWeight": 400,
+                    "color": "#3a4456"
+                  }
+                ],
+                "children": [],
+                "textAlignVertical": "TOP"
+              }
+            ],
+            "layoutPositioning": "ABSOLUTE"
+          }
+        ]
+      },
+      {
+        "id": "6:24",
+        "irId": "subject-grid-container__6_24",
+        "name": "subject-grid-container",
+        "type": "FRAME",
+        "visible": true,
+        "x": 17.0,
+        "y": 400.0,
+        "rootX": 17.0,
+        "rootY": 400.0,
+        "width": 1046.0,
+        "height": 520.0,
+        "rotation": 0.0,
+        "opacity": 1.0,
+        "fills": [],
+        "strokes": [],
+        "strokeWeight": 1.0,
+        "cornerRadius": 0.0,
+        "effects": [],
+        "constraints": {
+          "horizontal": "CENTER",
+          "vertical": "MIN"
+        },
+        "layoutSizingHorizontal": "FIXED",
+        "layoutSizingVertical": "HUG",
+        "layout": {
+          "layoutMode": "VERTICAL",
+          "primaryAxisAlignItems": "MIN",
+          "counterAxisAlignItems": "MIN",
+          "paddingTop": 0.0,
+          "paddingRight": 0.0,
+          "paddingBottom": 0.0,
+          "paddingLeft": 0.0,
+          "itemSpacing": 20.0
+        },
+        "fontSize": 0.0,
+        "fontWeight": 0,
+        "segments": [],
+        "children": [
+          {
+            "id": "6:25",
+            "irId": "frame__6_25",
+            "name": "Frame",
+            "type": "FRAME",
+            "visible": true,
+            "x": 0.0,
+            "y": 0.0,
+            "rootX": 17.0,
+            "rootY": 400.0,
+            "width": 1046.0,
+            "height": 160.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 0.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "STRETCH",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "FILL",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "NONE",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "MIN",
+              "paddingTop": 0.0,
+              "paddingRight": 0.0,
+              "paddingBottom": 0.0,
+              "paddingLeft": 0.0,
+              "itemSpacing": 20.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:26",
+                "irId": "card__6_26",
+                "name": "card-语文",
+                "type": "FRAME",
+                "visible": true,
+                "x": 0.0,
+                "y": 0.0,
+                "rootX": 17.0,
+                "rootY": 400.0,
+                "width": 513.0,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:27",
+                    "irId": "rectangle__6_27",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 17.0,
+                    "rootY": 400.0,
+                    "width": 513.0,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#ff8b8b",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:28",
+                    "irId": "frame__6_28",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 17.0,
+                    "rootY": 414.0,
+                    "width": 513.0,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:29",
+                        "irId": "frame__6_29",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": 0.0,
+                        "y": 60.0,
+                        "rootX": 17.0,
+                        "rootY": 474.0,
+                        "width": 507.666656,
+                        "height": 52.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "VERTICAL",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:30",
+                            "irId": "line__6_30",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 17.0,
+                            "rootY": 474.0,
+                            "width": 507.666656,
+                            "height": 2.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:31",
+                            "irId": "line__6_31",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 26.0,
+                            "rootX": 17.0,
+                            "rootY": 500.0,
+                            "width": 507.666656,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:32",
+                            "irId": "line__6_32",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 51.0,
+                            "rootX": 17.0,
+                            "rootY": 525.0,
+                            "width": 507.666656,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:33",
+                        "irId": "node__6_33",
+                        "name": "语文",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 37.0,
+                        "rootY": 434.0,
+                        "width": 295.0,
+                        "height": 43.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "语文",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "LEFT",
+                        "segments": [
+                          {
+                            "text": "语文",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "TOP",
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:34",
+                        "irId": "1120__6_34",
+                        "name": "1120",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 75.0,
+                        "rootX": 37.0,
+                        "rootY": 489.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "1120",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "LEFT",
+                        "segments": [
+                          {
+                            "text": "1120",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "CENTER",
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ],
+                "layoutPositioning": "ABSOLUTE"
+              },
+              {
+                "id": "6:35",
+                "irId": "card__6_35",
+                "name": "card-数学",
+                "type": "FRAME",
+                "visible": true,
+                "x": 355.333344,
+                "y": 0.0,
+                "rootX": 372.333344,
+                "rootY": 400.0,
+                "width": 335.3333,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:36",
+                    "irId": "rectangle__6_36",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 372.333344,
+                    "rootY": 400.0,
+                    "width": 335.3333,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#5c8eff",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:37",
+                    "irId": "frame__6_37",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 372.333344,
+                    "rootY": 414.0,
+                    "width": 335.3333,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:38",
+                        "irId": "frame__6_38",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": 0.0,
+                        "y": 60.0,
+                        "rootX": 372.333344,
+                        "rootY": 474.0,
+                        "width": 335.0,
+                        "height": 48.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "VERTICAL",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:39",
+                            "irId": "line__6_39",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 372.333344,
+                            "rootY": 474.0,
+                            "width": 335.0,
+                            "height": 0.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:40",
+                            "irId": "line__6_40",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 24.0,
+                            "rootX": 372.333344,
+                            "rootY": 498.0,
+                            "width": 335.0,
+                            "height": 0.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:41",
+                            "irId": "line__6_41",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 48.0,
+                            "rootX": 372.333344,
+                            "rootY": 522.0,
+                            "width": 335.0,
+                            "height": 0.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:42",
+                        "irId": "node__6_42",
+                        "name": "数学",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 392.333344,
+                        "rootY": 434.0,
+                        "width": 295.0,
+                        "height": 44.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "数学",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "RIGHT",
+                        "segments": [
+                          {
+                            "text": "数学",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:43",
+                        "irId": "1260__6_43",
+                        "name": "1260",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 76.0,
+                        "rootX": 392.333344,
+                        "rootY": 490.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "1260",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "RIGHT",
+                        "segments": [
+                          {
+                            "text": "1260",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ],
+                "layoutPositioning": "ABSOLUTE"
+              },
+              {
+                "id": "6:44",
+                "irId": "card__6_44",
+                "name": "card-英语",
+                "type": "FRAME",
+                "visible": true,
+                "x": 533.0,
+                "y": 0.0,
+                "rootX": 550.0,
+                "rootY": 400.0,
+                "width": 513.0,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:45",
+                    "irId": "rectangle__6_45",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 550.0,
+                    "rootY": 400.0,
+                    "width": 513.0,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#5cc7a0",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:46",
+                    "irId": "frame__6_46",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 550.0,
+                    "rootY": 414.0,
+                    "width": 513.0,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:47",
+                        "irId": "frame__6_47",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": 0.333374023,
+                        "y": 60.0,
+                        "rootX": 550.3334,
+                        "rootY": 474.0,
+                        "width": 507.6667,
+                        "height": 27.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "NONE",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:48",
+                            "irId": "line__6_48",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 550.3334,
+                            "rootY": 474.0,
+                            "width": 507.6667,
+                            "height": 2.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": [],
+                            "layoutPositioning": "ABSOLUTE"
+                          },
+                          {
+                            "id": "6:49",
+                            "irId": "line__6_49",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": false,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 550.3334,
+                            "rootY": 474.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": [],
+                            "layoutPositioning": "ABSOLUTE"
+                          },
+                          {
+                            "id": "6:50",
+                            "irId": "line__6_50",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 26.0,
+                            "rootX": 550.3334,
+                            "rootY": 500.0,
+                            "width": 507.6667,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": [],
+                            "layoutPositioning": "ABSOLUTE"
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:51",
+                        "irId": "node__6_51",
+                        "name": "英语",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 570.0,
+                        "rootY": 434.0,
+                        "width": 295.0,
+                        "height": 43.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "英语",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "LEFT",
+                        "segments": [
+                          {
+                            "text": "英语",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "TOP",
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:52",
+                        "irId": "890__6_52",
+                        "name": "890",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 75.0,
+                        "rootX": 570.0,
+                        "rootY": 489.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "890",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "LEFT",
+                        "segments": [
+                          {
+                            "text": "890",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "CENTER",
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ],
+                "layoutPositioning": "ABSOLUTE"
+              }
+            ]
+          },
+          {
+            "id": "6:53",
+            "irId": "frame__6_53",
+            "name": "Frame",
+            "type": "FRAME",
+            "visible": true,
+            "x": 0.0,
+            "y": 180.0,
+            "rootX": 17.0,
+            "rootY": 580.0,
+            "width": 1046.0,
+            "height": 160.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 0.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "STRETCH",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "FILL",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "MIN",
+              "paddingTop": 0.0,
+              "paddingRight": 0.0,
+              "paddingBottom": 0.0,
+              "paddingLeft": 0.0,
+              "itemSpacing": 20.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:54",
+                "irId": "card__6_54",
+                "name": "card-物理",
+                "type": "FRAME",
+                "visible": true,
+                "x": 0.0,
+                "y": 0.0,
+                "rootX": 17.0,
+                "rootY": 580.0,
+                "width": 335.333344,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:55",
+                    "irId": "rectangle__6_55",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 17.0,
+                    "rootY": 580.0,
+                    "width": 335.333344,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#8470ff",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:56",
+                    "irId": "frame__6_56",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 17.0,
+                    "rootY": 594.0,
+                    "width": 335.333344,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:57",
+                        "irId": "frame__6_57",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": 0.0,
+                        "y": 60.0,
+                        "rootX": 17.0,
+                        "rootY": 654.0,
+                        "width": 330.0,
+                        "height": 52.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "VERTICAL",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:58",
+                            "irId": "line__6_58",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 17.0,
+                            "rootY": 654.0,
+                            "width": 330.0,
+                            "height": 2.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:59",
+                            "irId": "line__6_59",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 26.0,
+                            "rootX": 17.0,
+                            "rootY": 680.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:60",
+                            "irId": "line__6_60",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 51.0,
+                            "rootX": 17.0,
+                            "rootY": 705.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:61",
+                        "irId": "node__6_61",
+                        "name": "物理",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 37.0,
+                        "rootY": 614.0,
+                        "width": 295.0,
+                        "height": 43.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "物理",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "CENTER",
+                        "segments": [
+                          {
+                            "text": "物理",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "TOP",
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:62",
+                        "irId": "740__6_62",
+                        "name": "740",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 75.0,
+                        "rootX": 37.0,
+                        "rootY": 669.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "740",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "CENTER",
+                        "segments": [
+                          {
+                            "text": "740",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "CENTER",
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "6:63",
+                "irId": "card__6_63",
+                "name": "card-化学",
+                "type": "FRAME",
+                "visible": true,
+                "x": 355.333344,
+                "y": 0.0,
+                "rootX": 372.333344,
+                "rootY": 580.0,
+                "width": 335.3333,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:64",
+                    "irId": "rectangle__6_64",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 372.333344,
+                    "rootY": 580.0,
+                    "width": 335.3333,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#40c4db",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:65",
+                    "irId": "frame__6_65",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 372.333344,
+                    "rootY": 594.0,
+                    "width": 335.3333,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:66",
+                        "irId": "frame__6_66",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": -0.333374023,
+                        "y": 60.0,
+                        "rootX": 371.999969,
+                        "rootY": 654.0,
+                        "width": 330.0,
+                        "height": 52.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "VERTICAL",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:67",
+                            "irId": "line__6_67",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 371.999969,
+                            "rootY": 654.0,
+                            "width": 330.0,
+                            "height": 2.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:68",
+                            "irId": "line__6_68",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 26.0,
+                            "rootX": 371.999969,
+                            "rootY": 680.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:69",
+                            "irId": "line__6_69",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 51.0,
+                            "rootX": 371.999969,
+                            "rootY": 705.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:70",
+                        "irId": "node__6_70",
+                        "name": "化学",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 392.333344,
+                        "rootY": 614.0,
+                        "width": 295.0,
+                        "height": 43.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "化学",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "CENTER",
+                        "segments": [
+                          {
+                            "text": "化学",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "TOP",
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:71",
+                        "irId": "680__6_71",
+                        "name": "680",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 75.0,
+                        "rootX": 392.333344,
+                        "rootY": 669.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "680",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "CENTER",
+                        "segments": [
+                          {
+                            "text": "680",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "CENTER",
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "6:72",
+                "irId": "card__6_72",
+                "name": "card-生物",
+                "type": "FRAME",
+                "visible": true,
+                "x": 710.6666,
+                "y": 0.0,
+                "rootX": 727.6666,
+                "rootY": 580.0,
+                "width": 335.3333,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:73",
+                    "irId": "rectangle__6_73",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 727.6666,
+                    "rootY": 580.0,
+                    "width": 335.3333,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#67c461",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:74",
+                    "irId": "frame__6_74",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 727.6666,
+                    "rootY": 594.0,
+                    "width": 335.3333,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:75",
+                        "irId": "frame__6_75",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": 0.333374023,
+                        "y": 60.0,
+                        "rootX": 728.0,
+                        "rootY": 654.0,
+                        "width": 330.0,
+                        "height": 51.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "VERTICAL",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:76",
+                            "irId": "line__6_76",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 728.0,
+                            "rootY": 654.0,
+                            "width": 330.0,
+                            "height": 1.5,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:77",
+                            "irId": "line__6_77",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 25.5,
+                            "rootX": 728.0,
+                            "rootY": 679.5,
+                            "width": 330.0,
+                            "height": 0.75,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:78",
+                            "irId": "line__6_78",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 50.25,
+                            "rootX": 728.0,
+                            "rootY": 704.25,
+                            "width": 330.0,
+                            "height": 0.75,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:79",
+                        "irId": "node__6_79",
+                        "name": "生物",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 747.6666,
+                        "rootY": 614.0,
+                        "width": 295.0,
+                        "height": 43.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "生物",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "CENTER",
+                        "segments": [
+                          {
+                            "text": "生物",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "TOP",
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:80",
+                        "irId": "720__6_80",
+                        "name": "720",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 75.0,
+                        "rootX": 747.6666,
+                        "rootY": 669.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "720",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "CENTER",
+                        "segments": [
+                          {
+                            "text": "720",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "CENTER",
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6:81",
+            "irId": "frame__6_81",
+            "name": "Frame",
+            "type": "FRAME",
+            "visible": true,
+            "x": 0.0,
+            "y": 360.0,
+            "rootX": 17.0,
+            "rootY": 760.0,
+            "width": 1046.0,
+            "height": 160.0,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 0.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "STRETCH",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "FILL",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "MIN",
+              "paddingTop": 0.0,
+              "paddingRight": 0.0,
+              "paddingBottom": 0.0,
+              "paddingLeft": 0.0,
+              "itemSpacing": 20.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:82",
+                "irId": "card__6_82",
+                "name": "card-历史",
+                "type": "FRAME",
+                "visible": true,
+                "x": 0.0,
+                "y": 0.0,
+                "rootX": 17.0,
+                "rootY": 760.0,
+                "width": 335.333344,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:83",
+                    "irId": "rectangle__6_83",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 17.0,
+                    "rootY": 760.0,
+                    "width": 335.333344,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#dd9a4f",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:84",
+                    "irId": "frame__6_84",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 17.0,
+                    "rootY": 774.0,
+                    "width": 335.333344,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:85",
+                        "irId": "frame__6_85",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": 0.0,
+                        "y": 60.0,
+                        "rootX": 17.0,
+                        "rootY": 834.0,
+                        "width": 1.0,
+                        "height": 52.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "VERTICAL",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:86",
+                            "irId": "line__6_86",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 17.0,
+                            "rootY": 834.0,
+                            "width": 1.0,
+                            "height": 2.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:87",
+                            "irId": "line__6_87",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 26.0,
+                            "rootX": 17.0,
+                            "rootY": 860.0,
+                            "width": 1.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:88",
+                            "irId": "line__6_88",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 51.0,
+                            "rootX": 17.0,
+                            "rootY": 885.0,
+                            "width": 1.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:89",
+                        "irId": "node__6_89",
+                        "name": "历史",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 37.0,
+                        "rootY": 794.0,
+                        "width": 295.0,
+                        "height": 43.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "历史",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "RIGHT",
+                        "segments": [
+                          {
+                            "text": "历史",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "TOP",
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:90",
+                        "irId": "650__6_90",
+                        "name": "650",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 75.0,
+                        "rootX": 37.0,
+                        "rootY": 849.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "650",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "RIGHT",
+                        "segments": [
+                          {
+                            "text": "650",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "CENTER",
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "6:91",
+                "irId": "card__6_91",
+                "name": "card-地理",
+                "type": "FRAME",
+                "visible": true,
+                "x": 355.333344,
+                "y": 0.0,
+                "rootX": 372.333344,
+                "rootY": 760.0,
+                "width": 335.3333,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:92",
+                    "irId": "rectangle__6_92",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 372.333344,
+                    "rootY": 760.0,
+                    "width": 335.3333,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#53ae7e",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:93",
+                    "irId": "frame__6_93",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 372.333344,
+                    "rootY": 774.0,
+                    "width": 335.3333,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:94",
+                        "irId": "frame__6_94",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": -0.333374023,
+                        "y": 60.0,
+                        "rootX": 371.999969,
+                        "rootY": 834.0,
+                        "width": 330.0,
+                        "height": 17160.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "VERTICAL",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:95",
+                            "irId": "line__6_95",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 371.999969,
+                            "rootY": 834.0,
+                            "width": 330.0,
+                            "height": 2.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:96",
+                            "irId": "line__6_96",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 26.0,
+                            "rootX": 371.999969,
+                            "rootY": 860.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:97",
+                            "irId": "line__6_97",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 51.0,
+                            "rootX": 371.999969,
+                            "rootY": 885.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:98",
+                        "irId": "node__6_98",
+                        "name": "地理",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 392.333344,
+                        "rootY": 794.0,
+                        "width": 295.0,
+                        "height": 43.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "地理",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "RIGHT",
+                        "segments": [
+                          {
+                            "text": "地理",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "TOP",
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:99",
+                        "irId": "580__6_99",
+                        "name": "580",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 75.0,
+                        "rootX": 392.333344,
+                        "rootY": 849.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "580",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "RIGHT",
+                        "segments": [
+                          {
+                            "text": "580",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "CENTER",
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "6:100",
+                "irId": "card__6_100",
+                "name": "card-政治",
+                "type": "FRAME",
+                "visible": true,
+                "x": 710.6666,
+                "y": 0.0,
+                "rootX": 727.6666,
+                "rootY": 760.0,
+                "width": 335.3333,
+                "height": 160.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffffff",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 24.0,
+                "effects": [
+                  {
+                    "type": "DROP_SHADOW",
+                    "color": "#3a445614",
+                    "offset": {
+                      "x": 0.0,
+                      "y": 12.0
+                    },
+                    "radius": 24.0,
+                    "spread": 0.0,
+                    "visible": true
+                  }
+                ],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FILL",
+                "layoutSizingVertical": "FIXED",
+                "layout": {
+                  "layoutMode": "VERTICAL",
+                  "primaryAxisAlignItems": "MIN",
+                  "counterAxisAlignItems": "MIN",
+                  "paddingTop": 0.0,
+                  "paddingRight": 0.0,
+                  "paddingBottom": 0.0,
+                  "paddingLeft": 0.0,
+                  "itemSpacing": 0.0
+                },
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": [
+                  {
+                    "id": "6:101",
+                    "irId": "rectangle__6_101",
+                    "name": "Rectangle",
+                    "type": "RECTANGLE",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "rootX": 727.6666,
+                    "rootY": 760.0,
+                    "width": 335.3333,
+                    "height": 14.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [
+                      {
+                        "type": "SOLID",
+                        "color": "#e8678b",
+                        "opacity": 1.0
+                      }
+                    ],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FIXED",
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": []
+                  },
+                  {
+                    "id": "6:102",
+                    "irId": "frame__6_102",
+                    "name": "Frame",
+                    "type": "FRAME",
+                    "visible": true,
+                    "x": 0.0,
+                    "y": 14.0,
+                    "rootX": 727.6666,
+                    "rootY": 774.0,
+                    "width": 335.3333,
+                    "height": 146.0,
+                    "rotation": 0.0,
+                    "opacity": 1.0,
+                    "fills": [],
+                    "strokes": [],
+                    "strokeWeight": 1.0,
+                    "cornerRadius": 0.0,
+                    "effects": [],
+                    "constraints": {
+                      "horizontal": "MIN",
+                      "vertical": "MIN"
+                    },
+                    "layoutSizingHorizontal": "FILL",
+                    "layoutSizingVertical": "FILL",
+                    "layout": {
+                      "layoutMode": "NONE",
+                      "primaryAxisAlignItems": "MIN",
+                      "counterAxisAlignItems": "MIN",
+                      "paddingTop": 20.0,
+                      "paddingRight": 20.0,
+                      "paddingBottom": 20.0,
+                      "paddingLeft": 20.0,
+                      "itemSpacing": 12.0
+                    },
+                    "fontSize": 0.0,
+                    "fontWeight": 0,
+                    "segments": [],
+                    "children": [
+                      {
+                        "id": "6:103",
+                        "irId": "frame__6_103",
+                        "name": "Frame",
+                        "type": "FRAME",
+                        "visible": true,
+                        "x": 0.333374023,
+                        "y": 60.0,
+                        "rootX": 728.0,
+                        "rootY": 834.0,
+                        "width": 330.0,
+                        "height": 52.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "STRETCH",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "HUG",
+                        "layout": {
+                          "layoutMode": "VERTICAL",
+                          "primaryAxisAlignItems": "MIN",
+                          "counterAxisAlignItems": "MIN",
+                          "paddingTop": 0.0,
+                          "paddingRight": 0.0,
+                          "paddingBottom": 0.0,
+                          "paddingLeft": 0.0,
+                          "itemSpacing": 24.0
+                        },
+                        "fontSize": 0.0,
+                        "fontWeight": 0,
+                        "segments": [],
+                        "children": [
+                          {
+                            "id": "6:104",
+                            "irId": "line__6_104",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "rootX": 728.0,
+                            "rootY": 834.0,
+                            "width": 330.0,
+                            "height": 2.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 2.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:105",
+                            "irId": "line__6_105",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 26.0,
+                            "rootX": 728.0,
+                            "rootY": 860.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          },
+                          {
+                            "id": "6:106",
+                            "irId": "line__6_106",
+                            "name": "Line",
+                            "type": "LINE",
+                            "visible": true,
+                            "x": 0.0,
+                            "y": 51.0,
+                            "rootX": 728.0,
+                            "rootY": 885.0,
+                            "width": 330.0,
+                            "height": 1.0,
+                            "rotation": 0.0,
+                            "opacity": 1.0,
+                            "fills": [
+                              {
+                                "type": "SOLID",
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokes": [
+                              {
+                                "color": "#f1eee0",
+                                "opacity": 1.0
+                              }
+                            ],
+                            "strokeWeight": 1.0,
+                            "cornerRadius": 0.0,
+                            "effects": [],
+                            "constraints": {
+                              "horizontal": "MIN",
+                              "vertical": "MIN"
+                            },
+                            "layoutSizingHorizontal": "FILL",
+                            "layoutSizingVertical": "FIXED",
+                            "fontSize": 0.0,
+                            "fontWeight": 0,
+                            "segments": [],
+                            "children": []
+                          }
+                        ],
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:107",
+                        "irId": "node__6_107",
+                        "name": "政治",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 20.0,
+                        "rootX": 747.6666,
+                        "rootY": 794.0,
+                        "width": 295.0,
+                        "height": 43.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "政治",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 36.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "RIGHT",
+                        "segments": [
+                          {
+                            "text": "政治",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Bold",
+                            "fontSize": 36.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "TOP",
+                        "layoutPositioning": "ABSOLUTE"
+                      },
+                      {
+                        "id": "6:108",
+                        "irId": "610__6_108",
+                        "name": "610",
+                        "type": "TEXT",
+                        "visible": true,
+                        "x": 20.0,
+                        "y": 75.0,
+                        "rootX": 747.6666,
+                        "rootY": 849.0,
+                        "width": 295.0,
+                        "height": 72.0,
+                        "rotation": 0.0,
+                        "opacity": 1.0,
+                        "fills": [
+                          {
+                            "type": "SOLID",
+                            "color": "#3a4456",
+                            "opacity": 1.0
+                          }
+                        ],
+                        "strokes": [],
+                        "strokeWeight": 1.0,
+                        "cornerRadius": 0.0,
+                        "effects": [],
+                        "constraints": {
+                          "horizontal": "MIN",
+                          "vertical": "MIN"
+                        },
+                        "layoutSizingHorizontal": "FIXED",
+                        "layoutSizingVertical": "FIXED",
+                        "characters": "610",
+                        "fontFamily": "Leefont蒙黑体 SDF",
+                        "fontSize": 60.0,
+                        "fontWeight": 700,
+                        "textAlignHorizontal": "RIGHT",
+                        "segments": [
+                          {
+                            "text": "610",
+                            "fontFamily": "Leefont蒙黑体 SDF",
+                            "fontStyle": "Extra Bold",
+                            "fontSize": 60.0,
+                            "fontWeight": 700,
+                            "color": "#3a4456"
+                          }
+                        ],
+                        "children": [],
+                        "textAlignVertical": "CENTER",
+                        "layoutPositioning": "ABSOLUTE"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "6:109",
+        "irId": "inspiration-progress-card__6_109",
+        "name": "inspiration-progress-card",
+        "type": "FRAME",
+        "visible": true,
+        "x": 40.0,
+        "y": 999.0,
+        "rootX": 40.0,
+        "rootY": 999.0,
+        "width": 1000.0,
+        "height": 180.0,
+        "rotation": 0.0,
+        "opacity": 1.0,
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": "#ffffff",
+            "opacity": 1.0
+          }
+        ],
+        "strokes": [],
+        "strokeWeight": 1.0,
+        "cornerRadius": 40.0,
+        "effects": [
+          {
+            "type": "DROP_SHADOW",
+            "color": "#3a445614",
+            "offset": {
+              "x": 0.0,
+              "y": 12.0
+            },
+            "radius": 24.0,
+            "spread": 0.0,
+            "visible": true
+          }
+        ],
+        "constraints": {
+          "horizontal": "CENTER",
+          "vertical": "MAX"
+        },
+        "layoutSizingHorizontal": "FIXED",
+        "layoutSizingVertical": "FIXED",
+        "layout": {
+          "layoutMode": "VERTICAL",
+          "primaryAxisAlignItems": "MIN",
+          "counterAxisAlignItems": "MIN",
+          "paddingTop": 24.0,
+          "paddingRight": 48.0,
+          "paddingBottom": 24.0,
+          "paddingLeft": 48.0,
+          "itemSpacing": 12.0
+        },
+        "fontSize": 0.0,
+        "fontWeight": 0,
+        "segments": [],
+        "children": [
+          {
+            "id": "6:110",
+            "irId": "frame__6_110",
+            "name": "Frame",
+            "type": "FRAME",
+            "visible": true,
+            "x": 48.0,
+            "y": 24.0,
+            "rootX": 88.0,
+            "rootY": 1023.0,
+            "width": 904.0,
+            "height": 41.1428566,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 0.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "FILL",
+            "layoutSizingVertical": "HUG",
+            "layout": {
+              "layoutMode": "NONE",
+              "primaryAxisAlignItems": "SPACE_BETWEEN",
+              "counterAxisAlignItems": "CENTER",
+              "paddingTop": 0.0,
+              "paddingRight": 0.0,
+              "paddingBottom": 0.0,
+              "paddingLeft": 0.0,
+              "itemSpacing": 0.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:111",
+                "irId": "node__6_111",
+                "name": "灵感酝酿",
+                "type": "TEXT",
+                "visible": true,
+                "x": 0.0,
+                "y": 0.0,
+                "rootX": 88.0,
+                "rootY": 1023.0,
+                "width": 127.0,
+                "height": 48.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#3a4456",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FIXED",
+                "layoutSizingVertical": "FIXED",
+                "characters": "灵感酝酿",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontSize": 40.0,
+                "fontWeight": 700,
+                "textAlignHorizontal": "RIGHT",
+                "segments": [
+                  {
+                    "text": "灵感酝酿",
+                    "fontFamily": "Leefont蒙黑体 SDF",
+                    "fontStyle": "Bold",
+                    "fontSize": 40.0,
+                    "fontWeight": 700,
+                    "color": "#3a4456"
+                  }
+                ],
+                "children": [],
+                "textAlignVertical": "TOP",
+                "layoutPositioning": "ABSOLUTE"
+              },
+              {
+                "id": "6:112",
+                "irId": "65__6_112",
+                "name": "65%",
+                "type": "TEXT",
+                "visible": true,
+                "x": 826.0,
+                "y": 0.0,
+                "rootX": 914.0,
+                "rootY": 1023.0,
+                "width": 78.0,
+                "height": 48.0,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "color": "#ffb940",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 0.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FIXED",
+                "layoutSizingVertical": "FIXED",
+                "characters": "65%",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontSize": 40.0,
+                "fontWeight": 700,
+                "textAlignHorizontal": "RIGHT",
+                "segments": [
+                  {
+                    "text": "65%",
+                    "fontFamily": "Leefont蒙黑体 SDF",
+                    "fontStyle": "Extra Bold",
+                    "fontSize": 40.0,
+                    "fontWeight": 700,
+                    "color": "#ffb940"
+                  }
+                ],
+                "children": [],
+                "textAlignVertical": "TOP",
+                "layoutPositioning": "ABSOLUTE"
+              }
+            ]
+          },
+          {
+            "id": "6:113",
+            "irId": "progress-track__6_113",
+            "name": "progress-track",
+            "type": "FRAME",
+            "visible": true,
+            "x": 48.0,
+            "y": 77.14285,
+            "rootX": 88.0,
+            "rootY": 1076.14282,
+            "width": 904.0,
+            "height": 34.2857132,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#f5f1e0",
+                "opacity": 1.0
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 20.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "FILL",
+            "layoutSizingVertical": "FIXED",
+            "layout": {
+              "layoutMode": "HORIZONTAL",
+              "primaryAxisAlignItems": "MIN",
+              "counterAxisAlignItems": "MIN",
+              "paddingTop": 0.0,
+              "paddingRight": 0.0,
+              "paddingBottom": 0.0,
+              "paddingLeft": 0.0,
+              "itemSpacing": 0.0
+            },
+            "fontSize": 0.0,
+            "fontWeight": 0,
+            "segments": [],
+            "children": [
+              {
+                "id": "6:114",
+                "irId": "rectangle__6_114",
+                "name": "Rectangle",
+                "type": "RECTANGLE",
+                "visible": true,
+                "x": 0.0,
+                "y": 0.0,
+                "rootX": 88.0,
+                "rootY": 1076.14282,
+                "width": 580.0,
+                "height": 34.2857132,
+                "rotation": 0.0,
+                "opacity": 1.0,
+                "fills": [
+                  {
+                    "type": "GRADIENT_LINEAR",
+                    "opacity": 1.0
+                  }
+                ],
+                "strokes": [],
+                "strokeWeight": 1.0,
+                "cornerRadius": 20.0,
+                "effects": [],
+                "constraints": {
+                  "horizontal": "MIN",
+                  "vertical": "MIN"
+                },
+                "layoutSizingHorizontal": "FIXED",
+                "layoutSizingVertical": "FILL",
+                "fontSize": 0.0,
+                "fontWeight": 0,
+                "segments": [],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "6:115",
+            "irId": "node__6_115",
+            "name": "写题会慢慢涨，点击可加速",
+            "type": "TEXT",
+            "visible": true,
+            "x": 48.0,
+            "y": 123.428558,
+            "rootX": 88.0,
+            "rootY": 1122.42859,
+            "width": 904.0,
+            "height": 32.57143,
+            "rotation": 0.0,
+            "opacity": 1.0,
+            "fills": [
+              {
+                "type": "SOLID",
+                "color": "#a69c7e",
+                "opacity": 1.0
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 1.0,
+            "cornerRadius": 0.0,
+            "effects": [],
+            "constraints": {
+              "horizontal": "MIN",
+              "vertical": "MIN"
+            },
+            "layoutSizingHorizontal": "FILL",
+            "layoutSizingVertical": "HUG",
+            "characters": "写题会慢慢涨，点击可加速",
+            "fontFamily": "Leefont蒙黑体 SDF",
+            "fontSize": 32.0,
+            "fontWeight": 400,
+            "textAlignHorizontal": "RIGHT",
+            "segments": [
+              {
+                "text": "写题会慢慢涨，点击可加速",
+                "fontFamily": "Leefont蒙黑体 SDF",
+                "fontStyle": "Regular",
+                "fontSize": 32.0,
+                "fontWeight": 400,
+                "color": "#a69c7e"
+              }
+            ],
+            "children": [],
+            "textAlignVertical": "TOP"
+          }
+        ]
+      }
+    ]
+  }
+}

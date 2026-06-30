@@ -1,0 +1,79 @@
+Figma ↔ Unity UI 复刻 — Phase 2 方案（Unity → Figma）
+======================================================
+
+状态：Phase 1 完成后再做
+前置：Phase 1 Prefab 导入 + IRBinding（irId / figmaNodeId）
+
+关联：doc/00-项目范围与开发路线.txt | doc/04-Phase1开发手册.txt §十二
+
+一、链路
+--------
+
+  Unity Prefab（含 IRBinding）
+       ↓  IRExporter
+  IR JSON + png 资源
+       ↓  Figma Import 插件
+  Figma 设计稿更新
+
+二、身份匹配
+------------
+
+  优先 figmaNodeId（Figma 原生 id）
+  其次 irId（插件导出时的 irId）
+  无匹配 → 新建节点，meta.origin = unity
+
+  Phase 1 导入时每节点已写 IRBinding.irId + figmaNodeId。
+
+三、Unity Export 模块（待开发）
+------------------------------
+
+  IRExporter.cs           Prefab → IRNode 树
+  IRWriter.cs             写 .ir.json
+  CoordReverseTranslator  RectTransform → x/y（top-left）
+  FrameExtractor          Image → fills
+  TextExtractor           TMP → text
+  ImageExtractor          RawImage → meta.assetPath
+  LayoutExtractor         LayoutGroup → layout
+  AssetExporter           复制 png 到导出目录
+  IRExporterWindow        Tools > Figma UI Exporter
+
+  v1 策略：全量导出整棵 Prefab 树，不做 isDirty 过滤。
+
+四、Figma Import 插件（待开发）
+-------------------------------
+
+  读 IR JSON
+  按 figmaNodeId 查找页面节点 → 更新 x/y/width/height/fills/text/layout
+  无匹配 → createNode
+  IR 有、Figma 无 → 不删除，可选标记
+
+五、坐标逆变换（top-left）
+--------------------------
+
+  node.x = anchoredPosition.x + parent.width/2 - width/2
+  node.y = parent.height/2 - anchoredPosition.y - height/2
+
+  与 Phase 1 CoordTranslator 互逆。
+
+六、Phase 2 开发顺序
+--------------------
+
+  Step 1  IRExporter + CoordReverseTranslator（单 Prefab 导出 IR）
+  Step 2  AssetExporter（png 同目录）
+  Step 3  Figma Import 插件：更新 FRAME/TEXT/RECTANGLE
+  Step 4  Round-trip 联调：Figma→Unity→改文案/位置→Unity Export→Figma Import
+
+七、Phase 2 验收
+----------------
+
+  □ Unity 改 TEXT 文案，Export 后 Figma 一致
+  □ Unity 改 RectTransform 位置，Figma 一致
+  □ IMAGE 节点 png 双向一致
+  □ irId / figmaNodeId 往返不变
+
+八、明确不做
+------------
+
+  Lua binding 回导
+  isDirty / 增量 / 三方 diff
+  实时同步

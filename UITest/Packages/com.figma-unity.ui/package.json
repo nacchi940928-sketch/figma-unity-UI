@@ -1,0 +1,12 @@
+{
+  "name": "com.figma-unity.ui",
+  "version": "0.1.0",
+  "displayName": "Figma Unity UI",
+  "description": "Import Figma export packages as Unity UI Prefabs.",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.unity.ugui": "1.0.0",
+    "com.unity.textmeshpro": "3.0.7",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
+}

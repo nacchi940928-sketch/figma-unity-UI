@@ -1,0 +1,527 @@
+Figma 导出插件制作规范（Unity 消费侧对齐版）
+==============================================
+
+状态：制作指南（插件开发者用）
+面向：Full Design Exporter v2 及后续版本
+目的：明确 Figma 插件应导出哪些字段、如何烘焙坐标，供 Unity IR 导入器消费
+
+关联文档
+--------
+  doc/01-Figma导出规范（v2）.txt          — 已有 v2 概要
+  doc/02-Figma JSON → IR 转换规范.txt     — JSON → IR 字段映射
+  doc/03-Unity IR 导入插件需求.txt        — Unity 模块与降级行为
+  doc/04-Phase1开发手册.txt               — 实现与验收
+
+样例导出包
+----------
+  figmajson/examples/main-screen-1080x2340-export/
+    main-screen-1080x2340-full.json
+    rectangle.png
+
+Unity 消费路径
+--------------
+  Tools > Figma UI Importer
+    → FigmaToIRConverter（读 full.json）
+    → PrefabBuilder（生成 Prefab）
+
+  定位策略（当前版本）：
+    Unity 使用导出包中已烘焙的 x/y 绝对坐标定位；
+    不在运行时重算 Auto Layout；
+    constraints / layout 写入 IR 备用，供后续响应式版本使用。
+
+
+一、导出包目录结构
+------------------
+
+  {export-dir}/
+    {screen-name}-full.json       必须
+    {imageFile}.png               IMAGE fill 引用，与 json 同目录
+    {vectorFile}.png | .svg       VECTOR 图标栅格化/矢量文件（强烈建议）
+
+  命名约定：
+    screen-name 与 metadata.componentName 一致
+    json 文件名：{screen-name}-full.json
+
+  例：
+    main-screen-1080x2340-export/
+      main-screen-1080x2340-full.json
+      rectangle.png
+      icon-lightbulb.png          （建议新增）
+
+
+二、JSON 顶层结构
+-----------------
+
+  {
+    "metadata": {
+      "exportedAt": "2026-06-29T12:00:00.000Z",
+      "componentName": "main-screen-1080x2340",
+      "rootIrId": "main-screen-1080x2340__6_4",
+      "totalElements": 164,
+      "rootNormalized": true,
+      "plugin": "Full Design Exporter v2"
+    },
+    "node": { ... }
+  }
+
+  metadata 字段说明：
+
+  字段              必须    说明
+  ────────────────  ──────  ─────────────────────────────────────
+  exportedAt        建议    ISO 8601 时间
+  componentName       必须    界面名；Unity 用来命名 Prefab
+  rootIrId            必须    根节点 irId，与 node.irId 一致
+  totalElements       必须    全树节点总数；Importer Validate 预检用
+  rootNormalized      必须    true = 根已归一化到 (0,0)
+  plugin              建议    插件标识与版本，便于排查
+
+
+三、节点通用字段
+----------------
+
+3.1 P0 — 必须有（缺失则无法正确生成 Prefab）
+
+  字段          类型      说明
+  ────────────  ────────  ──────────────────────────────────────────
+  id            string    Figma 节点 id，如 "6:5"
+  irId          string    稳定业务 id，见 §四
+  name          string    图层名
+  type          string    FRAME | TEXT | VECTOR | RECTANGLE | LINE
+  visible       bool      false 时 Unity SetActive(false)
+  x, y          float     相对父节点左上角，Y 向下
+  width,height  float     布局后的最终尺寸
+  children      array     子节点；叶子为 []
+
+3.2 P0 — 坐标校验字段（强烈建议）
+
+  字段          类型      说明
+  ────────────  ────────  ──────────────────────────────────────────
+  rootX,rootY   float     相对屏幕根的坐标，用于插件自检与 Unity 单测
+
+  根节点约定（rootNormalized=true）：
+    node.x = 0, node.y = 0
+    node.rootX = 0, node.rootY = 0
+
+  ★ 核心原则：
+    Unity 不在运行时重算 Auto Layout。
+    插件导出时必须把 Auto Layout、padding、space-between 的结果
+    全部烘焙进每个子节点的 x/y/width/height。
+
+3.3 P1 — 视觉还原
+
+  字段            类型      Unity 用途
+  ──────────────  ────────  ─────────────────────────────────────
+  opacity         float     0~1 透明度
+  rotation        float     旋转角度，单位：度（°），不是弧度
+  cornerRadius    float     圆角半径；Unity 生成圆角 Sprite
+  fills           array     纯色 / 图片填充
+  strokes         array     描边色（VECTOR、LINE）
+  strokeWeight    float     描边粗细
+  effects         array     阴影等（Unity 当前仅存 IR，不渲染）
+
+3.4 P1 — 约束与 Auto Layout 元数据
+
+  字段                      类型      说明
+  ────────────────────────  ────────  ─────────────────────────────
+  constraints.horizontal    string    MIN | MAX | CENTER | STRETCH | SCALE
+  constraints.vertical      string    同上
+  layoutSizingHorizontal    string    FIXED | HUG | FILL
+  layoutSizingVertical      string    同上
+  layout                    object    Auto Layout 配置，见 §五
+
+  注意：constraints 必须与 Figma 面板实时值一致。
+  例：面板显示 Vertical=Bottom，导出必须是 MAX，不能写成 MIN。
+
+3.5 P2 — 可选（可导出备查，Unity 当前忽略）
+
+  strokeAlign, dashPattern, blendMode, clipsContent,
+  layout.primaryAxisSizingMode, layout.counterAxisSizingMode
+
+
+四、irId 生成规则
+-----------------
+
+  格式：{slug(name)}__{figmaId 冒号改下划线}
+
+  例：
+    name=top-status-bar,  id=6:5   → top-status-bar__6_5
+    name=rectangle,       id=6:117 → rectangle__6_117
+    name=card-语文,       id=6:26  → card__6_26（slug 规则与现有插件保持一致）
+
+  要求：全树唯一；根 irId = metadata.rootIrId。
+
+
+五、Auto Layout 导出（layout 对象）
+-----------------------------------
+
+  结构示例：
+
+  "layout": {
+    "layoutMode": "HORIZONTAL",
+    "primaryAxisAlignItems": "SPACE_BETWEEN",
+    "counterAxisAlignItems": "CENTER",
+    "primaryAxisSizingMode": "FIXED",
+    "counterAxisSizingMode": "FIXED",
+    "paddingTop": 0,
+    "paddingRight": 48,
+    "paddingBottom": 0,
+    "paddingLeft": 48,
+    "itemSpacing": 0,
+    "clipsContent": false
+  }
+
+  枚举：
+
+  layoutMode
+    NONE | HORIZONTAL | VERTICAL
+
+  primaryAxisAlignItems
+    MIN | MAX | CENTER | SPACE_BETWEEN
+
+  counterAxisAlignItems
+    MIN | MAX | CENTER
+
+5.1 烘焙规则（必须遵守）
+
+  1) layoutMode != NONE 的容器：
+     每个子节点的 x/y 必须是 Figma 中布局完成后的最终值。
+
+  2) SPACE_BETWEEN：
+     子节点 x 必须已拉开，不能只写 layout 不更新坐标。
+     顶栏样例三列 x：48、341.5、711。
+
+  3) padding：
+     必须体现在子节点坐标中，不能仅写字段不改 x/y。
+
+  4) HUG 容器：
+     width/height 导出收缩后的实际值，不是设计占位值。
+
+  5) FILL 子项：
+     在父 Auto Layout 方向上的尺寸应为撑满后的实际 width/height。
+
+5.2 顶栏 top-status-bar 验收样例
+
+  节点 top-status-bar__6_5：
+    x=40, y=77, width=1000, height=132
+    constraints: horizontal=CENTER, vertical=MIN
+    layout: HORIZONTAL, SPACE_BETWEEN, paddingLeft/Right=48
+
+  三个直接子 FRAME 的 x（相对 top-status-bar）：
+    48、341.5、711
+
+
+六、约束（constraints）导出
+---------------------------
+
+  从 Figma Plugin API 原样映射：
+
+  "constraints": {
+    "horizontal": "CENTER",
+    "vertical": "MIN"
+  }
+
+  Figma UI          API 值
+  ────────────────  ──────
+  左 / 顶           MIN
+  右 / 底           MAX
+  水平 / 垂直居中   CENTER
+  左右 / 上下撑满   STRETCH 或 SCALE
+
+  一致性校验（建议在插件内实现）：
+    horizontal=CENTER 时，x 应满足 x ≈ (parentWidth - width) / 2
+    vertical=MIN 时，y 为距父顶距离
+    vertical=MAX 时，y 应满足 y ≈ parentHeight - height - bottomMargin
+
+  Unity 当前用 x/y 定位；constraints 写入 IR 供后续响应式版本使用。
+  但 x/y 必须与 constraints 语义一致，否则面板与 Unity 结果会对不上。
+
+
+七、按节点类型的字段要求
+------------------------
+
+7.1 FRAME / RECTANGLE（纯色）
+
+  "fills": [{ "type": "SOLID", "color": "#ffffff", "opacity": 1 }]
+  "cornerRadius": 66
+
+  颜色格式：#rrggbb 小写 hex，不要 rgb() 字符串。
+  透明背景：fills 为空数组。
+
+7.2 TEXT
+
+  必须字段：
+    characters, fontFamily, fontSize, fontWeight, textAlignHorizontal
+    fills[0]（SOLID 字色）
+
+  建议字段：
+    segments[]（混排样式、局部颜色）
+
+  示例：
+  {
+    "type": "TEXT",
+    "characters": "灵感 128",
+    "fontFamily": "Inter",
+    "fontSize": 38,
+    "fontWeight": 600,
+    "textAlignHorizontal": "LEFT",
+    "fills": [{ "type": "SOLID", "color": "#3a4456", "opacity": 1 }],
+    "segments": [{
+      "text": "灵感 128",
+      "fontFamily": "Inter",
+      "fontSize": 38,
+      "fontWeight": 600,
+      "color": "#3a4456"
+    }]
+  }
+
+  emoji：直接写入 characters（Unicode），不要丢失。
+
+7.3 IMAGE（RECTANGLE + 图片填充）
+
+  "fills": [{
+    "type": "IMAGE",
+    "imageHash": "abc123",
+    "imageFile": "rectangle.png",
+    "scaleMode": "FILL"
+  }]
+
+  imageFile 必须与 json 同目录存在对应文件。
+  建议 2x/3x 导出，文件名稳定。
+
+7.4 VECTOR（图标 — 当前最大缺口）
+
+  现状：仅导出 VECTOR 几何 → Unity 无法还原线稿，只能 emoji 占位。
+
+  推荐方案 A（栅格化 PNG，优先）：
+
+  {
+    "type": "VECTOR",
+    "width": 40,
+    "height": 40,
+    "vectorFile": "icon-lightbulb.png",
+    "exportScale": 2,
+    "strokes": [{ "color": "#ffb940", "opacity": 1 }],
+    "strokeWeight": 2
+  }
+
+  推荐方案 B（保留 VECTOR + 语义父级名）：
+    父 FRAME 命名 lightbulb-off / star / hourglass 等；
+    Unity 临时映射为 emoji（不完整，仅降级）。
+
+  建议的图标父 FRAME 命名（与 Unity 占位映射对齐）：
+
+  父 FRAME name          含义
+  ─────────────────────  ──────
+  lightbulb / lightbulb-off  灯泡
+  star                     星星
+  hourglass / timer        沙漏
+  pencil                   铅笔
+  house                    主页
+  book / book-open         科目
+  file-pen                 考试
+  list-check               任务
+  user                     我的
+
+7.5 LINE
+
+  "type": "LINE",
+  "strokeWeight": 1,
+  "strokes": [{ "color": "#e0e0e0", "opacity": 1 }]
+
+  Unity 用描边色生成 1px 高 Image。
+
+
+八、旋转（rotation）
+--------------------
+
+  单位：度（°），不是弧度。
+  方向：与 Figma 一致；Unity 导入时取 -Z。
+  典型值：科目卡片约 ±0.5、±1、0。
+  x/y/width/height：导出旋转后的轴对齐包围盒（AABB）。
+
+
+九、圆角（cornerRadius）
+------------------------
+
+  统一圆角：导出 cornerRadius（与 Figma 面板一致）。
+  四角不同：建议新增 rectangleCornerRadii: [tl, tr, br, bl]；
+            Unity 当前未消费，可暂取 max 写入 cornerRadius。
+
+  注意：导出值须与 Figma 面板实时值一致（避免 69 导出成 66 这类偏差）。
+
+
+十、阴影（effects）
+-------------------
+
+  "effects": [{
+    "type": "DROP_SHADOW",
+    "visible": true,
+    "color": "#3a445614",
+    "offset": { "x": 0, "y": 12 },
+    "radius": 24,
+    "spread": 0
+  }]
+
+  颜色可用 #rrggbbaa。
+  Unity 当前不渲染，建议导出供后续版本使用。
+
+
+十一、Unity 定位公式（插件自检 / Unity 导入对照）
+------------------------------------------------
+
+  Figma 坐标：相对父节点左上角，Y 向下。
+  Unity 根据 constraints 设置 anchorMin/Max 与 pivot，再计算 anchoredPosition。
+
+  约束 → Unity anchor（单点锚，非拉伸）：
+
+  Figma horizontal     anchor.x / pivot.x
+  ──────────────────   ─────────────────
+  MIN                  0（左）
+  CENTER               0.5（水平居中）
+  MAX                  1（右）
+  STRETCH / SCALE      minX=0, maxX=1
+
+  Figma vertical       anchor.y / pivot.y（Unity Y 轴：1=顶，0=底）
+  ──────────────────   ─────────────────
+  MIN（顶）            1
+  CENTER               0.5
+  MAX（底）            0
+  STRETCH / SCALE      minY=0, maxY=1
+
+  位置公式（非拉伸轴）：
+
+    pivotWorldX = x + width  * pivot.x
+    pivotTopY   = y + height * (1 - pivot.y)     // 距父顶的距离
+    anchorX     = (anchorMin.x + anchorMax.x) / 2
+    anchorY     = (anchorMin.y + anchorMax.y) / 2
+
+    posX = pivotWorldX - parent.width  * anchorX
+    posY = -(pivotTopY - parent.height * (1 - anchorY))
+
+  top-status-bar 样例（horizontal=CENTER, vertical=MIN）：
+
+    anchor = (0.5, 1)，pivot = (0.5, 1)
+    posX = 40 + 500 - 540 = 0
+    posY = -(77 - 0) = -77
+
+  旧版 center/center 公式（仅当 horizontal=CENTER 且 vertical=CENTER 时等价）：
+
+    relX = x + width/2  - parent.width/2
+    relY = parent.height/2 - y - height/2
+
+  插件自检：用 rootX/rootY 递归验算；与 Figma API 偏差 > 0.5px 时写入导出报告。
+
+
+十二、优先级清单
+----------------
+
+12.1 P0 — 必须做对
+
+  □ 导出包：{name}-full.json + 资源文件同目录
+  □ 每节点：id, irId, name, type, visible, x, y, width, height, children
+  □ 根归一化：rootNormalized=true，根 x=y=0
+  □ Auto Layout 结果烘焙进 x/y/width/height
+  □ fills 颜色为 #hex
+  □ TEXT 完整字段
+  □ IMAGE 的 imageFile + 磁盘 png
+  □ rotation 用度数
+
+12.2 P1 — 强烈建议
+
+  □ constraints + layoutSizing + layout 完整且与面板一致
+  □ rootX/rootY 校验字段
+  □ VECTOR 导出 vectorFile（png）
+  □ 图标父 FRAME 语义化命名
+  □ cornerRadius 与面板一致
+  □ TEXT characters 保留 emoji Unicode
+
+12.3 P2 — 可后续
+
+  □ rectangleCornerRadii 四角圆角
+  □ effects 阴影完整字段
+  □ segments 富文本混排
+  □ SVG 矢量路径
+
+
+十三、单屏验收 Checklist（main-screen 样例）
+-------------------------------------------
+
+  □ metadata.totalElements 与实际节点数一致
+  □ 根尺寸 1080 × 2340
+  □ top-status-bar：x=40, y=77, width=1000, height=132
+  □ 顶栏三子列 x：48、341.5、711
+  □ 科目卡片 rotation：约 ±1、±0.5、0（度）
+  □ 卡片 cornerRadius：24
+  □ rectangle.png 存在且 imageFile 正确
+  □ VECTOR 有 vectorFile 或父级语义名
+  □ 全树 irId 无重复
+  □ constraints 与 Figma 面板一致（抽检 top-status-bar、bottom-nav）
+
+
+十四、最小可用 JSON 样例
+------------------------
+
+  {
+    "metadata": {
+      "exportedAt": "2026-06-29T12:00:00.000Z",
+      "componentName": "test-screen",
+      "rootIrId": "test-screen__1_1",
+      "totalElements": 2,
+      "rootNormalized": true,
+      "plugin": "Full Design Exporter v2"
+    },
+    "node": {
+      "id": "1:1",
+      "irId": "test-screen__1_1",
+      "name": "test-screen",
+      "type": "FRAME",
+      "visible": true,
+      "x": 0, "y": 0,
+      "rootX": 0, "rootY": 0,
+      "width": 1080, "height": 2340,
+      "rotation": 0,
+      "opacity": 1,
+      "fills": [{ "type": "SOLID", "color": "#fcf8eb", "opacity": 1 }],
+      "cornerRadius": 0,
+      "constraints": { "horizontal": "MIN", "vertical": "MIN" },
+      "layoutSizingHorizontal": "FIXED",
+      "layoutSizingVertical": "FIXED",
+      "layout": { "layoutMode": "NONE" },
+      "children": [
+        {
+          "id": "1:2",
+          "irId": "label__1_2",
+          "name": "label",
+          "type": "TEXT",
+          "visible": true,
+          "x": 100, "y": 100,
+          "rootX": 100, "rootY": 100,
+          "width": 200, "height": 50,
+          "rotation": 0,
+          "opacity": 1,
+          "characters": "你好",
+          "fontFamily": "Inter",
+          "fontSize": 32,
+          "fontWeight": 600,
+          "textAlignHorizontal": "LEFT",
+          "fills": [{ "type": "SOLID", "color": "#333333", "opacity": 1 }],
+          "layout": { "layoutMode": "NONE" },
+          "children": []
+        }
+      ]
+    }
+  }
+
+
+十五、与现有 doc/01 的关系
+--------------------------
+
+  doc/01 为 v2 概要（已实现字段列表）。
+  本文档（doc/05）为插件制作详细规范，补充：
+    - 坐标烘焙规则与约束一致性
+    - rotation 单位（度）
+    - VECTOR 栅格化导出要求
+    - P0/P1/P2 优先级与验收清单
+    - Unity 侧实际消费策略说明
+
+  插件开发完成后，建议回写 doc/01 第六节「待增强」勾选状态。

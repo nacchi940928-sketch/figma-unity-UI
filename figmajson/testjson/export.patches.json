@@ -1,0 +1,1406 @@
+[
+  {
+    "irId": "main-screen-1080x2340__6_4",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 1078.0,
+    "height": 2340.0,
+    "constraintHorizontal": "CENTER",
+    "constraintVertical": "CENTER"
+  },
+  {
+    "irId": "top-status-bar__6_5",
+    "x": 40.0,
+    "y": 77.0,
+    "width": 1000.0,
+    "height": 132.0,
+    "constraintHorizontal": "CENTER",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_6",
+    "x": 48.0,
+    "y": 43.0,
+    "width": 178.0,
+    "height": 46.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "lightbulb-off__6_165",
+    "x": 0.0,
+    "y": 3.0,
+    "width": 40.0,
+    "height": 40.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_166",
+    "x": 3.33200073,
+    "y": 3.33203125,
+    "width": 33.336,
+    "height": 33.336,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "128__6_8",
+    "x": 52.0,
+    "y": 0.0,
+    "width": 126.0,
+    "height": 46.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_9",
+    "x": 362.5,
+    "y": 43.0,
+    "width": 240.0,
+    "height": 46.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "star__6_156",
+    "x": 0.0,
+    "y": 3.0,
+    "width": 40.0,
+    "height": 40.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_157",
+    "x": 3.33200073,
+    "y": 3.33203125,
+    "width": 33.33634,
+    "height": 31.7867775,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "612__6_11",
+    "x": 52.0,
+    "y": 0.0,
+    "width": 188.0,
+    "height": 46.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_12",
+    "x": 739.0,
+    "y": 43.0,
+    "width": 213.0,
+    "height": 46.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "hourglass__6_162",
+    "x": 0.0,
+    "y": 3.0,
+    "width": 40.0,
+    "height": 40.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_163",
+    "x": 8.332031,
+    "y": 3.33203125,
+    "width": 23.3359985,
+    "height": 33.336,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "01-42__6_14",
+    "x": 52.0,
+    "y": 0.0,
+    "width": 161.0,
+    "height": 46.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "status-chips-row__6_15",
+    "x": 40.0,
+    "y": 273.0,
+    "width": 1000.0,
+    "height": 62.0,
+    "constraintHorizontal": "CENTER",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "status-chip__6_16",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 175.0,
+    "height": 62.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_17",
+    "x": 24.0,
+    "y": 12.0,
+    "width": 127.0,
+    "height": 38.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "status-chip__6_18",
+    "x": 205.0,
+    "y": 0.0,
+    "width": 171.0,
+    "height": 62.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_19",
+    "x": 24.0,
+    "y": 12.0,
+    "width": 51.0,
+    "height": 38.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_20",
+    "x": 87.0,
+    "y": 25.0,
+    "width": 60.0,
+    "height": 12.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_21",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 40.0,
+    "height": 12.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "status-chip__6_22",
+    "x": 406.0,
+    "y": 0.0,
+    "width": 184.0,
+    "height": 62.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "01-42__6_23",
+    "x": 24.0,
+    "y": 12.0,
+    "width": 136.0,
+    "height": 38.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "subject-grid-container__6_24",
+    "x": 17.0,
+    "y": 400.0,
+    "width": 1046.0,
+    "height": 520.0,
+    "constraintHorizontal": "CENTER",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_25",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 1046.0,
+    "height": 160.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "card__6_26",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 513.0,
+    "height": 160.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_27",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 513.0,
+    "height": 14.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_28",
+    "x": 0.0,
+    "y": 14.0,
+    "width": 513.0,
+    "height": 146.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_29",
+    "x": 0.0,
+    "y": 60.0,
+    "width": 507.666656,
+    "height": 52.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_30",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 507.666656,
+    "height": 2.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_31",
+    "x": 0.0,
+    "y": 26.0,
+    "width": 507.666656,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_32",
+    "x": 0.0,
+    "y": 51.0,
+    "width": 507.666656,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_33",
+    "x": 20.0,
+    "y": 20.0,
+    "width": 295.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "1120__6_34",
+    "x": 20.0,
+    "y": 75.0,
+    "width": 295.0,
+    "height": 72.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "card__6_44",
+    "x": 533.0,
+    "y": 0.0,
+    "width": 513.0,
+    "height": 160.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_45",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 513.0,
+    "height": 14.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_46",
+    "x": 0.0,
+    "y": 14.0,
+    "width": 513.0,
+    "height": 146.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_47",
+    "x": 0.333374023,
+    "y": 60.0,
+    "width": 507.6667,
+    "height": 27.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_48",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 507.6667,
+    "height": 2.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_49",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_50",
+    "x": 0.0,
+    "y": 26.0,
+    "width": 507.6667,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_51",
+    "x": 20.0,
+    "y": 20.0,
+    "width": 295.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "890__6_52",
+    "x": 20.0,
+    "y": 75.0,
+    "width": 295.0,
+    "height": 72.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_53",
+    "x": 0.0,
+    "y": 180.0,
+    "width": 1046.0,
+    "height": 160.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "card__6_54",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 335.333344,
+    "height": 160.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_55",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 335.333344,
+    "height": 14.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_56",
+    "x": 0.0,
+    "y": 14.0,
+    "width": 335.333344,
+    "height": 146.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_57",
+    "x": 0.0,
+    "y": 60.0,
+    "width": 330.0,
+    "height": 52.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_58",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 330.0,
+    "height": 2.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_59",
+    "x": 0.0,
+    "y": 26.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_60",
+    "x": 0.0,
+    "y": 51.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_61",
+    "x": 20.0,
+    "y": 20.0,
+    "width": 295.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "740__6_62",
+    "x": 20.0,
+    "y": 75.0,
+    "width": 295.0,
+    "height": 72.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "card__6_63",
+    "x": 355.333344,
+    "y": 0.0,
+    "width": 335.3333,
+    "height": 160.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_64",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 335.3333,
+    "height": 14.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_65",
+    "x": 0.0,
+    "y": 14.0,
+    "width": 335.3333,
+    "height": 146.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_66",
+    "x": -0.333374023,
+    "y": 60.0,
+    "width": 330.0,
+    "height": 52.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_67",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 330.0,
+    "height": 2.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_68",
+    "x": 0.0,
+    "y": 26.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_69",
+    "x": 0.0,
+    "y": 51.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_70",
+    "x": 20.0,
+    "y": 20.0,
+    "width": 295.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "680__6_71",
+    "x": 20.0,
+    "y": 75.0,
+    "width": 295.0,
+    "height": 72.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "card__6_72",
+    "x": 710.6666,
+    "y": 0.0,
+    "width": 335.3333,
+    "height": 160.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_73",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 335.3333,
+    "height": 14.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_74",
+    "x": 0.0,
+    "y": 14.0,
+    "width": 335.3333,
+    "height": 146.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_75",
+    "x": 0.333374023,
+    "y": 60.0,
+    "width": 330.0,
+    "height": 51.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_76",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 330.0,
+    "height": 1.5,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_77",
+    "x": 0.0,
+    "y": 25.5,
+    "width": 330.0,
+    "height": 0.75,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_78",
+    "x": 0.0,
+    "y": 50.25,
+    "width": 330.0,
+    "height": 0.75,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_79",
+    "x": 20.0,
+    "y": 20.0,
+    "width": 295.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "720__6_80",
+    "x": 20.0,
+    "y": 75.0,
+    "width": 295.0,
+    "height": 72.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_81",
+    "x": 0.0,
+    "y": 360.0,
+    "width": 1046.0,
+    "height": 160.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "card__6_82",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 335.333344,
+    "height": 160.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_83",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 335.333344,
+    "height": 14.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_84",
+    "x": 0.0,
+    "y": 14.0,
+    "width": 335.333344,
+    "height": 146.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_85",
+    "x": 0.0,
+    "y": 60.0,
+    "width": 1.0,
+    "height": 52.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_86",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 1.0,
+    "height": 2.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_87",
+    "x": 0.0,
+    "y": 26.0,
+    "width": 1.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_88",
+    "x": 0.0,
+    "y": 51.0,
+    "width": 1.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_89",
+    "x": 20.0,
+    "y": 20.0,
+    "width": 295.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "650__6_90",
+    "x": 20.0,
+    "y": 75.0,
+    "width": 295.0,
+    "height": 72.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "card__6_91",
+    "x": 355.333344,
+    "y": 0.0,
+    "width": 335.3333,
+    "height": 160.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_92",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 335.3333,
+    "height": 14.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_93",
+    "x": 0.0,
+    "y": 14.0,
+    "width": 335.3333,
+    "height": 146.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_94",
+    "x": -0.333374023,
+    "y": 60.0,
+    "width": 330.0,
+    "height": 17160.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_95",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 330.0,
+    "height": 2.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_96",
+    "x": 0.0,
+    "y": 26.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_97",
+    "x": 0.0,
+    "y": 51.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_98",
+    "x": 20.0,
+    "y": 20.0,
+    "width": 295.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "580__6_99",
+    "x": 20.0,
+    "y": 75.0,
+    "width": 295.0,
+    "height": 72.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "card__6_100",
+    "x": 710.6666,
+    "y": 0.0,
+    "width": 335.3333,
+    "height": 160.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_101",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 335.3333,
+    "height": 14.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_102",
+    "x": 0.0,
+    "y": 14.0,
+    "width": 335.3333,
+    "height": 146.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_103",
+    "x": 0.333374023,
+    "y": 60.0,
+    "width": 330.0,
+    "height": 52.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_104",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 330.0,
+    "height": 2.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_105",
+    "x": 0.0,
+    "y": 26.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "line__6_106",
+    "x": 0.0,
+    "y": 51.0,
+    "width": 330.0,
+    "height": 1.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_107",
+    "x": 20.0,
+    "y": 20.0,
+    "width": 295.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "610__6_108",
+    "x": 20.0,
+    "y": 75.0,
+    "width": 295.0,
+    "height": 72.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "inspiration-progress-card__6_109",
+    "x": 40.0,
+    "y": 999.0,
+    "width": 1000.0,
+    "height": 180.0,
+    "constraintHorizontal": "CENTER",
+    "constraintVertical": "MAX"
+  },
+  {
+    "irId": "frame__6_110",
+    "x": 48.0,
+    "y": 24.0,
+    "width": 904.0,
+    "height": 41.1428566,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_111",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 127.0,
+    "height": 48.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "65__6_112",
+    "x": 826.0,
+    "y": 0.0,
+    "width": 78.0,
+    "height": 48.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "progress-track__6_113",
+    "x": 48.0,
+    "y": 77.14285,
+    "width": 904.0,
+    "height": 34.2857132,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_114",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 580.0,
+    "height": 34.2857132,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "node__6_115",
+    "x": 48.0,
+    "y": 123.428558,
+    "width": 904.0,
+    "height": 32.57143,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "student-desk-area__6_116",
+    "x": 0.0,
+    "y": 1486.0,
+    "width": 1080.0,
+    "height": 650.0,
+    "constraintHorizontal": "CENTER",
+    "constraintVertical": "MAX"
+  },
+  {
+    "irId": "rectangle__6_117",
+    "x": 240.0,
+    "y": 25.0,
+    "width": 600.0,
+    "height": 600.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_118",
+    "x": 358.0,
+    "y": -82.0,
+    "width": 363.0,
+    "height": 70.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MAX"
+  },
+  {
+    "irId": "pencil__6_189",
+    "x": 32.0,
+    "y": 19.0,
+    "width": 32.0,
+    "height": 32.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_190",
+    "x": 2.66560364,
+    "y": 2.66558838,
+    "width": 26.6688,
+    "height": 26.6656,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_120",
+    "x": 76.0,
+    "y": 12.0,
+    "width": 255.0,
+    "height": 46.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame-1__98_169",
+    "x": 119.0,
+    "y": 2089.0,
+    "width": 100.0,
+    "height": 100.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "inspiration-bubble__6_121",
+    "x": 55.0,
+    "y": 1935.0,
+    "width": 154.0,
+    "height": 180.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_122",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 154.0,
+    "height": 131.329956,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "lightbulb__6_174",
+    "x": 45.0,
+    "y": 45.0,
+    "width": 64.0,
+    "height": 64.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_175",
+    "x": 16.0,
+    "y": 5.33117676,
+    "width": 32.0,
+    "height": 53.3376,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_124",
+    "x": 0.0,
+    "y": 143.329956,
+    "width": 154.0,
+    "height": 36.67005,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "quick-actions__6_125",
+    "x": 860.0,
+    "y": 1766.0,
+    "width": 175.0,
+    "height": 345.0,
+    "constraintHorizontal": "MAX",
+    "constraintVertical": "MAX"
+  },
+  {
+    "irId": "frame__6_126",
+    "x": 0.0,
+    "y": 0.0,
+    "width": 175.0,
+    "height": 99.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "clipboard-check__6_159",
+    "x": 69.5,
+    "y": 12.5,
+    "width": 36.0,
+    "height": 36.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_160",
+    "x": 6.0012207,
+    "y": 2.9987793,
+    "width": 23.9976,
+    "height": 30.0023956,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_128",
+    "x": 53.5,
+    "y": 52.5,
+    "width": 68.0,
+    "height": 34.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_129",
+    "x": 0.0,
+    "y": 123.0,
+    "width": 175.0,
+    "height": 99.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "timer__6_192",
+    "x": 69.5,
+    "y": 12.5,
+    "width": 36.0,
+    "height": 36.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_193",
+    "x": 6.0012207,
+    "y": 2.9987793,
+    "width": 23.9976,
+    "height": 30.0023956,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_131",
+    "x": 65.0,
+    "y": 52.5,
+    "width": 45.0,
+    "height": 34.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "frame__6_132",
+    "x": 0.0,
+    "y": 246.0,
+    "width": 175.0,
+    "height": 99.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "book__6_168",
+    "x": 69.5,
+    "y": 12.5,
+    "width": 36.0,
+    "height": 36.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_169",
+    "x": 6.0012207,
+    "y": 2.9987793,
+    "width": 23.9976,
+    "height": 30.0023956,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_134",
+    "x": 54.5,
+    "y": 52.5,
+    "width": 66.0,
+    "height": 34.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "score-broadcast__6_135",
+    "x": 40.0,
+    "y": 1210.0,
+    "width": 1000.0,
+    "height": 172.0,
+    "constraintHorizontal": "CENTER",
+    "constraintVertical": "MAX"
+  },
+  {
+    "irId": "node__6_136",
+    "x": 32.0,
+    "y": 32.0,
+    "width": 936.0,
+    "height": 43.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "23__6_137",
+    "x": 32.0,
+    "y": 87.0,
+    "width": 936.0,
+    "height": 41.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "bottom-nav__6_138",
+    "x": 18.0,
+    "y": 2202.0,
+    "width": 1044.0,
+    "height": 138.0,
+    "constraintHorizontal": "CENTER",
+    "constraintVertical": "MAX"
+  },
+  {
+    "irId": "tab__6_139",
+    "x": 24.0,
+    "y": 0.0,
+    "width": 199.200027,
+    "height": 138.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "house__6_177",
+    "x": 77.6000061,
+    "y": 23.0,
+    "width": 44.0,
+    "height": 44.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_178",
+    "x": 5.5,
+    "y": 3.66516113,
+    "width": 33.0,
+    "height": 34.8342133,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_141",
+    "x": 73.1000061,
+    "y": 75.0,
+    "width": 53.0,
+    "height": 40.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "rectangle__6_142",
+    "x": 0.0,
+    "y": 34.0,
+    "width": 120.0,
+    "height": 70.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "CENTER"
+  },
+  {
+    "irId": "tab__6_143",
+    "x": 223.200012,
+    "y": 0.0,
+    "width": 199.200027,
+    "height": 138.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "book-open__6_186",
+    "x": 77.6000061,
+    "y": 23.0,
+    "width": 44.0,
+    "height": 44.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_187",
+    "x": 3.66519165,
+    "y": 5.5,
+    "width": 36.6696,
+    "height": 33.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_145",
+    "x": 73.1000061,
+    "y": 75.0,
+    "width": 53.0,
+    "height": 40.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "tab__6_146",
+    "x": 422.400055,
+    "y": 0.0,
+    "width": 199.200027,
+    "height": 138.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "file-pen__6_183",
+    "x": 77.6000061,
+    "y": 23.0,
+    "width": 44.0,
+    "height": 44.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_184",
+    "x": 7.3303833,
+    "y": 3.66516113,
+    "width": 29.3348,
+    "height": 36.6696,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_148",
+    "x": 73.1000061,
+    "y": 75.0,
+    "width": 53.0,
+    "height": 40.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "tab__6_149",
+    "x": 621.6001,
+    "y": 0.0,
+    "width": 199.200012,
+    "height": 138.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "list-check__6_180",
+    "x": 77.5999756,
+    "y": 23.0,
+    "width": 44.0,
+    "height": 44.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_181",
+    "x": 5.5,
+    "y": 9.165161,
+    "width": 33.0,
+    "height": 27.5,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_151",
+    "x": 74.0999756,
+    "y": 75.0,
+    "width": 51.0,
+    "height": 40.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "tab__6_152",
+    "x": 820.8001,
+    "y": 0.0,
+    "width": 199.200012,
+    "height": 138.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "user__6_171",
+    "x": 77.5999756,
+    "y": 23.0,
+    "width": 44.0,
+    "height": 44.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  },
+  {
+    "irId": "vector__6_172",
+    "x": 9.165222,
+    "y": 5.5,
+    "width": 25.6696014,
+    "height": 33.0,
+    "constraintHorizontal": "STRETCH",
+    "constraintVertical": "STRETCH"
+  },
+  {
+    "irId": "node__6_154",
+    "x": 73.0999756,
+    "y": 75.0,
+    "width": 53.0,
+    "height": 40.0,
+    "constraintHorizontal": "MIN",
+    "constraintVertical": "MIN"
+  }
+]

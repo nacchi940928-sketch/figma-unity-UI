@@ -1,0 +1,159 @@
+Figma ↔ Unity v3 工具对接说明
+================================
+
+更新：2026-06-29
+关联：doc/figma工具说明.TXT | doc/06-坐标系约定.txt
+
+一、工具分工
+------------
+
+  Figma Tool 1 — Full design exporter
+    导出 *-full.xml（推荐）或 *-full.json（+ 可选 PNG）
+    全量属性：几何、视觉、layout、constraints、TEXT 完整字段、组件属性等
+    主键：id（如 "6:124"）
+
+  Unity — Figma UI Importer（Tools > Figma UI Importer）
+    读取 *-full.xml / *-full.json，按 Import Profile 选择性应用到 Prefab
+    始终导入：位置/尺寸/旋转、可见性、fills/strokes/圆角、文案内容、图片引用
+
+  Unity — 程序编辑 Prefab
+    运行时或 Editor 中调整布局、文案、对齐等
+
+  Unity — Figma UI Exporter（Tools > Figma UI Exporter）
+    以 *-full.xml / *-full.json 为模板，按 Export Profile 把 Prefab 改动合并
+    默认输出 *-unity-export.xml；可选同时写 JSON
+    输出完整文档树，id 不变
+
+  Figma Tool 2 — Unity XML/JSON importer
+    上传 unity-export.xml（或 .json），勾选同步项，按 id 更新 Figma 画布
+
+
+二、Import Profile（Unity 导入勾选）
+------------------------------------
+
+  窗口：Tools > Figma UI Importer → Import Profile
+
+  预设：
+    Full Import       — 约束 + FILL 布局 + 字体 + 对齐（默认）
+    Static Absolute   — 纯左上角绝对坐标静态 UI，程序自行加组件
+
+  Rebuild Mode（默认 Merge）：
+    Merge   — 按 irId 就地更新已有 Prefab 的布局/视觉；保留 Button、脚本及无 IRBinding 的子物体
+    Replace — 删除旧 Prefab 并全量重建（自定义组件会丢失）
+
+  Merge 附加选项：
+    Remove IR nodes deleted in Figma — 从 Prefab 移除 Figma 文档中已不存在的 IR 节点
+
+  选项                          Unity 行为
+  ────────────────────────────  ─────────────────────────────────────
+  Constraints                   ConstraintTranslator → anchor/pivot
+  Auto Layout FILL              Horizontal/VerticalLayoutGroup + LayoutElement
+                                （主轴 FILL 或交叉轴 FILL，如纵向容器内 TEXT 横向 Fill）
+  Typography                    TMP font / size / bold（Font Mapping）
+  Text alignment                TMP horizontalAlignment / verticalAlignment
+
+  始终导入（不可关）：
+    x, y, width, height, rotation, visible, opacity
+    fills, strokes, cornerRadius（FrameBuilder）
+    characters, text.color
+    IRBinding.figmaNodeId = JSON id
+
+  典型往返流程（保留 Unity 自定义组件）：
+    1. Import XML → main.prefab（Merge 或首次 Replace）
+    2. 在 Prefab 上挂 Button / 交互脚本
+    3. Export → Figma 改设计 → 再 Import 同一 XML（Rebuild Mode = Merge）
+    4. 布局/文案随 Figma 更新；Button 与脚本仍在原 irId 节点上
+
+
+三、Export Profile（Unity 导出勾选）
+------------------------------------
+
+  窗口：Tools > Figma UI Exporter → Export Profile
+  与 Figma Tool 2 同步选项对应。
+
+  预设：
+    Default           — 位置/可见/约束/文案/对齐 + layoutAdjustments；字体保留模板
+    Layout + Text     — 同 Default，明确不 sync fills/typography
+
+  选项                          写回 JSON 字段
+  ────────────────────────────  ───────────────────────────────
+  Position / size / rotation    x, y, width, height, rotation
+  Visibility / opacity            visible, opacity
+  Constraints                     constraints.horizontal / vertical
+  Text content                    characters, segments[].text
+  Text alignment                  textAlignHorizontal / Vertical
+  Typography                      fontFamily, fontSize, fontWeight, segments 字体
+  Fills                           fills（SOLID，来自 Unity Image/TMP 色）
+  Auto Layout → absolute          layoutMode=NONE + metadata.layoutAdjustments
+  Remove deleted nodes            从 children 移除 Prefab 中不存在的节点
+
+  导出 metadata.exportProfile 记录本次勾选，便于 Figma 侧对照。
+
+
+四、Figma Full Exporter v3 字段与 Unity 消费
+--------------------------------------------
+
+  截图插件已导出（Unity 当前已用 / 计划）：
+
+  已用于 Import/build：
+    id, name, type, visible, x/y, width/height, rotation, opacity
+    fills, strokes, cornerRadius, effects（shadow 降级）
+    layout（mode, padding, spacing, align）
+    layoutSizingHorizontal / Vertical（FILL → LayoutElement）
+    constraints
+    characters, fontFamily, fontSize, fontWeight, textAlign*
+    segments, imageFile
+
+  JSON 保留、IR 暂不映射（回 Figma 时原样保留）：
+    blendMode, isMask, layoutGrids, letterSpacing, lineHeight
+    componentPropertyDefinitions, variantProperties, componentProperties
+    strokeCap/Join/MiterLimit, absoluteRenderBounds
+
+  图片：
+    IMAGE fills 中 imageFile/imageHash 可为 null
+    Unity 用同目录 PNG + imageFile 文件名管理
+    回 Figma 时保持 null，只 sync 位置/尺寸
+
+
+五、身份匹配
+------------
+
+  Figma ↔ Unity 往返主键：JSON id → IRBinding.figmaNodeId
+  irId 为历史/调试字段，Figma Tool 2 忽略
+  Unity Export 合并时当前仍按 irId 索引模板节点（需与 full.json 中 irId 一致）
+
+
+六、推荐工作流
+--------------
+
+  1. Figma 导出 *-full.xml（或 JSON）+ PNG
+  2. Unity Import：
+       - 需要程序接管布局 → Full Import
+       - 只要静态底图 → Static Absolute
+  3. 程序改 Prefab
+  4. Unity Export → *-unity-export.xml（Default Export Profile）
+  5. Figma Tool 2 Import & sync（勾选与 Export Profile 对应项）
+
+
+八、XML 格式（与 JSON 等价）
+----------------------------
+
+  根元素：<figma-export format="v1">  （Unity 导出）
+        或 <design-export>           （Figma Tool 1 导出，推荐）
+  子元素：<metadata .../>、<node ...> 递归树
+  标量字段：XML 属性（x、y、width、irId、characters 等）
+  对象：子元素 + 属性（constraints、layout、absoluteRenderBounds）
+  数组：fills/strokes/effects/segments 等容器 + <item/> 子项；空数组 empty="true"
+  子节点：<children><node>...</node></children>
+
+  工具：tools/json_to_figma_xml.py 可在 JSON ↔ XML 间转换（与 Unity 序列化器同 schema）
+  样例：figmajson/testjson/main-full.xml
+
+
+七、constraints 枚举对照
+------------------------
+
+  Figma v3 文档：LEFT / TOP / CENTER / …
+  现有 full.json：MIN / MAX / CENTER / STRETCH
+  Unity 内部统一用小写 min/center/max/stretch；Export 写回时保持 MIN 体系，
+  Figma Import 插件需做 LEFT↔MIN 映射（由 Figma 侧处理）。
