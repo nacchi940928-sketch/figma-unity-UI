@@ -21,6 +21,7 @@ namespace FigmaUnity.UI.Editor.UI
         [SerializeField] TMP_FontAsset _boldFont;
         [SerializeField] FontMappingAsset _fontMapping;
         [SerializeField] ImportProfile _importProfile = ImportProfile.VisualMerge();
+        [SerializeField] string _artAssetRoot = ArtAssetResolver.DefaultArtRoot;
 
         [MenuItem("Tools/Figma UI 导入 (Importer)")]
         public static void Open()
@@ -76,6 +77,9 @@ namespace FigmaUnity.UI.Editor.UI
                 EditorGUILayout.HelpBox("请选择默认字体，或先执行 Tools > Figma UI > Install Fonts from Assets/font。Figma 导出多为 Inter，含中文请使用支持 CJK 的 TMP 字体。", MessageType.Warning);
             if (GUILayout.Button("从 Assets/font 安装字体"))
                 FontInstaller.InstallFromMenu();
+
+            EditorGUILayout.Space();
+            DrawArtAssetSection();
 
             EditorGUILayout.Space();
             DrawImportProfileSection();
@@ -179,8 +183,12 @@ namespace FigmaUnity.UI.Editor.UI
                     return;
                 }
 
-                var missing = FigmaExportPackage.FindMissingImageFiles(doc.node, assetDir);
-                var settings = new FigmaImportSettings { CopyAssets = false };
+                var missing = FigmaExportPackage.FindMissingImageFiles(doc.node, assetDir, _artAssetRoot, screenName);
+                var settings = new FigmaImportSettings
+                {
+                    CopyAssets = false,
+                    ArtAssetRoot = _artAssetRoot
+                };
                 var ir = FigmaToIRConverter.ConvertFile(_documentPath, settings, assetDir, screenName);
                 var warnings = IRValidator.Validate(ir);
                 var nodeCount = CountNodes(ir);
@@ -199,7 +207,9 @@ namespace FigmaUnity.UI.Editor.UI
                     $"Expected nodes: {doc.metadata?.totalElements ?? 0}\n" +
                     $"IR nodes: {nodeCount}\n" +
                     $"IR root: {ir.id}\n" +
-                    $"Missing images: {missing.Length}\n" +
+                    $"Missing images: {missing.Length}" +
+                    (missing.Length > 0 ? $" ({string.Join(", ", missing)})" : string.Empty) + "\n" +
+                    $"Art root: {_artAssetRoot}\n" +
                     $"Validation warnings: {warnings.Count}" +
                     prefabNote,
                     missing.Length > 0 || warnings.Count > 0 ? MessageType.Warning : MessageType.Info);
@@ -233,8 +243,13 @@ namespace FigmaUnity.UI.Editor.UI
             try
             {
                 var assetDir = FigmaExportPackage.GetAssetDirectory(_documentPath);
-                var settings = new FigmaImportSettings { CopyAssets = true };
-                var ir = FigmaToIRConverter.ConvertFile(_documentPath, settings, assetDir);
+                var screenName = FigmaExportPackage.GetScreenNameFromDocumentPath(_documentPath);
+                var settings = new FigmaImportSettings
+                {
+                    CopyAssets = true,
+                    ArtAssetRoot = _artAssetRoot
+                };
+                var ir = FigmaToIRConverter.ConvertFile(_documentPath, settings, assetDir, screenName);
                 var validation = IRValidator.Validate(ir);
                 var buildSettings = CreateBuildSettings();
                 var profile = buildSettings.ImportProfile;
@@ -447,10 +462,15 @@ namespace FigmaUnity.UI.Editor.UI
 
         PrefabBuildSettings CreateBuildSettings()
         {
+            var screenName = FigmaExportPackage.GetScreenNameFromDocumentPath(_documentPath);
             return new PrefabBuildSettings
             {
                 PrefabOutputPath = _prefabPath,
                 ImportProfile = _importProfile?.Clone() ?? ImportProfile.Full(),
+                ArtAssetRoot = _artAssetRoot,
+                GeneratedRoot = "Assets/UI/Generated",
+                FigmaExportDir = FigmaExportPackage.GetAssetDirectory(_documentPath),
+                ScreenName = screenName,
                 Fonts = new FontBuildSettings
                 {
                     DefaultFont = _defaultFont,
@@ -458,6 +478,60 @@ namespace FigmaUnity.UI.Editor.UI
                     Mapping = _fontMapping
                 }
             };
+        }
+
+        void DrawArtAssetSection()
+        {
+            EditorGUILayout.LabelField("美术资源", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(
+                "按 Figma XML 中 fills.imageFile 的文件名，在下方 Unity 目录查找贴图并挂到 Prefab。\n" +
+                "查找顺序：美术资源目录 → 美术资源目录/界面名 → 已生成目录 → Figma 导出包目录。",
+                MessageType.None);
+
+            EditorGUILayout.BeginHorizontal();
+            _artAssetRoot = EditorGUILayout.TextField("美术资源目录", _artAssetRoot);
+            if (GUILayout.Button("选择", GUILayout.Width(48)))
+                BrowseArtAssetRoot();
+            EditorGUILayout.EndHorizontal();
+        }
+
+        void BrowseArtAssetRoot()
+        {
+            var picked = EditorUtility.OpenFolderPanel(
+                "选择美术资源目录（Unity Assets 下）",
+                GetUnityAssetsAbsolutePath(_artAssetRoot),
+                string.Empty);
+            if (string.IsNullOrEmpty(picked))
+                return;
+
+            _artAssetRoot = ToAssetsRelativePath(picked);
+        }
+
+        static string GetUnityAssetsAbsolutePath(string assetsRelativePath)
+        {
+            if (string.IsNullOrWhiteSpace(assetsRelativePath))
+                return Application.dataPath;
+
+            assetsRelativePath = assetsRelativePath.Replace('\\', '/');
+            if (!assetsRelativePath.StartsWith("Assets/", System.StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(assetsRelativePath, "Assets", System.StringComparison.OrdinalIgnoreCase))
+                return Application.dataPath;
+
+            var projectRoot = Directory.GetParent(Application.dataPath)?.FullName;
+            return string.IsNullOrEmpty(projectRoot)
+                ? Application.dataPath
+                : Path.GetFullPath(Path.Combine(projectRoot, assetsRelativePath)).Replace('\\', '/');
+        }
+
+        static string ToAssetsRelativePath(string absolutePath)
+        {
+            absolutePath = Path.GetFullPath(absolutePath).Replace('\\', '/');
+            var dataPath = Path.GetFullPath(Application.dataPath).Replace('\\', '/');
+            if (!absolutePath.StartsWith(dataPath, System.StringComparison.OrdinalIgnoreCase))
+                return absolutePath;
+
+            var relative = "Assets" + absolutePath.Substring(dataPath.Length);
+            return relative.Replace('\\', '/');
         }
 
         void DrawImportProfileSection()

@@ -36,6 +36,8 @@ namespace FigmaUnity.UI.Editor.Export
 
             result.LayoutChangedCount = 0;
             result.ConstraintsChangedCount = 0;
+            result.ImagesChangedCount = 0;
+            result.ImagesExportedCount = 0;
 
             var index = IndexNodesByIrId(node);
             ApplyPatches(index, patches, matched, result, options);
@@ -125,9 +127,16 @@ namespace FigmaUnity.UI.Editor.Export
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
+            ExportImageAssets(dir, patches, options.ExportProfile, result);
+
             if (root["metadata"] is JObject metadataForAssets)
             {
                 metadataForAssets["assetDir"] = Path.GetFullPath(dir).Replace('\\', '/');
+                metadataForAssets["artAssetConvention"] = new JObject
+                {
+                    ["lookup"] = "filename",
+                    ["note"] = "Resolve texture as metadata.assetDir + '/' + fills[].imageFile. imageHash optional."
+                };
                 var fullOutput = Path.GetFullPath(outputPath).Replace('\\', '/');
                 metadataForAssets["documentPath"] = fullOutput;
                 if (FigmaDocumentSerializer.IsXmlPath(outputPath))
@@ -372,6 +381,68 @@ namespace FigmaUnity.UI.Editor.Export
             }
 
             ApplyTextPatch(node, patch, options);
+
+            if (options.ExportProfile.SyncImageAssets && !string.IsNullOrEmpty(patch.imageFile))
+            {
+                if (ApplyImageFillToNode(node, patch))
+                    result.ImagesChangedCount++;
+            }
+        }
+
+        static bool ApplyImageFillToNode(JObject node, UnityNodePatch patch)
+        {
+            JObject fill;
+            if (node["fills"] is JArray fills && fills.Count > 0 && fills[0] is JObject existingFill)
+                fill = existingFill;
+            else
+            {
+                fills = new JArray();
+                fill = new JObject();
+                fills.Add(fill);
+                node["fills"] = fills;
+            }
+
+            var previousFile = fill.Value<string>("imageFile");
+            fill["type"] = "IMAGE";
+            fill["imageFile"] = patch.imageFile;
+            if (!string.IsNullOrEmpty(patch.imageHash))
+                fill["imageHash"] = patch.imageHash;
+            else
+                fill.Remove("imageHash");
+
+            fill["scaleMode"] = string.IsNullOrEmpty(patch.imageScaleMode) ? "FILL" : patch.imageScaleMode;
+            fill["opacity"] = patch.opacity > 0f ? patch.opacity : 1f;
+            fill["blendMode"] = fill.Value<string>("blendMode") ?? "NORMAL";
+            return !string.Equals(previousFile, patch.imageFile, StringComparison.OrdinalIgnoreCase)
+                || string.IsNullOrEmpty(previousFile);
+        }
+
+        static int ExportImageAssets(
+            string exportDir,
+            Dictionary<string, UnityNodePatch> patches,
+            ExportProfile profile,
+            FigmaDocumentMerger.MergeResult result)
+        {
+            if (!profile.SyncImageAssets || patches == null || string.IsNullOrEmpty(exportDir))
+                return 0;
+
+            var exported = 0;
+            var copied = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var patch in patches.Values)
+            {
+                if (string.IsNullOrEmpty(patch.imageFile) || string.IsNullOrEmpty(patch.imageUnityAssetPath))
+                    continue;
+                if (!copied.Add(patch.imageFile))
+                    continue;
+
+                if (ArtAssetResolver.CopyUnityAssetToExportDir(patch.imageUnityAssetPath, exportDir, patch.imageFile))
+                    exported++;
+                else
+                    result.Warnings.Add($"Failed to export image asset: {patch.imageFile}");
+            }
+
+            result.ImagesExportedCount = exported;
+            return exported;
         }
 
         static void ApplyTextPatch(

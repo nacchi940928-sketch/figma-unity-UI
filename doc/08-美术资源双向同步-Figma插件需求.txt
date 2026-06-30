@@ -1,0 +1,134 @@
+美术资源双向同步 — Figma 插件需求说明
+========================================
+
+状态：Unity 侧已实现（v1）
+交付对象：Figma Tool 2（Unity XML/JSON importer）+ Tool 1（Full design exporter）维护者
+关联：doc/figma工具说明.TXT | doc/07-v3-Figma工具对接.txt
+
+
+一、目标
+--------
+
+  Figma 与 Unity Prefab 共用同一套美术资源文件名（如 banner.png）。
+  - Figma → Unity：XML 中带 imageFile，Unity 按文件名在「美术资源目录」查找并挂到 RawImage
+  - Unity → Figma：Unity 导出时写回 imageFile，并把 PNG 复制到导出包目录；Figma 读取后贴到对应节点
+
+
+二、路径规范（双方必须一致）
+----------------------------
+
+  2.1 权威标识：文件名 only
+
+    fills[].imageFile = "banner.png"     // 仅文件名，不含路径
+    禁止在 imageFile 中写子目录（如 icons/banner.png）—— v1 不支持
+
+  2.2 Figma 导出包目录（与 *-full.xml 同目录）
+
+    main-screen-1080x2340-full.xml
+    banner.png
+    icon_star.png
+
+  2.3 Unity 美术资源目录（用户在 Importer 中配置，默认 Assets/UI/Art）
+
+    查找顺序（按文件名）：
+      1. {ArtAssetRoot}/{imageFile}
+      2. {ArtAssetRoot}/{screenName}/{imageFile}
+      3. {Assets/UI/Generated}/{screenName}/{imageFile}
+      4. {Figma 导出包目录}/{imageFile}  → Import 时可复制到 Generated
+
+  2.4 Unity 回导包目录（*-unity-export.xml 同目录）
+
+    metadata.assetDir = 该目录绝对路径
+    每个被引用的 imageFile 对应一个 PNG 文件，与 xml 同级
+
+
+三、XML / JSON 节点字段（已有 + Unity 新用法）
+----------------------------------------------
+
+  3.1 IMAGE 填充（fills 数组第一项或任意 IMAGE 项）
+
+    <fill>
+      <type>IMAGE</type>
+      <imageFile>banner.png</imageFile>
+      <imageHash>a9ed49ca...</imageHash>
+      <scaleMode>FILL</scaleMode>
+      <opacity>1</opacity>
+      <blendMode>NORMAL</blendMode>
+    </fill>
+
+  JSON 等价：
+
+    {
+      "type": "IMAGE",
+      "imageFile": "banner.png",
+      "imageHash": "a9ed49ca...",
+      "scaleMode": "FILL",
+      "opacity": 1.0,
+      "blendMode": "NORMAL"
+    }
+
+  3.2 旧行为（需扩展）
+
+    以往 imageFile=null 表示「图片容器留空，Unity 自管」。
+    新行为：
+      - imageFile 有值 → Figma / Unity 双向按文件名同步贴图
+      - imageFile 为空/null → 保持旧行为（不自动贴图，仅同步几何）
+
+  3.3 metadata（Unity 导出时写入/更新）
+
+    metadata.assetDir = 导出包目录绝对路径
+    metadata.artAssetConvention.lookup = "filename"
+
+    解析规则：texturePath = assetDir + "/" + fills[].imageFile
+
+
+四、Figma Tool 1（Full design exporter）需保证
+----------------------------------------------
+
+  □ 有贴图的节点：fills.type=IMAGE 且 imageFile 导出为真实文件名（非 null）
+  □ PNG 与 *-full.xml 同目录导出
+  □ 无贴图占位容器：可继续 imageFile=null
+
+
+五、Figma Tool 2（Unity XML importer）需新增/调整
+------------------------------------------------
+
+  5.1 同步勾选项（建议新增）
+
+    ☑ 美术资源 (imageFile)     — 对应 Unity exportProfile.syncImageAssets
+
+  5.2 Import 逻辑（当勾选且 imageFile 非空）
+
+    base = metadata.assetDir ?? dirname(xmlPath)
+    texturePath = base + "/" + imageFile
+
+    若文件存在：按 id 匹配节点，更新 IMAGE fill 并导入二进制贴图
+    若 imageHash 为空：仍应贴图（Unity 新增资源通常无 hash）
+
+  5.3 禁止
+
+    ✗ imageFile 存绝对路径
+    ✗ 因 imageHash=null 忽略 imageFile
+
+  5.4 完成报告（建议）
+
+    imagesUpdated / imagesMissing / imagesSkipped
+
+
+六、Unity 导出行为（已实现）
+----------------------------
+
+  Export Profile 勾选「美术资源」时：
+    1. RawImage / Image(Sprite) → 取文件名写入 fills.imageFile
+    2. PNG 复制到 *-unity-export.xml 同目录
+    3. metadata.assetDir 指向该目录
+
+  imageHash：Unity 不生成 Figma hash；Figma 以文件是否存在为准。
+
+
+七、验收样例
+------------
+
+  Figma → Unity：imageFile=banner.png + Assets/UI/Art/banner.png → Prefab 有贴图
+  Unity → Figma：换图 hero.png → Export 同目录 hero.png + XML 写 imageFile
+  缺失：missing.png 不在任何目录 → 双方报告缺失

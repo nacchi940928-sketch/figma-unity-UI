@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using FigmaUnity.UI;
 using FigmaUnity.UI.Editor.Build;
+using FigmaUnity.UI.Editor.Figma;
 using FigmaUnity.UI.Editor.IR;
 using TMPro;
 using UnityEngine;
@@ -22,6 +23,10 @@ namespace FigmaUnity.UI.Editor.Export
         public float opacity;
         public string constraintHorizontal = "MIN";
         public string constraintVertical = "MIN";
+        public string imageFile;
+        public string imageHash;
+        public string imageScaleMode = "FILL";
+        public string imageUnityAssetPath;
         public List<IRFill> fills = new List<IRFill>();
         public IRText text;
     }
@@ -79,19 +84,26 @@ namespace FigmaUnity.UI.Editor.Export
                 else if (go.TryGetComponent<RawImage>(out var raw) && raw.texture != null)
                 {
                     patch.type = "image";
-                    if (raw.color.a < 1f)
-                        patch.opacity *= raw.color.a;
+                    ApplyImagePatchFromComponents(patch, raw, null);
                 }
-                else if (go.TryGetComponent<Image>(out var image) && image.color.a > 0.01f)
+                else if (go.TryGetComponent<Image>(out var image))
                 {
-                    patch.type = "frame";
-                    patch.fills.Clear();
-                    patch.fills.Add(new IRFill
+                    if (image.sprite != null)
                     {
-                        type = "solid",
-                        color = ColorUtil.ToHex(image.color),
-                        opacity = image.color.a
-                    });
+                        patch.type = "image";
+                        ApplyImagePatchFromComponents(patch, null, image);
+                    }
+                    else if (image.color.a > 0.01f)
+                    {
+                        patch.type = "frame";
+                        patch.fills.Clear();
+                        patch.fills.Add(new IRFill
+                        {
+                            type = "solid",
+                            color = ColorUtil.ToHex(image.color),
+                            opacity = image.color.a
+                        });
+                    }
                 }
             }
         }
@@ -164,21 +176,56 @@ namespace FigmaUnity.UI.Editor.Export
             else if (go.TryGetComponent<RawImage>(out var raw) && raw.texture != null)
             {
                 patch.type = "image";
-                if (raw.color.a < 1f)
-                    patch.opacity *= raw.color.a;
+                ApplyImagePatchFromComponents(patch, raw, null);
             }
-            else if (go.TryGetComponent<Image>(out var image) && image.color.a > 0.01f)
+            else if (go.TryGetComponent<Image>(out var image))
             {
-                patch.type = "frame";
-                patch.fills.Add(new IRFill
+                if (image.sprite != null)
                 {
-                    type = "solid",
-                    color = ColorUtil.ToHex(image.color),
-                    opacity = image.color.a
-                });
+                    patch.type = "image";
+                    ApplyImagePatchFromComponents(patch, null, image);
+                }
+                else if (image.color.a > 0.01f)
+                {
+                    patch.type = "frame";
+                    patch.fills.Add(new IRFill
+                    {
+                        type = "solid",
+                        color = ColorUtil.ToHex(image.color),
+                        opacity = image.color.a
+                    });
+                }
             }
 
             return patch;
+        }
+
+        static void ApplyImagePatchFromComponents(UnityNodePatch patch, RawImage raw, Image image)
+        {
+            string unityAssetPath = null;
+            string fileName = null;
+
+            if (raw != null && raw.texture != null)
+            {
+                unityAssetPath = UnityEditor.AssetDatabase.GetAssetPath(raw.texture);
+                fileName = ArtAssetResolver.GetTextureFileName(raw.texture);
+                if (raw.color.a < 1f)
+                    patch.opacity *= raw.color.a;
+            }
+            else if (image != null && image.sprite != null)
+            {
+                unityAssetPath = UnityEditor.AssetDatabase.GetAssetPath(image.sprite);
+                fileName = ArtAssetResolver.GetSpriteFileName(image.sprite);
+                if (image.color.a < 1f)
+                    patch.opacity *= image.color.a;
+            }
+
+            if (string.IsNullOrEmpty(fileName))
+                return;
+
+            patch.imageFile = fileName;
+            patch.imageUnityAssetPath = unityAssetPath?.Replace('\\', '/');
+            patch.imageScaleMode = "FILL";
         }
 
         static float ResolveOpacity(GameObject go)

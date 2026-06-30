@@ -91,16 +91,20 @@ namespace FigmaUnity.UI.Editor.Figma
                         continue;
                     meta["imageFile"] = fill.imageFile;
                     meta["imageHash"] = fill.imageHash;
-                    if (!copiedAssets.TryGetValue(fill.imageFile, out var assetPath) && settings.CopyAssets)
+                    var assetPath = ArtAssetResolver.ResolveUnityAssetPath(
+                        fill.imageFile,
+                        settings.ArtAssetRoot,
+                        screenName,
+                        exportDir,
+                        settings.GeneratedRoot,
+                        settings.CopyAssets);
+                    if (!string.IsNullOrEmpty(assetPath))
+                        copiedAssets[fill.imageFile] = assetPath;
+                    else if (!settings.CopyAssets)
                     {
-                        assetPath = AssetResolver.CopyImage(exportDir, fill.imageFile, screenName, settings.GeneratedRoot);
-                        if (!string.IsNullOrEmpty(assetPath))
-                            copiedAssets[fill.imageFile] = assetPath;
-                    }
-                    else if (!settings.CopyAssets && string.IsNullOrEmpty(assetPath))
-                    {
-                        var sourcePath = System.IO.Path.Combine(exportDir, fill.imageFile);
-                        meta["sourceImagePath"] = sourcePath;
+                        var sourcePath = System.IO.Path.Combine(exportDir ?? string.Empty, fill.imageFile);
+                        if (System.IO.File.Exists(sourcePath))
+                            meta["sourceImagePath"] = sourcePath;
                     }
                     if (!string.IsNullOrEmpty(assetPath))
                         meta["assetPath"] = assetPath;

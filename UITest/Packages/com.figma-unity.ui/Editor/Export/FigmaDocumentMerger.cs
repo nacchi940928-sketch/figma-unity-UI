@@ -42,6 +42,8 @@ namespace FigmaUnity.UI.Editor.Export
             public int TotalElements;
             public int UnityNodeCount;
             public int AutoLayoutBrokenCount;
+            public int ImagesChangedCount;
+            public int ImagesExportedCount;
             public List<string> Warnings = new List<string>();
             public List<string> PrunedIrIds = new List<string>();
         }
@@ -155,6 +157,28 @@ namespace FigmaUnity.UI.Editor.Export
 
             if (patch.text != null)
                 ApplyTextPatch(node, patch, profile);
+
+            if (profile.SyncImageAssets && !string.IsNullOrEmpty(patch.imageFile))
+                ApplyImagePatch(node, patch);
+        }
+
+        static void ApplyImagePatch(FigmaNode node, UnityNodePatch patch)
+        {
+            node.fills ??= new List<FigmaFill>();
+            FigmaFill fill;
+            if (node.fills.Count > 0 && string.Equals(node.fills[0].type, "IMAGE", System.StringComparison.OrdinalIgnoreCase))
+                fill = node.fills[0];
+            else
+            {
+                fill = new FigmaFill();
+                node.fills.Insert(0, fill);
+            }
+
+            fill.type = "IMAGE";
+            fill.imageFile = patch.imageFile;
+            fill.imageHash = patch.imageHash;
+            fill.scaleMode = string.IsNullOrEmpty(patch.imageScaleMode) ? "FILL" : patch.imageScaleMode;
+            fill.opacity = patch.opacity > 0f ? patch.opacity : 1f;
         }
 
         static void ApplyTextPatch(FigmaNode node, UnityNodePatch patch, ExportProfile profile)

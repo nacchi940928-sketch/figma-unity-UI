@@ -186,6 +186,8 @@ namespace FigmaUnity.UI.Editor.Export
                         $"坐标/尺寸变更: {merge.LayoutChangedCount}\n" +
                         $"约束/对齐变更: {merge.ConstraintsChangedCount}\n" +
                         $"Auto Layout 改绝对定位: {merge.AutoLayoutBrokenCount}\n" +
+                        $"图片字段更新: {merge.ImagesChangedCount}\n" +
+                        $"图片文件导出: {merge.ImagesExportedCount}\n" +
                         $"Updated: {merge.UpdatedCount}\n" +
                         $"Warnings: {merge.Warnings.Count}";
 
@@ -214,7 +216,7 @@ namespace FigmaUnity.UI.Editor.Export
             EditorGUILayout.LabelField("导出配置", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
                 "与 Figma 插件「Import & sync」的勾选项对应。\n" +
-                "★ 日常推荐【默认】：同步位置/文案，不写回约束（锚点由程序在 Unity 管）。",
+                "★ 日常推荐【默认】：同步位置/文案/美术资源，不写回约束。",
                 MessageType.None);
 
             EditorGUILayout.BeginHorizontal();
@@ -233,6 +235,9 @@ namespace FigmaUnity.UI.Editor.Export
             _exportProfile.SyncTextAlignment = EditorGUILayout.ToggleLeft("文字对齐", _exportProfile.SyncTextAlignment);
             _exportProfile.SyncTypography = EditorGUILayout.ToggleLeft("字体样式（fontFamily / fontSize）", _exportProfile.SyncTypography);
             _exportProfile.SyncFills = EditorGUILayout.ToggleLeft("填充色（纯色）", _exportProfile.SyncFills);
+            _exportProfile.SyncImageAssets = EditorGUILayout.ToggleLeft(
+                "美术资源（imageFile + 导出 PNG 到输出目录）",
+                _exportProfile.SyncImageAssets);
             _exportProfile.SyncLayoutAdjustments = EditorGUILayout.ToggleLeft(
                 "自动布局转绝对定位（layoutAdjustments）",
                 _exportProfile.SyncLayoutAdjustments);

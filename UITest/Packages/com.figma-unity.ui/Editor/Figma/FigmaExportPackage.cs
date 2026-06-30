@@ -130,15 +130,24 @@ namespace FigmaUnity.UI.Editor.Figma
             return first;
         }
 
-        public static string[] FindMissingImageFiles(FigmaNode root, string dir)
+        public static string[] FindMissingImageFiles(
+            FigmaNode root,
+            string dir,
+            string artAssetRoot = null,
+            string screenName = null)
         {
             var missing = new System.Collections.Generic.List<string>();
             if (root == null) return missing.ToArray();
-            Walk(root, dir, missing);
+            Walk(root, dir, artAssetRoot, screenName, missing);
             return missing.ToArray();
         }
 
-        static void Walk(FigmaNode node, string dir, System.Collections.Generic.List<string> missing)
+        static void Walk(
+            FigmaNode node,
+            string dir,
+            string artAssetRoot,
+            string screenName,
+            System.Collections.Generic.List<string> missing)
         {
             if (node.fills != null)
             {
@@ -146,8 +155,7 @@ namespace FigmaUnity.UI.Editor.Figma
                 {
                     if (fill?.type == "IMAGE" && !string.IsNullOrEmpty(fill.imageFile))
                     {
-                        var path = Path.Combine(dir, fill.imageFile);
-                        if (!File.Exists(path))
+                        if (!IsImageResolvable(fill.imageFile, dir, artAssetRoot, screenName))
                             missing.Add(fill.imageFile);
                     }
                 }
@@ -155,7 +163,28 @@ namespace FigmaUnity.UI.Editor.Figma
 
             if (node.children == null) return;
             foreach (var child in node.children)
-                Walk(child, dir, missing);
+                Walk(child, dir, artAssetRoot, screenName, missing);
+        }
+
+        static bool IsImageResolvable(string imageFile, string exportDir, string artAssetRoot, string screenName)
+        {
+            if (!string.IsNullOrEmpty(ArtAssetResolver.ResolveUnityAssetPath(
+                    imageFile,
+                    artAssetRoot,
+                    screenName,
+                    exportDir,
+                    "Assets/UI/Generated",
+                    copyFromExportDir: false)))
+                return true;
+
+            if (!string.IsNullOrEmpty(exportDir))
+            {
+                var path = Path.Combine(exportDir, imageFile);
+                if (File.Exists(path))
+                    return true;
+            }
+
+            return false;
         }
     }
 }

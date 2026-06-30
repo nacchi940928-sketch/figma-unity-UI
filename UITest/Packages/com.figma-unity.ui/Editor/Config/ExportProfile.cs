@@ -17,6 +17,7 @@ namespace FigmaUnity.UI.Editor.Config
         public bool SyncTextAlignment = true;
         public bool SyncTypography = false;
         public bool SyncFills = false;
+        public bool SyncImageAssets = true;
         public bool SyncLayoutAdjustments = true;
         public bool PruneMissingNodes = true;
 
@@ -40,6 +41,7 @@ namespace FigmaUnity.UI.Editor.Config
                 SyncTextAlignment = SyncTextAlignment,
                 SyncTypography = SyncTypography,
                 SyncFills = SyncFills,
+                SyncImageAssets = SyncImageAssets,
                 SyncLayoutAdjustments = SyncLayoutAdjustments,
                 PruneMissingNodes = PruneMissingNodes
             };
@@ -56,6 +58,7 @@ namespace FigmaUnity.UI.Editor.Config
                 ["syncTextAlignment"] = SyncTextAlignment,
                 ["syncTypography"] = SyncTypography,
                 ["syncFills"] = SyncFills,
+                ["syncImageAssets"] = SyncImageAssets,
                 ["syncLayoutAdjustments"] = SyncLayoutAdjustments,
                 ["pruneMissingNodes"] = PruneMissingNodes
             };
