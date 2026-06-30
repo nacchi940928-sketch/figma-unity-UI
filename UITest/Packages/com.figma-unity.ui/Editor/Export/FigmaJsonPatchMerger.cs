@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FigmaUnity.UI.Editor.Config;
 using FigmaUnity.UI.Editor.Figma;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
