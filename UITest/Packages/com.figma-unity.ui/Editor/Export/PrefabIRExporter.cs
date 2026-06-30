@@ -223,6 +223,29 @@ namespace FigmaUnity.UI.Editor.Export
             if (string.IsNullOrEmpty(fileName))
                 return;
 
+            if (string.IsNullOrEmpty(fileName))
+                return;
+
+            if (ArtAssetResolver.IsProceduralRoundedAsset(fileName, unityAssetPath))
+            {
+                patch.imageFile = null;
+                patch.imageUnityAssetPath = null;
+                patch.type = "frame";
+                patch.fills.Clear();
+                var color = raw != null ? raw.color : image.color;
+                if (color.a > 0.01f)
+                {
+                    patch.fills.Add(new IRFill
+                    {
+                        type = "solid",
+                        color = ColorUtil.ToHex(color),
+                        opacity = color.a
+                    });
+                }
+
+                return;
+            }
+
             patch.imageFile = fileName;
             patch.imageUnityAssetPath = unityAssetPath?.Replace('\\', '/');
             patch.imageScaleMode = "FILL";

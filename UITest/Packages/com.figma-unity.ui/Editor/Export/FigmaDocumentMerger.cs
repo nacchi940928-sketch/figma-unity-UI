@@ -141,7 +141,9 @@ namespace FigmaUnity.UI.Editor.Export
                 node.constraints.vertical = patch.constraintVertical;
             }
 
-            if (profile.SyncFills && patch.fills != null && patch.fills.Count > 0)
+            if (profile.SyncFills && patch.fills != null && patch.fills.Count > 0
+                && string.IsNullOrEmpty(patch.imageFile)
+                && (NodeHadSolidFill(node) || IsProceduralSolidPatch(patch)))
             {
                 node.fills = new List<FigmaFill>();
                 foreach (var fill in patch.fills)
@@ -159,14 +161,50 @@ namespace FigmaUnity.UI.Editor.Export
                 ApplyTextPatch(node, patch, profile);
 
             if (profile.SyncImageAssets && !string.IsNullOrEmpty(patch.imageFile))
-                ApplyImagePatch(node, patch);
+            {
+                if (ArtAssetResolver.IsProceduralRoundedAsset(patch.imageFile, patch.imageUnityAssetPath))
+                    ApplyImagePatch(node, patch, solidOnly: true);
+                else
+                    ApplyImageFilePatch(node, patch);
+            }
+            else if (IsProceduralSolidPatch(patch))
+                ApplyImagePatch(node, patch, solidOnly: true);
         }
 
-        static void ApplyImagePatch(FigmaNode node, UnityNodePatch patch)
+        static bool IsProceduralSolidPatch(UnityNodePatch patch)
+        {
+            return patch.fills != null && patch.fills.Count > 0 && string.IsNullOrEmpty(patch.imageFile);
+        }
+
+        static void ApplyImagePatch(FigmaNode node, UnityNodePatch patch, bool solidOnly)
+        {
+            if (solidOnly)
+            {
+                if (patch.fills == null || patch.fills.Count == 0)
+                    return;
+
+                node.fills = new List<FigmaFill>();
+                foreach (var fill in patch.fills)
+                {
+                    node.fills.Add(new FigmaFill
+                    {
+                        type = "SOLID",
+                        color = fill.color,
+                        opacity = fill.opacity
+                    });
+                }
+
+                return;
+            }
+
+            ApplyImageFilePatch(node, patch);
+        }
+
+        static void ApplyImageFilePatch(FigmaNode node, UnityNodePatch patch)
         {
             node.fills ??= new List<FigmaFill>();
             FigmaFill fill;
-            if (node.fills.Count > 0 && string.Equals(node.fills[0].type, "IMAGE", System.StringComparison.OrdinalIgnoreCase))
+            if (node.fills.Count > 0 && string.Equals(node.fills[0].type, "IMAGE", StringComparison.OrdinalIgnoreCase))
                 fill = node.fills[0];
             else
             {
@@ -179,6 +217,20 @@ namespace FigmaUnity.UI.Editor.Export
             fill.imageHash = patch.imageHash;
             fill.scaleMode = string.IsNullOrEmpty(patch.imageScaleMode) ? "FILL" : patch.imageScaleMode;
             fill.opacity = patch.opacity > 0f ? patch.opacity : 1f;
+        }
+
+        static bool NodeHadSolidFill(FigmaNode node)
+        {
+            if (node.fills == null || node.fills.Count == 0)
+                return false;
+
+            foreach (var fill in node.fills)
+            {
+                if (fill != null && string.Equals(fill.type, "SOLID", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
         }
 
         static void ApplyTextPatch(FigmaNode node, UnityNodePatch patch, ExportProfile profile)

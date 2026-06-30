@@ -216,7 +216,8 @@ namespace FigmaUnity.UI.Editor.Export
             EditorGUILayout.LabelField("导出配置", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
                 "与 Figma 插件「Import & sync」的勾选项对应。\n" +
-                "★ 日常推荐【默认】：同步位置/文案/美术资源，不写回约束。",
+                "★ 日常推荐【默认】：同步位置/文案/美术资源；不勾填充色、不勾约束。\n" +
+                "Figma 大量节点 fills 为空（靠子图层/贴图表现），勾填充色容易整屏变色。",
                 MessageType.None);
 
             EditorGUILayout.BeginHorizontal();
@@ -234,7 +235,9 @@ namespace FigmaUnity.UI.Editor.Export
             _exportProfile.SyncTextContent = EditorGUILayout.ToggleLeft("文案内容", _exportProfile.SyncTextContent);
             _exportProfile.SyncTextAlignment = EditorGUILayout.ToggleLeft("文字对齐", _exportProfile.SyncTextAlignment);
             _exportProfile.SyncTypography = EditorGUILayout.ToggleLeft("字体样式（fontFamily / fontSize）", _exportProfile.SyncTypography);
-            _exportProfile.SyncFills = EditorGUILayout.ToggleLeft("填充色（纯色）", _exportProfile.SyncFills);
+            _exportProfile.SyncFills = EditorGUILayout.ToggleLeft(
+                "填充色（仅更新 Figma 原本有 SOLID 的节点，勿给空 fill 节点加色）",
+                _exportProfile.SyncFills);
             _exportProfile.SyncImageAssets = EditorGUILayout.ToggleLeft(
                 "美术资源（imageFile + 导出 PNG 到输出目录）",
                 _exportProfile.SyncImageAssets);

@@ -823,7 +823,7 @@
     "x": 48.0,
     "y": 24.0,
     "width": 204.0,
-    "height": 41.60231,
+    "height": 41.10064,
     "constraintHorizontal": "MIN",
     "constraintVertical": "MIN"
   },
@@ -848,9 +848,9 @@
   {
     "irId": "progress-track__6_113",
     "x": 48.0,
-    "y": 77.6022949,
+    "y": 77.10065,
     "width": 204.0,
-    "height": 29.7159348,
+    "height": 29.3575935,
     "constraintHorizontal": "MIN",
     "constraintVertical": "MIN"
   },
@@ -859,23 +859,23 @@
     "x": 0.0,
     "y": 0.0,
     "width": 204.0,
-    "height": 29.7159348,
+    "height": 29.3575935,
     "constraintHorizontal": "MIN",
     "constraintVertical": "MIN"
   },
   {
     "irId": "node__6_115",
     "x": 48.0,
-    "y": 119.318237,
+    "y": 118.458252,
     "width": 204.0,
-    "height": 36.68175,
+    "height": 37.5417671,
     "constraintHorizontal": "MIN",
     "constraintVertical": "MIN"
   },
   {
     "irId": "student-desk-area__6_116",
     "x": 0.0,
-    "y": 1508.0,
+    "y": 1217.0,
     "width": 1080.0,
     "height": 650.0,
     "constraintHorizontal": "CENTER",
@@ -884,7 +884,7 @@
   {
     "irId": "inspiration-bubble__6_121",
     "x": 46.0,
-    "y": 25.0,
+    "y": 445.0,
     "width": 154.0,
     "height": 180.0,
     "constraintHorizontal": "MIN",
@@ -895,7 +895,7 @@
     "x": 0.0,
     "y": 0.0,
     "width": 154.0,
-    "height": 125.395958,
+    "height": 125.101128,
     "constraintHorizontal": "MIN",
     "constraintVertical": "MIN"
   },
@@ -920,9 +920,9 @@
   {
     "irId": "node__6_124",
     "x": 0.0,
-    "y": 137.395966,
+    "y": 137.101135,
     "width": 154.0,
-    "height": 42.6040344,
+    "height": 42.8988838,
     "constraintHorizontal": "MIN",
     "constraintVertical": "MIN"
   },
@@ -938,7 +938,7 @@
   {
     "irId": "frame__6_118",
     "x": 358.0,
-    "y": -281.0,
+    "y": 679.0,
     "width": 363.0,
     "height": 70.0,
     "constraintHorizontal": "MIN",
@@ -974,7 +974,7 @@
   {
     "irId": "quick-actions__6_125",
     "x": 876.0,
-    "y": 1780.0,
+    "y": 264.0,
     "width": 175.0,
     "height": 345.0,
     "constraintHorizontal": "MAX",

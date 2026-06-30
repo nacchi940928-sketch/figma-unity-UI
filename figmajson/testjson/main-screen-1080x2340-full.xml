@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <design-export xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <metadata>
-    <exportedAt>2026-06-30T08:01:56.169Z</exportedAt>
+    <exportedAt>2026-06-30T08:58:58.992Z</exportedAt>
     <componentName>main-screen-1080x2340</componentName>
     <rootIrId>main-screen-1080x2340__6_4</rootIrId>
     <totalElements>146</totalElements>
     <rootNormalized>true</rootNormalized>
     <plugin>Full Design Exporter v3</plugin>
+    <artAssetConvention>
+      <lookup>filename</lookup>
+    </artAssetConvention>
   </metadata>
   <node>
     <id>6:4</id>
@@ -7818,7 +7821,7 @@
               <fill>
                 <type>IMAGE</type>
                 <imageHash>a9ed49ca090ea6f91f9d08301e8695eea7d03c58</imageHash>
-                <imageFile xsi:nil="true"/>
+                <imageFile>rectangle.png</imageFile>
                 <scaleMode>FILL</scaleMode>
                 <opacity>1</opacity>
                 <blendMode>NORMAL</blendMode>
@@ -9696,7 +9699,7 @@
                     <isMask>false</isMask>
                     <maskType>ALPHA</maskType>
                     <absoluteRenderBounds>
-                      <x>406.1000061035156</x>
+                      <x>406.10003662109375</x>
                       <y>1064.6651611328125</y>
                       <width>35</width>
                       <height>36.834228515625</height>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -97,6 +98,21 @@ namespace FigmaUnity.UI.Editor.Figma
             var destFull = Path.GetFullPath(Path.Combine(exportDir, imageFile));
             File.Copy(sourceFull, destFull, true);
             return true;
+        }
+
+        public static bool IsProceduralRoundedAsset(string imageFile, string unityAssetPath)
+        {
+            if (!string.IsNullOrEmpty(unityAssetPath))
+            {
+                var path = unityAssetPath.Replace('\\', '/');
+                if (path.Contains("/_roundedSprites/", System.StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            if (string.IsNullOrEmpty(imageFile))
+                return false;
+
+            return Regex.IsMatch(Path.GetFileName(imageFile), @"^rounded_\d+\.png$", RegexOptions.IgnoreCase);
         }
 
         public static string[] FindMissingFiles(string documentAssetDir, IEnumerable<string> imageFiles)

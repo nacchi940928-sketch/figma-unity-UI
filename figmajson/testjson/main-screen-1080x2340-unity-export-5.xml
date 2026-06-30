@@ -1,8 +1,11 @@
 ﻿<figma-export format="v1">
-  <metadata exportedAt="2026-06-30T09:01:32.7257249Z" componentName="main-screen-1080x2340" rootIrId="main-screen-1080x2340__6_4" totalElements="146" rootNormalized="true" plugin="Full Design Exporter v3" unityNodeCount="146" removedNodeCount="0" preserveTypography="true" sourceFormat="xml" outputFormat="xml" assetDir="E:/figma-unity-UI/figmajson/testjson" documentPath="E:/figma-unity-UI/figmajson/testjson/main-screen-1080x2340-unity-export.xml" xmlPath="E:/figma-unity-UI/figmajson/testjson/main-screen-1080x2340-unity-export.xml">
+  <metadata exportedAt="2026-06-30T09:16:32.7720962Z" componentName="main-screen-1080x2340" rootIrId="main-screen-1080x2340__6_4" totalElements="137" rootNormalized="true" plugin="Full Design Exporter v3" unityNodeCount="137" removedNodeCount="9" preserveTypography="true" sourceFormat="xml" outputFormat="xml" assetDir="E:/figma-unity-UI/figmajson/testjson" documentPath="E:/figma-unity-UI/figmajson/testjson/main-screen-1080x2340-unity-export-5.xml" xmlPath="E:/figma-unity-UI/figmajson/testjson/main-screen-1080x2340-unity-export-5.xml">
     <exportProfile syncTransform="true" syncVisibility="true" syncConstraints="false" syncTextContent="true" syncTextAlignment="true" syncTypography="false" syncFills="false" syncImageAssets="true" syncLayoutAdjustments="true" pruneMissingNodes="true" />
+    <prunedIrIds>
+      <item>card__6_91</item>
+    </prunedIrIds>
     <coordinateConvention version="1" jsonOrigin="parent-top-left" yAxis="down" figmaRootAnchor="top-left" unityRootAnchor="center" rootNormalized="true" note="JSON x/y are Figma semantics. Unity root uses center anchor; child coords are relative to parent top-left." />
-    <layoutAdjustments brokenAutoLayoutCount="19" note="Unity baked x/y no longer matches template Auto Layout; layoutMode set to NONE for these nodes.">
+    <layoutAdjustments brokenAutoLayoutCount="20" note="Unity baked x/y no longer matches template Auto Layout; layoutMode set to NONE for these nodes.">
       <brokenAutoLayoutIrIds>
         <item>top-status-bar__6_5</item>
         <item>frame__6_28</item>
@@ -13,6 +16,7 @@
         <item>frame__6_84</item>
         <item>frame__6_93</item>
         <item>frame__6_102</item>
+        <item>frame__6_81</item>
         <item>frame__6_110</item>
         <item>frame__6_122</item>
         <item>frame__6_126</item>
@@ -39,7 +43,7 @@
       <node id="6:5" irId="top-status-bar__6_5" name="top-status-bar" type="FRAME" visible="true" locked="false" x="40" y="77" rootX="40" rootY="77" width="1000" height="132" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="66" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
         <absoluteRenderBounds x="298" y="-1098" width="1048" height="180" />
         <fills>
-          <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_64.png" scaleMode="FILL" />
+          <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
         </fills>
         <strokes empty="true" />
         <dashPattern empty="true" />
@@ -241,7 +245,7 @@
           <node id="6:16" irId="status-chip__6_16" name="status-chip" type="FRAME" visible="true" locked="false" x="0" y="0" rootX="40" rootY="273" width="175" height="62" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="40" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" layoutPositioning="AUTO">
             <absoluteRenderBounds x="322" y="-890" width="175" height="62" />
             <fills>
-              <item type="IMAGE" color="#e2f5e0" opacity="1" blendMode="NORMAL" imageFile="rounded_40.png" scaleMode="FILL" />
+              <item type="SOLID" color="#e2f5e0" opacity="1" blendMode="NORMAL" />
             </fills>
             <strokes empty="true" />
             <dashPattern empty="true" />
@@ -277,7 +281,7 @@
           <node id="6:18" irId="status-chip__6_18" name="status-chip" type="FRAME" visible="true" locked="false" x="205" y="0" rootX="245" rootY="273" width="171" height="62" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="40" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" layoutPositioning="AUTO">
             <absoluteRenderBounds x="527" y="-890" width="171" height="62" />
             <fills>
-              <item type="IMAGE" color="#ffe8d0" opacity="1" blendMode="NORMAL" imageFile="rounded_40.png" scaleMode="FILL" />
+              <item type="SOLID" color="#ffe8d0" opacity="1" blendMode="NORMAL" />
             </fills>
             <strokes empty="true" />
             <dashPattern empty="true" />
@@ -310,7 +314,7 @@
               <node id="6:20" irId="frame__6_20" name="Frame" type="FRAME" visible="true" locked="false" x="87" y="25" rootX="332" rootY="298" width="60" height="12" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="6" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                 <absoluteRenderBounds x="614" y="-865" width="60" height="12" />
                 <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_6.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -320,7 +324,7 @@
                   <node id="6:21" irId="rectangle__6_21" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="0" y="0" rootX="332" rootY="298" width="40" height="12" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="6" layoutSizingHorizontal="FIXED" layoutSizingVertical="FILL" layoutPositioning="AUTO">
                     <absoluteRenderBounds x="614" y="-865" width="40" height="12" />
                     <fills>
-                      <item type="IMAGE" color="#ffb940" opacity="1" blendMode="NORMAL" imageFile="rounded_6.png" scaleMode="FILL" />
+                      <item type="SOLID" color="#ffb940" opacity="1" blendMode="NORMAL" />
                     </fills>
                     <strokes empty="true" />
                     <dashPattern empty="true" />
@@ -338,7 +342,7 @@
           <node id="6:22" irId="status-chip__6_22" name="status-chip" type="FRAME" visible="true" locked="false" x="406" y="0" rootX="446" rootY="273" width="184" height="62" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="40" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" layoutPositioning="AUTO">
             <absoluteRenderBounds x="728" y="-890" width="184" height="62" />
             <fills>
-              <item type="IMAGE" color="#e0ecff" opacity="1" blendMode="NORMAL" imageFile="rounded_40.png" scaleMode="FILL" />
+              <item type="SOLID" color="#e0ecff" opacity="1" blendMode="NORMAL" />
             </fills>
             <strokes empty="true" />
             <dashPattern empty="true" />
@@ -393,7 +397,7 @@
               <node id="6:26" irId="card__6_26" name="card-语文" type="FRAME" visible="true" locked="false" x="0" y="0" rootX="17" rootY="400" width="513" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE">
                 <absoluteRenderBounds x="275" y="-775" width="561" height="208" />
                 <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -532,7 +536,7 @@
               <node id="6:44" irId="card__6_44" name="card-英语" type="FRAME" visible="true" locked="false" x="533" y="0" rootX="550" rootY="400" width="513" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE">
                 <absoluteRenderBounds x="808" y="-775" width="561" height="208" />
                 <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -681,7 +685,7 @@
               <node id="6:54" irId="card__6_54" name="card-物理" type="FRAME" visible="true" locked="false" x="0" y="0" rootX="17" rootY="580" width="513" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE">
                 <absoluteRenderBounds x="275" y="-595" width="561" height="208" />
                 <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -820,7 +824,7 @@
               <node id="6:72" irId="card__6_72" name="card-生物" type="FRAME" visible="true" locked="false" x="533" y="0" rootX="550" rootY="580" width="513" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE">
                 <absoluteRenderBounds x="808" y="-595" width="561" height="208" />
                 <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -965,12 +969,12 @@
             <strokes empty="true" />
             <dashPattern empty="true" />
             <effects empty="true" />
-            <layout layoutMode="HORIZONTAL" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="0" paddingRight="0" paddingBottom="0" paddingLeft="0" itemSpacing="20" clipsContent="false" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
+            <layout layoutMode="NONE" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="0" paddingRight="0" paddingBottom="0" paddingLeft="0" itemSpacing="20" clipsContent="false" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
             <children>
-              <node id="6:82" irId="card__6_82" name="card-历史" type="FRAME" visible="true" locked="false" x="0" y="0" rootX="17" rootY="760" width="335.333343505859" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+              <node id="6:82" irId="card__6_82" name="card-历史" type="FRAME" visible="true" locked="false" x="0" y="0" rootX="17" rootY="760" width="513" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE">
                 <absoluteRenderBounds x="275" y="-415" width="383.333374023438" height="208" />
                 <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -981,7 +985,7 @@
                 </effects>
                 <layout layoutMode="VERTICAL" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="0" paddingRight="0" paddingBottom="0" paddingLeft="0" itemSpacing="0" clipsContent="true" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
                 <children>
-                  <node id="6:83" irId="rectangle__6_83" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="0" y="0" rootX="17" rootY="760" width="335.333343505859" height="14" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+                  <node id="6:83" irId="rectangle__6_83" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="0" y="0" rootX="17" rootY="760" width="513" height="14" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                     <absoluteRenderBounds x="299" y="-403" width="335.333343505859" height="14" />
                     <fills>
                       <item type="SOLID" color="#dd9a4f" opacity="1" blendMode="NORMAL" />
@@ -993,7 +997,7 @@
                     <children />
                     <constraints horizontal="MIN" vertical="MIN" />
                   </node>
-                  <node id="6:84" irId="frame__6_84" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="14" rootX="17" rootY="774" width="335.333343505859" height="146" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutPositioning="AUTO">
+                  <node id="6:84" irId="frame__6_84" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="14" rootX="17" rootY="774" width="513" height="146" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutPositioning="AUTO">
                     <absoluteRenderBounds x="299" y="-389" width="335.333343505859" height="146" />
                     <fills empty="true" />
                     <strokes empty="true" />
@@ -1001,7 +1005,7 @@
                     <effects empty="true" />
                     <layout layoutMode="NONE" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="20" paddingRight="20" paddingBottom="20" paddingLeft="20" itemSpacing="12" clipsContent="false" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
                     <children>
-                      <node id="6:85" irId="frame__6_85" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="60" rootX="17" rootY="834" width="1" height="52" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" layoutPositioning="ABSOLUTE">
+                      <node id="6:85" irId="frame__6_85" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="60" rootX="17" rootY="834" width="178.6667" height="52" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" layoutPositioning="ABSOLUTE">
                         <absoluteRenderBounds x="299" y="-331" width="1" height="54" />
                         <fills empty="true" />
                         <strokes empty="true" />
@@ -1009,7 +1013,7 @@
                         <effects empty="true" />
                         <layout layoutMode="VERTICAL" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="AUTO" counterAxisSizingMode="FIXED" paddingTop="0" paddingRight="0" paddingBottom="0" paddingLeft="0" itemSpacing="24" clipsContent="false" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
                         <children>
-                          <node id="6:86" irId="line__6_86" name="Line" type="LINE" visible="true" locked="false" x="0" y="0" rootX="17" rootY="834" width="1" height="2" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="2" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+                          <node id="6:86" irId="line__6_86" name="Line" type="LINE" visible="true" locked="false" x="0" y="0" rootX="17" rootY="834" width="178.6667" height="2" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="2" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                             <absoluteRenderBounds x="299" y="-331" width="1" height="2" />
                             <fills>
                               <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
@@ -1023,7 +1027,7 @@
                             <children />
                             <constraints horizontal="MIN" vertical="MIN" />
                           </node>
-                          <node id="6:87" irId="line__6_87" name="Line" type="LINE" visible="true" locked="false" x="0" y="26" rootX="17" rootY="860" width="1" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+                          <node id="6:87" irId="line__6_87" name="Line" type="LINE" visible="true" locked="false" x="0" y="26" rootX="17" rootY="860" width="178.6667" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                             <absoluteRenderBounds x="299" y="-304" width="1" height="1" />
                             <fills>
                               <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
@@ -1037,7 +1041,7 @@
                             <children />
                             <constraints horizontal="MIN" vertical="MIN" />
                           </node>
-                          <node id="6:88" irId="line__6_88" name="Line" type="LINE" visible="true" locked="false" x="0" y="51" rootX="17" rootY="885" width="1" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+                          <node id="6:88" irId="line__6_88" name="Line" type="LINE" visible="true" locked="false" x="0" y="51" rootX="17" rootY="885" width="178.6667" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                             <absoluteRenderBounds x="299" y="-279" width="1" height="1" />
                             <fills>
                               <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
@@ -1106,149 +1110,10 @@
                 </children>
                 <constraints horizontal="MIN" vertical="MIN" />
               </node>
-              <node id="6:91" irId="card__6_91" name="card-地理" type="FRAME" visible="true" locked="false" x="355.333343505859" y="0" rootX="372.3333" rootY="760" width="335.333312988281" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
-                <absoluteRenderBounds x="630.333374023438" y="-415" width="383.333312988281" height="208" />
-                <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
-                </fills>
-                <strokes empty="true" />
-                <dashPattern empty="true" />
-                <effects>
-                  <item type="DROP_SHADOW" visible="true" color="#3a445614" radius="24" spread="0" blendMode="NORMAL">
-                    <offset x="0" y="12" />
-                  </item>
-                </effects>
-                <layout layoutMode="VERTICAL" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="0" paddingRight="0" paddingBottom="0" paddingLeft="0" itemSpacing="0" clipsContent="true" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
-                <children>
-                  <node id="6:92" irId="rectangle__6_92" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="0" y="0" rootX="372.3333" rootY="760" width="335.333312988281" height="14" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
-                    <absoluteRenderBounds x="654.333374023438" y="-403" width="335.333312988281" height="14" />
-                    <fills>
-                      <item type="SOLID" color="#53ae7e" opacity="1" blendMode="NORMAL" />
-                    </fills>
-                    <strokes empty="true" />
-                    <dashPattern empty="true" />
-                    <effects empty="true" />
-                    <layout layoutMode="NONE" />
-                    <children />
-                    <constraints horizontal="MIN" vertical="MIN" />
-                  </node>
-                  <node id="6:93" irId="frame__6_93" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="14" rootX="372.3333" rootY="774" width="335.333312988281" height="146" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
-                    <absoluteRenderBounds x="654.333374023438" y="-389" width="335.333312988281" height="146" />
-                    <fills empty="true" />
-                    <strokes empty="true" />
-                    <dashPattern empty="true" />
-                    <effects empty="true" />
-                    <layout layoutMode="NONE" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="20" paddingRight="20" paddingBottom="20" paddingLeft="20" itemSpacing="12" clipsContent="false" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
-                    <children>
-                      <node id="6:94" irId="frame__6_94" name="Frame" type="FRAME" visible="true" locked="false" x="-0.3333740234375" y="60" rootX="372" rootY="834" width="330" height="17160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE">
-                        <absoluteRenderBounds x="654.333374023438" y="-331" width="329.666625976563" height="88" />
-                        <fills empty="true" />
-                        <strokes empty="true" />
-                        <dashPattern empty="true" />
-                        <effects empty="true" />
-                        <layout layoutMode="VERTICAL" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="0" paddingRight="0" paddingBottom="0" paddingLeft="0" itemSpacing="24" clipsContent="false" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
-                        <children>
-                          <node id="6:95" irId="line__6_95" name="Line" type="LINE" visible="true" locked="false" x="0" y="0" rootX="372" rootY="834" width="330" height="2" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="2" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
-                            <absoluteRenderBounds x="654.333374023438" y="-331" width="329.666625976563" height="2" />
-                            <fills>
-                              <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
-                            </fills>
-                            <strokes>
-                              <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
-                            </strokes>
-                            <dashPattern empty="true" />
-                            <effects empty="true" />
-                            <layout layoutMode="NONE" />
-                            <children />
-                            <constraints horizontal="MIN" vertical="MIN" />
-                          </node>
-                          <node id="6:96" irId="line__6_96" name="Line" type="LINE" visible="true" locked="false" x="0" y="26" rootX="372" rootY="860" width="330" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
-                            <absoluteRenderBounds x="654.333374023438" y="-304" width="329.666625976563" height="1" />
-                            <fills>
-                              <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
-                            </fills>
-                            <strokes>
-                              <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
-                            </strokes>
-                            <dashPattern empty="true" />
-                            <effects empty="true" />
-                            <layout layoutMode="NONE" />
-                            <children />
-                            <constraints horizontal="MIN" vertical="MIN" />
-                          </node>
-                          <node id="6:97" irId="line__6_97" name="Line" type="LINE" visible="true" locked="false" x="0" y="51" rootX="372" rootY="885" width="330" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
-                            <absoluteRenderBounds x="654.333374023438" y="-279" width="329.666625976563" height="1" />
-                            <fills>
-                              <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
-                            </fills>
-                            <strokes>
-                              <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
-                            </strokes>
-                            <dashPattern empty="true" />
-                            <effects empty="true" />
-                            <layout layoutMode="NONE" />
-                            <children />
-                            <constraints horizontal="MIN" vertical="MIN" />
-                          </node>
-                        </children>
-                        <constraints horizontal="STRETCH" vertical="MIN" />
-                      </node>
-                      <node id="6:98" irId="node__6_98" name="地理" type="TEXT" visible="true" locked="false" x="20" y="20" rootX="392.3333" rootY="794" width="295" height="43" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE" characters="地理" fontFamily="LeeFont???" fontStyle="Regular" fontSize="36" fontWeight="900" paragraphSpacing="0" paragraphIndent="0" textDecoration="NONE" textCase="ORIGINAL" textAutoResize="NONE" maxLines="" listSpacing="0" textAlignHorizontal="LEFT" textAlignVertical="TOP">
-                        <absoluteRenderBounds x="676.133361816406" y="-360.540008544922" width="53.9929809570313" height="33.4440002441406" />
-                        <fills>
-                          <item type="SOLID" color="#3a4456" opacity="1" blendMode="NORMAL" />
-                        </fills>
-                        <strokes empty="true" />
-                        <dashPattern empty="true" />
-                        <effects empty="true" />
-                        <layout layoutMode="NONE" />
-                        <children />
-                        <constraints horizontal="MIN" vertical="MIN" />
-                        <letterSpacing unit="PERCENT" value="0" />
-                        <lineHeight unit="AUTO" />
-                        <segments>
-                          <item text="地理" start="0" end="2" fontFamily="LeeFont???" fontStyle="Regular" fontSize="36" fontWeight="900" color="#3a4456" textDecoration="NONE" textCase="ORIGINAL" hyperlink="" indentation="0" listSpacing="0">
-                            <fills>
-                              <item type="SOLID" color="#3a4456" opacity="1" />
-                            </fills>
-                            <letterSpacing unit="PERCENT" value="0" />
-                            <lineHeight unit="AUTO" />
-                          </item>
-                        </segments>
-                      </node>
-                      <node id="6:99" irId="580__6_99" name="580" type="TEXT" visible="true" locked="false" x="20" y="75" rootX="392.3333" rootY="849" width="295" height="72" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE" characters="580" fontFamily="LeeFont???" fontStyle="Regular" fontSize="60" fontWeight="900" paragraphSpacing="0" paragraphIndent="0" textDecoration="NONE" textCase="ORIGINAL" textAutoResize="NONE" maxLines="" listSpacing="0" textAlignHorizontal="RIGHT" textAlignVertical="CENTER">
-                        <absoluteRenderBounds x="867.743530273438" y="-296.720001220703" width="98.6034545898438" height="52.1399993896484" />
-                        <fills>
-                          <item type="SOLID" color="#3a4456" opacity="1" blendMode="NORMAL" />
-                        </fills>
-                        <strokes empty="true" />
-                        <dashPattern empty="true" />
-                        <effects empty="true" />
-                        <layout layoutMode="NONE" />
-                        <children />
-                        <constraints horizontal="MIN" vertical="MIN" />
-                        <letterSpacing unit="PERCENT" value="0" />
-                        <lineHeight unit="AUTO" />
-                        <segments>
-                          <item text="580" start="0" end="3" fontFamily="LeeFont???" fontStyle="Regular" fontSize="60" fontWeight="900" color="#3a4456" textDecoration="NONE" textCase="ORIGINAL" hyperlink="" indentation="0" listSpacing="0">
-                            <fills>
-                              <item type="SOLID" color="#3a4456" opacity="1" />
-                            </fills>
-                            <letterSpacing unit="PERCENT" value="0" />
-                            <lineHeight unit="AUTO" />
-                          </item>
-                        </segments>
-                      </node>
-                    </children>
-                    <constraints horizontal="MIN" vertical="MIN" />
-                  </node>
-                </children>
-                <constraints horizontal="MIN" vertical="MIN" />
-              </node>
-              <node id="6:100" irId="card__6_100" name="card-政治" type="FRAME" visible="true" locked="false" x="710.666625976563" y="0" rootX="727.666625976563" rootY="760" width="335.333312988281" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+              <node id="6:100" irId="card__6_100" name="card-政治" type="FRAME" visible="true" locked="false" x="533" y="0" rootX="550" rootY="760" width="513" height="160" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE">
                 <absoluteRenderBounds x="985.666625976563" y="-415" width="383.333374023438" height="208" />
                 <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -1259,7 +1124,7 @@
                 </effects>
                 <layout layoutMode="VERTICAL" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="0" paddingRight="0" paddingBottom="0" paddingLeft="0" itemSpacing="0" clipsContent="true" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
                 <children>
-                  <node id="6:101" irId="rectangle__6_101" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="0" y="0" rootX="727.666625976563" rootY="760" width="335.333312988281" height="14" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+                  <node id="6:101" irId="rectangle__6_101" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="0" y="0" rootX="550" rootY="760" width="513" height="14" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                     <absoluteRenderBounds x="1009.66662597656" y="-403" width="335.333312988281" height="14" />
                     <fills>
                       <item type="SOLID" color="#e8678b" opacity="1" blendMode="NORMAL" />
@@ -1271,7 +1136,7 @@
                     <children />
                     <constraints horizontal="MIN" vertical="MIN" />
                   </node>
-                  <node id="6:102" irId="frame__6_102" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="14" rootX="727.666625976563" rootY="774" width="335.333312988281" height="146" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutPositioning="AUTO">
+                  <node id="6:102" irId="frame__6_102" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="14" rootX="550" rootY="774" width="513" height="146" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutPositioning="AUTO">
                     <absoluteRenderBounds x="1009.66662597656" y="-389" width="335.333312988281" height="146" />
                     <fills empty="true" />
                     <strokes empty="true" />
@@ -1279,7 +1144,7 @@
                     <effects empty="true" />
                     <layout layoutMode="NONE" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="FIXED" counterAxisSizingMode="FIXED" paddingTop="20" paddingRight="20" paddingBottom="20" paddingLeft="20" itemSpacing="12" clipsContent="false" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
                     <children>
-                      <node id="6:103" irId="frame__6_103" name="Frame" type="FRAME" visible="true" locked="false" x="0.3333740234375" y="60" rootX="728" rootY="834" width="330" height="52" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" layoutPositioning="ABSOLUTE">
+                      <node id="6:103" irId="frame__6_103" name="Frame" type="FRAME" visible="true" locked="false" x="0.3333740234375" y="60" rootX="550.3334" rootY="834" width="507.6667" height="52" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" layoutPositioning="ABSOLUTE">
                         <absoluteRenderBounds x="1010" y="-331" width="330" height="54" />
                         <fills empty="true" />
                         <strokes empty="true" />
@@ -1287,7 +1152,7 @@
                         <effects empty="true" />
                         <layout layoutMode="VERTICAL" primaryAxisAlignItems="MIN" counterAxisAlignItems="MIN" primaryAxisSizingMode="AUTO" counterAxisSizingMode="FIXED" paddingTop="0" paddingRight="0" paddingBottom="0" paddingLeft="0" itemSpacing="24" clipsContent="false" layoutWrap="NO_WRAP" strokesIncludedInLayout="false" />
                         <children>
-                          <node id="6:104" irId="line__6_104" name="Line" type="LINE" visible="true" locked="false" x="0" y="0" rootX="728" rootY="834" width="330" height="2" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="2" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+                          <node id="6:104" irId="line__6_104" name="Line" type="LINE" visible="true" locked="false" x="0" y="0" rootX="550.3334" rootY="834" width="507.6667" height="2" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="2" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                             <absoluteRenderBounds x="1010" y="-331" width="330" height="2" />
                             <fills>
                               <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
@@ -1301,7 +1166,7 @@
                             <children />
                             <constraints horizontal="MIN" vertical="MIN" />
                           </node>
-                          <node id="6:105" irId="line__6_105" name="Line" type="LINE" visible="true" locked="false" x="0" y="26" rootX="728" rootY="860" width="330" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+                          <node id="6:105" irId="line__6_105" name="Line" type="LINE" visible="true" locked="false" x="0" y="26" rootX="550.3334" rootY="860" width="507.6667" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                             <absoluteRenderBounds x="1010" y="-304" width="330" height="1" />
                             <fills>
                               <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
@@ -1315,7 +1180,7 @@
                             <children />
                             <constraints horizontal="MIN" vertical="MIN" />
                           </node>
-                          <node id="6:106" irId="line__6_106" name="Line" type="LINE" visible="true" locked="false" x="0" y="51" rootX="728" rootY="885" width="330" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
+                          <node id="6:106" irId="line__6_106" name="Line" type="LINE" visible="true" locked="false" x="0" y="51" rootX="550.3334" rootY="885" width="507.6667" height="1" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                             <absoluteRenderBounds x="1010" y="-279" width="330" height="1" />
                             <fills>
                               <item type="SOLID" color="#f1eee0" opacity="1" blendMode="NORMAL" />
@@ -1332,7 +1197,7 @@
                         </children>
                         <constraints horizontal="STRETCH" vertical="MIN" />
                       </node>
-                      <node id="6:107" irId="node__6_107" name="政治" type="TEXT" visible="true" locked="false" x="20" y="20" rootX="747.666625976563" rootY="794" width="295" height="43" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE" characters="政治" fontFamily="LeeFont???" fontStyle="Regular" fontSize="36" fontWeight="900" paragraphSpacing="0" paragraphIndent="0" textDecoration="NONE" textCase="ORIGINAL" textAutoResize="NONE" maxLines="" listSpacing="0" textAlignHorizontal="LEFT" textAlignVertical="TOP">
+                      <node id="6:107" irId="node__6_107" name="政治" type="TEXT" visible="true" locked="false" x="20" y="20" rootX="570" rootY="794" width="295" height="43" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE" characters="政治" fontFamily="LeeFont???" fontStyle="Regular" fontSize="36" fontWeight="900" paragraphSpacing="0" paragraphIndent="0" textDecoration="NONE" textCase="ORIGINAL" textAutoResize="NONE" maxLines="" listSpacing="0" textAlignHorizontal="LEFT" textAlignVertical="TOP">
                         <absoluteRenderBounds x="1031.46667480469" y="-360.503997802734" width="53.200927734375" height="33.4079895019531" />
                         <fills>
                           <item type="SOLID" color="#3a4456" opacity="1" blendMode="NORMAL" />
@@ -1355,7 +1220,7 @@
                           </item>
                         </segments>
                       </node>
-                      <node id="6:108" irId="610__6_108" name="610" type="TEXT" visible="true" locked="false" x="20" y="75" rootX="747.666625976563" rootY="849" width="295" height="72" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE" characters="610" fontFamily="LeeFont???" fontStyle="Regular" fontSize="60" fontWeight="900" paragraphSpacing="0" paragraphIndent="0" textDecoration="NONE" textCase="ORIGINAL" textAutoResize="NONE" maxLines="" listSpacing="0" textAlignHorizontal="RIGHT" textAlignVertical="CENTER">
+                      <node id="6:108" irId="610__6_108" name="610" type="TEXT" visible="true" locked="false" x="20" y="75" rootX="570" rootY="849" width="295" height="72" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="" strokeRightWeight="" strokeBottomWeight="" strokeLeftWeight="" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE" characters="610" fontFamily="LeeFont???" fontStyle="Regular" fontSize="60" fontWeight="900" paragraphSpacing="0" paragraphIndent="0" textDecoration="NONE" textCase="ORIGINAL" textAutoResize="NONE" maxLines="" listSpacing="0" textAlignHorizontal="RIGHT" textAlignVertical="CENTER">
                         <absoluteRenderBounds x="1232.56896972656" y="-298.100006103516" width="89.1112060546875" height="53.9400024414063" />
                         <fills>
                           <item type="SOLID" color="#3a4456" opacity="1" blendMode="NORMAL" />
@@ -1393,7 +1258,7 @@
       <node id="6:109" irId="inspiration-progress-card__6_109" name="inspiration-progress-card" type="FRAME" visible="true" locked="false" x="21.072509765625" y="999" rootX="21.072509765625" rootY="999" width="300" height="180" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="40" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
         <absoluteRenderBounds x="279.072509765625" y="-176" width="348" height="228" />
         <fills>
-          <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_40.png" scaleMode="FILL" />
+          <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
         </fills>
         <strokes empty="true" />
         <dashPattern empty="true" />
@@ -1464,7 +1329,7 @@
           <node id="6:113" irId="progress-track__6_113" name="progress-track" type="FRAME" visible="true" locked="false" x="48" y="77.10065" rootX="69.072509765625" rootY="1076.101" width="204" height="29.35759" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="20" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
             <absoluteRenderBounds x="351.072509765625" y="-86.3977127075195" width="204" height="29.7159309387207" />
             <fills>
-              <item type="IMAGE" color="#f5f1e0" opacity="1" blendMode="NORMAL" imageFile="rounded_20.png" scaleMode="FILL" />
+              <item type="SOLID" color="#f5f1e0" opacity="1" blendMode="NORMAL" />
             </fills>
             <strokes empty="true" />
             <dashPattern empty="true" />
@@ -1474,7 +1339,7 @@
               <node id="6:114" irId="rectangle__6_114" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="0" y="0" rootX="69.072509765625" rootY="1076.101" width="204" height="29.35759" rotation="0" opacity="0" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="20" layoutSizingHorizontal="FIXED" layoutSizingVertical="FILL" layoutPositioning="AUTO">
                 <absoluteRenderBounds x="351.072509765625" y="-86.3977127075195" width="204" height="29.7159309387207" />
                 <fills>
-                  <item type="IMAGE" opacity="1" blendMode="NORMAL" imageFile="rounded_20.png" scaleMode="FILL">
+                  <item type="GRADIENT_LINEAR" opacity="1" blendMode="NORMAL">
                     <transform a="1" b="0" tx="0" c="0" d="1" ty="0" />
                     <stops>
                       <stop position="1" color="#ffb940" />
@@ -1536,7 +1401,7 @@
               <node id="6:122" irId="frame__6_122" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="0" rootX="46" rootY="1662" width="154" height="125.1011" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="77" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                 <absoluteRenderBounds x="288" y="459" width="234" height="205.39599609375" />
                 <fills>
-                  <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_64.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -1604,7 +1469,7 @@
           <node id="6:117" irId="rectangle__6_117" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="240" y="25" rootX="240" rootY="1242" width="600" height="600" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="0" strokeAlign="OUTSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="0" strokeRightWeight="0" strokeBottomWeight="0" strokeLeftWeight="0" cornerRadius="0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
             <absoluteRenderBounds x="522" y="79" width="600" height="600" />
             <fills>
-              <item type="IMAGE" imageFile="Gemini_Generated_Image_kb75zzkb75zzkb75.png" scaleMode="FILL" opacity="1" blendMode="NORMAL" />
+              <item type="IMAGE" imageFile="Rectangle.png" scaleMode="FILL" opacity="1" blendMode="NORMAL" />
             </fills>
             <strokes empty="true" />
             <dashPattern empty="true" />
@@ -1616,7 +1481,7 @@
           <node id="6:118" irId="frame__6_118" name="Frame" type="FRAME" visible="true" locked="false" x="358" y="679" rootX="358" rootY="1896" width="363" height="70" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="30" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" layoutPositioning="AUTO">
             <absoluteRenderBounds x="616" y="721" width="411" height="118" />
             <fills>
-              <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_30.png" scaleMode="FILL" />
+              <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
             </fills>
             <strokes empty="true" />
             <dashPattern empty="true" />
@@ -1689,7 +1554,7 @@
               <node id="6:126" irId="frame__6_126" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="0" rootX="876" rootY="1481" width="175" height="99" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                 <absoluteRenderBounds x="1134" y="306" width="223" height="147" />
                 <fills>
-                  <item type="IMAGE" color="#e0ecff" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#e0ecff" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -1754,7 +1619,7 @@
               <node id="6:129" irId="frame__6_129" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="123" rootX="876" rootY="1604" width="175" height="99" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                 <absoluteRenderBounds x="1134" y="429" width="223" height="147" />
                 <fills>
-                  <item type="IMAGE" color="#ffe8d0" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffe8d0" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -1819,7 +1684,7 @@
               <node id="6:132" irId="frame__6_132" name="Frame" type="FRAME" visible="true" locked="false" x="0" y="246" rootX="876" rootY="1727" width="175" height="99" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="24" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
                 <absoluteRenderBounds x="1134" y="552" width="223" height="147" />
                 <fills>
-                  <item type="IMAGE" color="#fff8d0" opacity="1" blendMode="NORMAL" imageFile="rounded_24.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#fff8d0" opacity="1" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />
@@ -1890,7 +1755,7 @@
       <node id="6:135" irId="score-broadcast__6_135" name="score-broadcast" type="FRAME" visible="true" locked="false" x="357" y="1007" rootX="357" rootY="1007" width="700" height="172" rotation="0" opacity="0.9019608" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="40" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
         <absoluteRenderBounds x="615" y="-168" width="748" height="220" />
         <fills>
-          <item type="IMAGE" color="#ffffff" opacity="0.901960790157318" blendMode="NORMAL" imageFile="rounded_40.png" scaleMode="FILL" />
+          <item type="SOLID" color="#ffffff" opacity="0.9019608" blendMode="NORMAL" />
         </fills>
         <strokes empty="true" />
         <dashPattern empty="true" />
@@ -1953,7 +1818,7 @@
       <node id="6:138" irId="bottom-nav__6_138" name="bottom-nav" type="FRAME" visible="true" locked="false" x="18" y="2202" rootX="18" rootY="2202" width="1044" height="138" rotation="0" opacity="1" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="69" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="AUTO">
         <absoluteRenderBounds x="276" y="1027" width="1092" height="186" />
         <fills>
-          <item type="IMAGE" color="#ffffff" opacity="1" blendMode="NORMAL" imageFile="rounded_64.png" scaleMode="FILL" />
+          <item type="SOLID" color="#ffffff" opacity="1" blendMode="NORMAL" />
         </fills>
         <strokes empty="true" />
         <dashPattern empty="true" />
@@ -1967,7 +1832,7 @@
           <node id="6:139" irId="tab__6_139" name="tab-主页" type="FRAME" visible="true" locked="false" x="24" y="0" rootX="42" rootY="2202" width="199.2" height="138" rotation="0" opacity="0.2" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="32" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutPositioning="AUTO">
             <absoluteRenderBounds x="324" y="1039" width="199.200012207031" height="138" />
             <fills>
-              <item type="IMAGE" color="#ffd75b" opacity="0.200000002980232" blendMode="NORMAL" imageFile="rounded_32.png" scaleMode="FILL" />
+              <item type="SOLID" color="#ffd75b" opacity="0.2" blendMode="NORMAL" />
             </fills>
             <strokes empty="true" />
             <dashPattern empty="true" />
@@ -2025,7 +1890,7 @@
               <node id="6:142" irId="rectangle__6_142" name="Rectangle" type="RECTANGLE" visible="true" locked="false" x="0" y="34" rootX="42" rootY="2236" width="120" height="70" rotation="0" opacity="0.008" blendMode="PASS_THROUGH" isMask="false" maskType="ALPHA" strokeWeight="1" strokeAlign="INSIDE" strokeCap="NONE" strokeJoin="MITER" strokeMiterLimit="4" strokeTopWeight="1" strokeRightWeight="1" strokeBottomWeight="1" strokeLeftWeight="1" cornerRadius="35" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutPositioning="ABSOLUTE">
                 <absoluteRenderBounds x="324" y="1073" width="120" height="70" />
                 <fills>
-                  <item type="IMAGE" color="#ffd75b" opacity="0.008" blendMode="NORMAL" imageFile="rounded_35.png" scaleMode="FILL" />
+                  <item type="SOLID" color="#ffd75b" opacity="0.04" blendMode="NORMAL" />
                 </fills>
                 <strokes empty="true" />
                 <dashPattern empty="true" />

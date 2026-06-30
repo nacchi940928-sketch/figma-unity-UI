@@ -366,7 +366,9 @@ namespace FigmaUnity.UI.Editor.Export
                 };
             }
 
-            if (profile.SyncFills && patch.fills != null && patch.fills.Count > 0)
+            if (profile.SyncFills && patch.fills != null && patch.fills.Count > 0
+                && string.IsNullOrEmpty(patch.imageFile)
+                && (TemplateHadSolidFill(node) || IsProceduralSolidPatch(patch)))
             {
                 var fills = new JArray();
                 foreach (var fill in patch.fills)
@@ -385,9 +387,44 @@ namespace FigmaUnity.UI.Editor.Export
 
             if (options.ExportProfile.SyncImageAssets && !string.IsNullOrEmpty(patch.imageFile))
             {
-                if (ApplyImageFillToNode(node, patch))
+                if (ArtAssetResolver.IsProceduralRoundedAsset(patch.imageFile, patch.imageUnityAssetPath))
+                {
+                    ApplyProceduralSolidFallback(node, patch);
+                }
+                else if (ApplyImageFillToNode(node, patch))
+                {
                     result.ImagesChangedCount++;
+                }
             }
+            else if (IsProceduralSolidPatch(patch))
+            {
+                ApplyProceduralSolidFallback(node, patch);
+            }
+        }
+
+        static bool IsProceduralSolidPatch(UnityNodePatch patch)
+        {
+            return patch.fills != null && patch.fills.Count > 0 && string.IsNullOrEmpty(patch.imageFile);
+        }
+
+        static void ApplyProceduralSolidFallback(JObject node, UnityNodePatch patch)
+        {
+            if (patch.fills == null || patch.fills.Count == 0)
+                return;
+
+            var fills = new JArray();
+            foreach (var fill in patch.fills)
+            {
+                fills.Add(new JObject
+                {
+                    ["type"] = "SOLID",
+                    ["color"] = fill.color,
+                    ["opacity"] = fill.opacity,
+                    ["blendMode"] = "NORMAL"
+                });
+            }
+
+            node["fills"] = fills;
         }
 
         static bool ApplyImageFillToNode(JObject node, UnityNodePatch patch)
@@ -418,6 +455,25 @@ namespace FigmaUnity.UI.Editor.Export
                 || string.IsNullOrEmpty(previousFile);
         }
 
+        static bool TemplateHadSolidFill(JObject node)
+        {
+            if (node["fills"] is not JArray fills || fills.Count == 0)
+                return false;
+
+            foreach (var token in fills)
+            {
+                if (token is not JObject fill)
+                    continue;
+                var type = fill.Value<string>("type");
+                if (string.IsNullOrEmpty(type))
+                    continue;
+                if (string.Equals(type, "SOLID", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+
+            return false;
+        }
+
         static int ExportImageAssets(
             string exportDir,
             Dictionary<string, UnityNodePatch> patches,
@@ -432,6 +488,8 @@ namespace FigmaUnity.UI.Editor.Export
             foreach (var patch in patches.Values)
             {
                 if (string.IsNullOrEmpty(patch.imageFile) || string.IsNullOrEmpty(patch.imageUnityAssetPath))
+                    continue;
+                if (ArtAssetResolver.IsProceduralRoundedAsset(patch.imageFile, patch.imageUnityAssetPath))
                     continue;
                 if (!copied.Add(patch.imageFile))
                     continue;
