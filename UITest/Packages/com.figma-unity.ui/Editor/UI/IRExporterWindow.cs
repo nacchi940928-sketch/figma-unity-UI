@@ -20,10 +20,10 @@ namespace FigmaUnity.UI.Editor.Export
         [SerializeField] FigmaDocumentFormat _outputFormat = FigmaDocumentFormat.Xml;
         [SerializeField] bool _alsoWriteJson;
 
-        [MenuItem("Tools/Figma UI Exporter")]
+        [MenuItem("Tools/Figma UI 导出 (Exporter)")]
         public static void Open()
         {
-            GetWindow<IRExporterWindow>("Figma UI Exporter");
+            GetWindow<IRExporterWindow>("Figma UI 导出");
         }
 
         void OnEnable()
@@ -42,25 +42,25 @@ namespace FigmaUnity.UI.Editor.Export
 
         void OnGUI()
         {
-            EditorGUILayout.LabelField("Unity → Figma Export", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Unity → Figma 导出", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
-                "从 Prefab 的 RectTransform 反向写回 Figma x/y（ConstraintTranslator 的逆运算）。\n" +
+                "把 Unity Prefab 的改动写回 Figma 用的 XML/JSON。\n" +
                 "改完 Prefab 务必 Ctrl+S 保存；在 Prefab 编辑模式导出最准确。\n" +
-                "默认输出 *-unity-export.xml 供 Figma Tool 2 同步；可选同时写 JSON。",
+                "默认输出 *-unity-export.xml，供 Figma 插件「Import & sync」使用。",
                 MessageType.Info);
 
             EditorGUILayout.HelpBox(
-                "Source Export Dir 需含 Figma 导出的 *-full.xml（优先）或 *-full.json。\n" +
-                "坐标约定：XML/JSON x/y = Figma 左上角原点、Y 向下；Unity 根节点 center 锚点 (0,0)。",
+                "源目录需含 Figma 导出的 *-full.xml（优先）或 *-full.json 作为模板。\n" +
+                "坐标约定：x/y 为 Figma 左上角原点、Y 向下；Unity 根节点为屏幕中心锚点。",
                 MessageType.None);
 
             _prefab = (GameObject)EditorGUILayout.ObjectField("Prefab", _prefab, typeof(GameObject), false);
 
             EditorGUILayout.BeginHorizontal();
-            _sourceExportDir = EditorGUILayout.TextField("Source Export Dir", _sourceExportDir);
-            if (GUILayout.Button("Browse", GUILayout.Width(70)))
+            _sourceExportDir = EditorGUILayout.TextField("Figma 源目录", _sourceExportDir);
+            if (GUILayout.Button("浏览", GUILayout.Width(70)))
             {
-                var picked = EditorUtility.OpenFolderPanel("Select Source Figma Export Folder", _sourceExportDir, "");
+                var picked = EditorUtility.OpenFolderPanel("选择 Figma 导出目录", _sourceExportDir, "");
                 if (!string.IsNullOrEmpty(picked))
                 {
                     _sourceExportDir = picked;
@@ -69,18 +69,18 @@ namespace FigmaUnity.UI.Editor.Export
             }
             EditorGUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Use Sample Export"))
+            if (GUILayout.Button("使用样例导出目录"))
             {
                 _sourceExportDir = TryGetDefaultSourceExportDir();
                 UpdateOutputPath();
             }
 
-            _sourceFormat = (FigmaDocumentFormat)EditorGUILayout.EnumPopup("Source Format", _sourceFormat);
-            _outputFormat = (FigmaDocumentFormat)EditorGUILayout.EnumPopup("Output Format", _outputFormat);
+            _sourceFormat = (FigmaDocumentFormat)EditorGUILayout.EnumPopup("源文件格式", _sourceFormat);
+            _outputFormat = (FigmaDocumentFormat)EditorGUILayout.EnumPopup("输出格式", _outputFormat);
             if (_outputFormat != FigmaDocumentFormat.Auto)
-                _alsoWriteJson = EditorGUILayout.ToggleLeft("Also write alternate format (JSON ↔ XML)", _alsoWriteJson);
+                _alsoWriteJson = EditorGUILayout.ToggleLeft("同时输出另一种格式（JSON ↔ XML）", _alsoWriteJson);
 
-            _outputPath = EditorGUILayout.TextField("Output File", _outputPath);
+            _outputPath = EditorGUILayout.TextField("输出文件", _outputPath);
 
             EditorGUILayout.Space();
             DrawExportProfileSection();
@@ -89,7 +89,7 @@ namespace FigmaUnity.UI.Editor.Export
             EditorGUILayout.HelpBox(_statusMessage, MessageType.None);
 
             GUI.enabled = _prefab != null && !string.IsNullOrWhiteSpace(_sourceExportDir);
-            if (GUILayout.Button("Export to Figma", GUILayout.Height(32)))
+            if (GUILayout.Button("导出到 Figma", GUILayout.Height(32)))
                 RunExport();
             GUI.enabled = true;
         }
@@ -198,44 +198,46 @@ namespace FigmaUnity.UI.Editor.Export
                     foreach (var warning in merge.Warnings)
                         Debug.LogWarning("[Figma UI Exporter] " + warning);
 
-                    EditorUtility.DisplayDialog("Figma UI Export", _statusMessage, "OK");
+                    EditorUtility.DisplayDialog("Figma 导出完成", _statusMessage, "确定");
                 }
             }
             catch (System.Exception ex)
             {
                 _statusMessage = "Export 失败：\n" + ex.Message;
                 Debug.LogException(ex);
-                EditorUtility.DisplayDialog("Figma UI Export Failed", ex.Message, "OK");
+                EditorUtility.DisplayDialog("Figma 导出失败", ex.Message, "确定");
             }
         }
 
         void DrawExportProfileSection()
         {
-            EditorGUILayout.LabelField("Export Profile", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("导出配置", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
-                "与 Figma Tool 2（Unity XML/JSON importer）同步选项对应。\n" +
-                "输出完整文档树；仅勾选的分组会从 Prefab 写回。",
+                "与 Figma 插件「Import & sync」的勾选项对应。\n" +
+                "★ 日常推荐【默认】：同步位置/文案，不写回约束（锚点由程序在 Unity 管）。",
                 MessageType.None);
 
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Default"))
+            if (GUILayout.Button("默认\n(推荐)"))
                 _exportProfile = ExportProfile.DefaultUnityToFigma();
-            if (GUILayout.Button("Layout + Text"))
+            if (GUILayout.Button("仅布局+文案"))
                 _exportProfile = ExportProfile.LayoutAndTextOnly();
             EditorGUILayout.EndHorizontal();
 
-            _exportProfile.SyncTransform = EditorGUILayout.ToggleLeft("Position / size / rotation", _exportProfile.SyncTransform);
-            _exportProfile.SyncVisibility = EditorGUILayout.ToggleLeft("Visibility / opacity", _exportProfile.SyncVisibility);
-            _exportProfile.SyncConstraints = EditorGUILayout.ToggleLeft("Constraints", _exportProfile.SyncConstraints);
-            _exportProfile.SyncTextContent = EditorGUILayout.ToggleLeft("Text content (characters)", _exportProfile.SyncTextContent);
-            _exportProfile.SyncTextAlignment = EditorGUILayout.ToggleLeft("Text alignment", _exportProfile.SyncTextAlignment);
-            _exportProfile.SyncTypography = EditorGUILayout.ToggleLeft("Typography (fontFamily / fontSize)", _exportProfile.SyncTypography);
-            _exportProfile.SyncFills = EditorGUILayout.ToggleLeft("Fills (solid colors)", _exportProfile.SyncFills);
+            _exportProfile.SyncTransform = EditorGUILayout.ToggleLeft("位置 / 尺寸 / 旋转", _exportProfile.SyncTransform);
+            _exportProfile.SyncVisibility = EditorGUILayout.ToggleLeft("可见性 / 透明度", _exportProfile.SyncVisibility);
+            _exportProfile.SyncConstraints = EditorGUILayout.ToggleLeft(
+                "约束（一般关闭，锚点由程序在 Unity 设置）",
+                _exportProfile.SyncConstraints);
+            _exportProfile.SyncTextContent = EditorGUILayout.ToggleLeft("文案内容", _exportProfile.SyncTextContent);
+            _exportProfile.SyncTextAlignment = EditorGUILayout.ToggleLeft("文字对齐", _exportProfile.SyncTextAlignment);
+            _exportProfile.SyncTypography = EditorGUILayout.ToggleLeft("字体样式（fontFamily / fontSize）", _exportProfile.SyncTypography);
+            _exportProfile.SyncFills = EditorGUILayout.ToggleLeft("填充色（纯色）", _exportProfile.SyncFills);
             _exportProfile.SyncLayoutAdjustments = EditorGUILayout.ToggleLeft(
-                "Auto Layout → absolute (layoutAdjustments)",
+                "自动布局转绝对定位（layoutAdjustments）",
                 _exportProfile.SyncLayoutAdjustments);
             _exportProfile.PruneMissingNodes = EditorGUILayout.ToggleLeft(
-                "Remove nodes deleted from Prefab",
+                "移除 Prefab 中已删除的节点",
                 _exportProfile.PruneMissingNodes);
         }
 

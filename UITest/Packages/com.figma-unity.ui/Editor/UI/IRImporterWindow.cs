@@ -20,12 +20,12 @@ namespace FigmaUnity.UI.Editor.UI
         [SerializeField] TMP_FontAsset _defaultFont;
         [SerializeField] TMP_FontAsset _boldFont;
         [SerializeField] FontMappingAsset _fontMapping;
-        [SerializeField] ImportProfile _importProfile = ImportProfile.Full();
+        [SerializeField] ImportProfile _importProfile = ImportProfile.VisualMerge();
 
-        [MenuItem("Tools/Figma UI Importer")]
+        [MenuItem("Tools/Figma UI 导入 (Importer)")]
         public static void Open()
         {
-            GetWindow<IRImporterWindow>("Figma UI Importer");
+            GetWindow<IRImporterWindow>("Figma UI 导入");
         }
 
         void OnEnable()
@@ -37,66 +37,66 @@ namespace FigmaUnity.UI.Editor.UI
             if (_fontMapping == null)
                 _fontMapping = FontInstaller.TryGetInstalledMapping();
             if (_importProfile == null)
-                _importProfile = ImportProfile.Full();
+                _importProfile = ImportProfile.VisualMerge();
         }
 
         void OnGUI()
         {
-            EditorGUILayout.LabelField("Figma Import", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Figma 导入", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
-                "直接选择 Figma 导出的 *-full.xml 或 *-full.json。\n" +
+                "选择 Figma 导出的 *-full.xml 或 *-full.json。\n" +
                 "同目录下的 PNG 等资源会一并用于图片节点。",
                 MessageType.Info);
 
             EditorGUILayout.BeginHorizontal();
-            _documentPath = EditorGUILayout.TextField("Source File", _documentPath);
-            if (GUILayout.Button("Browse", GUILayout.Width(70)))
+            _documentPath = EditorGUILayout.TextField("源文件", _documentPath);
+            if (GUILayout.Button("浏览", GUILayout.Width(70)))
                 BrowseSourceFile();
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Use Sample XML"))
+            if (GUILayout.Button("使用样例 XML"))
                 PickSampleDocument(preferXml: true);
-            if (GUILayout.Button("Use Sample JSON"))
+            if (GUILayout.Button("使用样例 JSON"))
                 PickSampleDocument(preferXml: false);
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            _prefabPath = EditorGUILayout.TextField("Prefab Output", _prefabPath);
+            _prefabPath = EditorGUILayout.TextField("Prefab 输出", _prefabPath);
             if (GUILayout.Button("...", GUILayout.Width(28)))
                 BrowsePrefabOutput();
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Font Settings", EditorStyles.boldLabel);
-            _defaultFont = (TMP_FontAsset)EditorGUILayout.ObjectField("Default Font", _defaultFont, typeof(TMP_FontAsset), false);
-            _boldFont = (TMP_FontAsset)EditorGUILayout.ObjectField("Bold Font (optional)", _boldFont, typeof(TMP_FontAsset), false);
-            _fontMapping = (FontMappingAsset)EditorGUILayout.ObjectField("Font Mapping (optional)", _fontMapping, typeof(FontMappingAsset), false);
+            EditorGUILayout.LabelField("字体设置", EditorStyles.boldLabel);
+            _defaultFont = (TMP_FontAsset)EditorGUILayout.ObjectField("默认字体", _defaultFont, typeof(TMP_FontAsset), false);
+            _boldFont = (TMP_FontAsset)EditorGUILayout.ObjectField("粗体字体（可选）", _boldFont, typeof(TMP_FontAsset), false);
+            _fontMapping = (FontMappingAsset)EditorGUILayout.ObjectField("字体映射（可选）", _fontMapping, typeof(FontMappingAsset), false);
             if (_defaultFont == null)
-                EditorGUILayout.HelpBox("请选择 Default Font，或先执行 Tools > Figma UI > Install Fonts from Assets/font。Figma 导出多为 Inter，含中文请使用支持 CJK 的 TMP Font Asset。", MessageType.Warning);
-            if (GUILayout.Button("Install Fonts from Assets/font"))
+                EditorGUILayout.HelpBox("请选择默认字体，或先执行 Tools > Figma UI > Install Fonts from Assets/font。Figma 导出多为 Inter，含中文请使用支持 CJK 的 TMP 字体。", MessageType.Warning);
+            if (GUILayout.Button("从 Assets/font 安装字体"))
                 FontInstaller.InstallFromMenu();
 
             EditorGUILayout.Space();
             DrawImportProfileSection();
 
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Preview", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("预览", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(_previewMessage, _previewMessageType);
 
             EditorGUILayout.Space();
-            if (GUILayout.Button("Validate"))
+            if (GUILayout.Button("校验"))
                 RunPreview();
 
             var canImport = FigmaExportPackage.IsSupportedDocumentPath(_documentPath)
                 && !string.IsNullOrWhiteSpace(_prefabPath);
             GUI.enabled = canImport;
-            if (GUILayout.Button("Import", GUILayout.Height(32)))
+            if (GUILayout.Button("导入到 Prefab", GUILayout.Height(32)))
                 RunImport();
             GUI.enabled = true;
 
             if (!canImport)
-                EditorGUILayout.HelpBox("Import 需要有效的 Source File 与 Prefab Output。", MessageType.None);
+                EditorGUILayout.HelpBox("导入需要有效的源文件与 Prefab 输出路径。", MessageType.None);
         }
 
         void BrowseSourceFile()
@@ -263,7 +263,10 @@ namespace FigmaUnity.UI.Editor.UI
                         SetPreview(
                             $"Merge 完成 → {_prefabPath}\n" +
                             $"更新: {mergeResult.UpdatedCount}  新建: {mergeResult.CreatedCount}  " +
-                            $"删除: {mergeResult.RemovedCount}  保留 Unity 子节点: {mergeResult.PreservedUnityChildCount}",
+                            $"删除: {mergeResult.RemovedCount}  保留 Unity 子节点: {mergeResult.PreservedUnityChildCount}" +
+                            (report.MergePreservedAnchorsCount > 0
+                                ? $"  保留锚点并同步布局: {report.MergePreservedAnchorsCount}"
+                                : string.Empty),
                             MessageType.Info);
                     }
                     finally
@@ -293,12 +296,12 @@ namespace FigmaUnity.UI.Editor.UI
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(_prefabPath);
                 Selection.activeObject = prefab;
                 report.LogSummary();
-                EditorUtility.DisplayDialog("Figma UI Import", $"Saved prefab:\n{_prefabPath}", "OK");
+                EditorUtility.DisplayDialog("Figma 导入完成", $"已保存 Prefab：\n{_prefabPath}", "确定");
             }
             catch (System.Exception ex)
             {
                 SetPreview("Import 失败：\n" + ex.Message, MessageType.Error);
-                EditorUtility.DisplayDialog("Figma UI Import Failed", ex.Message, "OK");
+                EditorUtility.DisplayDialog("Figma 导入失败", ex.Message, "确定");
                 Debug.LogException(ex);
             }
         }
@@ -459,50 +462,60 @@ namespace FigmaUnity.UI.Editor.UI
 
         void DrawImportProfileSection()
         {
-            EditorGUILayout.LabelField("Import Profile", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("导入配置", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
-                "Figma 导出全量 XML/JSON；此处选择哪些语义应用到 Unity Prefab。\n" +
-                "几何与视觉（位置/尺寸/颜色/圆角）始终导入。",
+                "选择 Figma 数据如何应用到 Unity Prefab。\n" +
+                "★ 日常推荐【视觉合并】：策划/UI 改布局与视觉，程序已设的锚点与适配会保留。\n" +
+                "★ 首次导入或整页重做：选【静态绝对布局】或【全量导入】+ 重建模式选「全量重建」。",
                 MessageType.None);
 
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Full Import"))
+            if (GUILayout.Button("视觉合并\n(日常推荐)"))
+                _importProfile = ImportProfile.VisualMerge();
+            if (GUILayout.Button("全量导入\n(含约束/布局)"))
                 _importProfile = ImportProfile.Full();
-            if (GUILayout.Button("Static Absolute"))
+            if (GUILayout.Button("静态绝对布局\n(首次导入)"))
                 _importProfile = ImportProfile.StaticAbsolute();
             EditorGUILayout.EndHorizontal();
 
-            _importProfile.RebuildMode = (ImportRebuildMode)EditorGUILayout.EnumPopup(
-                "Rebuild Mode",
-                _importProfile.RebuildMode);
+            var rebuildLabels = new[] { "合并更新（保留脚本/Button）", "全量重建（删除后重做）" };
+            _importProfile.RebuildMode = (ImportRebuildMode)EditorGUILayout.Popup(
+                "重建模式",
+                (int)_importProfile.RebuildMode,
+                rebuildLabels);
             if (_importProfile.RebuildMode == ImportRebuildMode.Merge)
             {
                 _importProfile.PruneMissingNodes = EditorGUILayout.ToggleLeft(
-                    "Remove IR nodes deleted in Figma",
+                    "移除 Figma 中已删除的节点",
                     _importProfile.PruneMissingNodes);
+                _importProfile.PreserveAnchorsOnMerge = EditorGUILayout.ToggleLeft(
+                    "合并时保留锚点（按 Figma 坐标更新位置/尺寸）",
+                    _importProfile.PreserveAnchorsOnMerge);
                 EditorGUILayout.HelpBox(
-                    "Merge：按 irId 更新布局/视觉；保留 Button、脚本及无 IRBinding 的子物体。",
+                    "合并更新：按节点 id 匹配，更新布局与视觉；保留 Button、脚本及无绑定的子物体。\n" +
+                    "保留锚点：已有节点不改 anchor/pivot，程序设的适配不会被 Figma 冲掉。",
                     MessageType.None);
             }
             else
             {
                 EditorGUILayout.HelpBox(
-                    "Replace：删除旧 Prefab 并全量重建，自定义组件会丢失。",
+                    "全量重建：删除旧 Prefab 后按 Figma 完整重建，自定义组件（Button、脚本等）会丢失。",
                     MessageType.Warning);
             }
 
             EditorGUILayout.Space();
+            EditorGUILayout.LabelField("高级选项（一般保持视觉合并预设即可）", EditorStyles.miniLabel);
             _importProfile.ApplyConstraints = EditorGUILayout.ToggleLeft(
-                "Constraints → Unity anchors",
+                "应用 Figma 约束 → Unity 锚点（程序自建锚点时请关闭）",
                 _importProfile.ApplyConstraints);
             _importProfile.ApplyAutoLayoutFill = EditorGUILayout.ToggleLeft(
-                "Auto Layout FILL → LayoutGroup + LayoutElement",
+                "应用自动布局 FILL → LayoutGroup + LayoutElement",
                 _importProfile.ApplyAutoLayoutFill);
             _importProfile.ApplyTypography = EditorGUILayout.ToggleLeft(
-                "Typography → TMP font / size / bold",
+                "应用字体样式（字号/粗细/字体资源）",
                 _importProfile.ApplyTypography);
             _importProfile.ApplyTextAlignment = EditorGUILayout.ToggleLeft(
-                "Text alignment → TMP alignment",
+                "应用文字对齐（TMP 水平/垂直对齐）",
                 _importProfile.ApplyTextAlignment);
         }
 

@@ -15,13 +15,15 @@ namespace FigmaUnity.UI.Editor.IR
         public int MergeCreatedCount;
         public int MergeRemovedCount;
         public int MergePreservedUnityChildren;
+        public int MergePreservedAnchorsCount;
         public readonly List<string> Warnings = new List<string>();
         public readonly List<string> MissingAssets = new List<string>();
 
         public void LogSummary()
         {
             var mergePart = MergeUpdatedCount > 0 || MergeCreatedCount > 0 || MergeRemovedCount > 0
-                ? $" merge(updated={MergeUpdatedCount}, created={MergeCreatedCount}, removed={MergeRemovedCount}, unityChildrenKept={MergePreservedUnityChildren})"
+                ? $" merge(updated={MergeUpdatedCount}, created={MergeCreatedCount}, removed={MergeRemovedCount}, " +
+                  $"unityChildrenKept={MergePreservedUnityChildren}, anchorsPreserved={MergePreservedAnchorsCount})"
                 : string.Empty;
 
             UnityEngine.Debug.Log(

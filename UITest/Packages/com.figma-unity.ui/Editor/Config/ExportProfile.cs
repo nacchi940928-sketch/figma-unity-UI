@@ -12,7 +12,7 @@ namespace FigmaUnity.UI.Editor.Config
     {
         public bool SyncTransform = true;
         public bool SyncVisibility = true;
-        public bool SyncConstraints = true;
+        public bool SyncConstraints = false;
         public bool SyncTextContent = true;
         public bool SyncTextAlignment = true;
         public bool SyncTypography = false;

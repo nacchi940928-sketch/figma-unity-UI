@@ -34,8 +34,9 @@ Figma ↔ Unity v3 工具对接说明
   窗口：Tools > Figma UI Importer → Import Profile
 
   预设：
-    Full Import       — 约束 + FILL 布局 + 字体 + 对齐（默认）
-    Static Absolute   — 纯左上角绝对坐标静态 UI，程序自行加组件
+    Visual Merge      — Merge + 保留锚点 + 同步 Figma 布局/视觉（推荐日常）
+    Full Import       — 约束 + FILL 布局 + 字体 + 对齐
+    Static Absolute   — 纯左上角绝对坐标，首次导入或程序自建锚点
 
   Rebuild Mode（默认 Merge）：
     Merge   — 按 irId 就地更新已有 Prefab 的布局/视觉；保留 Button、脚本及无 IRBinding 的子物体
@@ -46,7 +47,8 @@ Figma ↔ Unity v3 工具对接说明
 
   选项                          Unity 行为
   ────────────────────────────  ─────────────────────────────────────
-  Constraints                   ConstraintTranslator → anchor/pivot
+  Preserve anchors on merge     已有节点保留 anchor/pivot，按 Figma x/y/w/h 重算位置/尺寸
+  Constraints                   ConstraintTranslator → anchor/pivot（新建节点或关闭 Preserve 时）
   Auto Layout FILL              Horizontal/VerticalLayoutGroup + LayoutElement
                                 （主轴 FILL 或交叉轴 FILL，如纵向容器内 TEXT 横向 Fill）
   Typography                    TMP font / size / bold（Font Mapping）
@@ -72,7 +74,7 @@ Figma ↔ Unity v3 工具对接说明
   与 Figma Tool 2 同步选项对应。
 
   预设：
-    Default           — 位置/可见/约束/文案/对齐 + layoutAdjustments；字体保留模板
+    Default           — 位置/可见/文案/对齐 + layoutAdjustments；不写回 constraints
     Layout + Text     — 同 Default，明确不 sync fills/typography
 
   选项                          写回 JSON 字段
@@ -126,13 +128,11 @@ Figma ↔ Unity v3 工具对接说明
 六、推荐工作流
 --------------
 
-  1. Figma 导出 *-full.xml（或 JSON）+ PNG
-  2. Unity Import：
-       - 需要程序接管布局 → Full Import
-       - 只要静态底图 → Static Absolute
-  3. 程序改 Prefab
-  4. Unity Export → *-unity-export.xml（Default Export Profile）
-  5. Figma Tool 2 Import & sync（勾选与 Export Profile 对应项）
+  1. Figma 导出 *-full.xml（或 JSON）+ PNG（不设 constraints，布局烘焙为 x/y）
+  2. Unity 首次 Import：Static Absolute + Replace
+  3. 程序设锚点/适配；改 Prefab 后 Export（Default，constraints 默认关闭）
+  4. Figma Tool 2 Import（不勾 constraints）
+  5. 策划/UI 改 Figma → Unity 再 Import（Visual Merge）
 
 
 八、XML 格式（与 JSON 等价）

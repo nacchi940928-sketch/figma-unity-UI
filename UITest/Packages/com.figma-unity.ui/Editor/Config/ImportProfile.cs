@@ -24,6 +24,12 @@ namespace FigmaUnity.UI.Editor.Config
         public bool ApplyTypography = true;
         public bool ApplyTextAlignment = true;
 
+        /// <summary>
+        /// Merge only: keep anchor/pivot on matched nodes; apply Figma x/y/w/h via existing anchors.
+        /// New nodes still use ApplyConstraints / absolute rules.
+        /// </summary>
+        public bool PreserveAnchorsOnMerge = false;
+
         public static ImportProfile Full() => new ImportProfile();
 
         public static ImportProfile StaticAbsolute() => new ImportProfile
@@ -32,6 +38,20 @@ namespace FigmaUnity.UI.Editor.Config
             ApplyAutoLayoutFill = false,
             ApplyTypography = false,
             ApplyTextAlignment = false
+        };
+
+        /// <summary>
+        /// Figma updates layout/visuals; programmer anchors/adaptation on existing nodes are kept.
+        /// </summary>
+        public static ImportProfile VisualMerge() => new ImportProfile
+        {
+            RebuildMode = ImportRebuildMode.Merge,
+            PruneMissingNodes = true,
+            ApplyConstraints = false,
+            ApplyAutoLayoutFill = false,
+            ApplyTypography = true,
+            ApplyTextAlignment = true,
+            PreserveAnchorsOnMerge = true
         };
 
         public ImportProfile Clone()
@@ -43,7 +63,8 @@ namespace FigmaUnity.UI.Editor.Config
                 ApplyConstraints = ApplyConstraints,
                 ApplyAutoLayoutFill = ApplyAutoLayoutFill,
                 ApplyTypography = ApplyTypography,
-                ApplyTextAlignment = ApplyTextAlignment
+                ApplyTextAlignment = ApplyTextAlignment,
+                PreserveAnchorsOnMerge = PreserveAnchorsOnMerge
             };
         }
     }
