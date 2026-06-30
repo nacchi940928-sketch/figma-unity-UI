@@ -19,7 +19,8 @@ namespace FigmaUnity.UI.Editor.Export
             string templatePath,
             Dictionary<string, UnityNodePatch> patches,
             string outputPath,
-            FigmaDocumentMerger.MergeOptions options = null)
+            FigmaDocumentMerger.MergeOptions options = null,
+            string artAssetRoot = null)
         {
             options ??= new FigmaDocumentMerger.MergeOptions();
             var root = FigmaDocumentSerializer.Load(templatePath);
@@ -130,14 +131,14 @@ namespace FigmaUnity.UI.Editor.Export
 
             ExportImageAssets(dir, patches, options.ExportProfile, result);
 
+            var bundle = AssetExportBundler.Bundle(root, dir, templatePath, artAssetRoot, patches);
+            result.ImagesExportedCount += bundle.CopiedCount;
+            foreach (var missing in bundle.MissingFiles)
+                result.Warnings.Add($"Missing image asset in export package: {missing}");
+
             if (root["metadata"] is JObject metadataForAssets)
             {
-                metadataForAssets["assetDir"] = Path.GetFullPath(dir).Replace('\\', '/');
-                metadataForAssets["artAssetConvention"] = new JObject
-                {
-                    ["lookup"] = "filename",
-                    ["note"] = "Resolve texture as metadata.assetDir + '/' + fills[].imageFile. imageHash optional."
-                };
+                AssetExportBundler.WriteMetadata(metadataForAssets, dir, artAssetRoot, bundle);
                 var fullOutput = Path.GetFullPath(outputPath).Replace('\\', '/');
                 metadataForAssets["documentPath"] = fullOutput;
                 if (FigmaDocumentSerializer.IsXmlPath(outputPath))

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using FigmaUnity.UI;
@@ -6,19 +7,22 @@ using FigmaUnity.UI.Editor.Figma;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FigmaUnity.UI.Editor.Export
 {
     public class IRExporterWindow : EditorWindow
     {
         GameObject _prefab;
-        string _sourceExportDir;
+        [FormerlySerializedAs("_sourceExportDir")]
+        string _sourceDocumentPath;
         string _outputPath;
-        string _statusMessage = "选择 Prefab 与原始 Figma 导出包，再点 Export to Figma XML。";
+        string _statusMessage = "选择 Prefab 与 Figma 源文件（XML/JSON），再点「导出到 Figma」。";
         [SerializeField] ExportProfile _exportProfile = ExportProfile.DefaultUnityToFigma();
         [SerializeField] FigmaDocumentFormat _sourceFormat = FigmaDocumentFormat.Auto;
         [SerializeField] FigmaDocumentFormat _outputFormat = FigmaDocumentFormat.Xml;
         [SerializeField] bool _alsoWriteJson;
+        [SerializeField] string _artAssetRoot = ArtAssetResolver.DefaultArtRoot;
 
         [MenuItem("Tools/Figma UI 导出 (Exporter)")]
         public static void Open()
@@ -28,8 +32,8 @@ namespace FigmaUnity.UI.Editor.Export
 
         void OnEnable()
         {
-            if (string.IsNullOrEmpty(_sourceExportDir))
-                _sourceExportDir = TryGetDefaultSourceExportDir();
+            if (string.IsNullOrEmpty(_sourceDocumentPath))
+                _sourceDocumentPath = TryGetDefaultSourceDocumentPath();
 
             if (_prefab == null && Selection.activeObject is GameObject go)
                 _prefab = go;
@@ -50,28 +54,21 @@ namespace FigmaUnity.UI.Editor.Export
                 MessageType.Info);
 
             EditorGUILayout.HelpBox(
-                "源目录需含 Figma 导出的 *-full.xml（优先）或 *-full.json 作为模板。\n" +
-                "坐标约定：x/y 为 Figma 左上角原点、Y 向下；Unity 根节点为屏幕中心锚点。",
+                "选择 Figma 导出的 XML 或 JSON 作为合并模板（文件名不限，不必是 *-full）。\n" +
+                "PNG 等资源从源文件同目录解析；坐标约定：x/y 为 Figma 左上角原点、Y 向下。",
                 MessageType.None);
 
             _prefab = (GameObject)EditorGUILayout.ObjectField("Prefab", _prefab, typeof(GameObject), false);
 
             EditorGUILayout.BeginHorizontal();
-            _sourceExportDir = EditorGUILayout.TextField("Figma 源目录", _sourceExportDir);
+            _sourceDocumentPath = EditorGUILayout.TextField("Figma 源文件", _sourceDocumentPath);
             if (GUILayout.Button("浏览", GUILayout.Width(70)))
-            {
-                var picked = EditorUtility.OpenFolderPanel("选择 Figma 导出目录", _sourceExportDir, "");
-                if (!string.IsNullOrEmpty(picked))
-                {
-                    _sourceExportDir = picked;
-                    UpdateOutputPath();
-                }
-            }
+                BrowseSourceFile();
             EditorGUILayout.EndHorizontal();
 
-            if (GUILayout.Button("使用样例导出目录"))
+            if (GUILayout.Button("使用样例源文件"))
             {
-                _sourceExportDir = TryGetDefaultSourceExportDir();
+                _sourceDocumentPath = TryGetDefaultSourceDocumentPath();
                 UpdateOutputPath();
             }
 
@@ -82,13 +79,23 @@ namespace FigmaUnity.UI.Editor.Export
 
             _outputPath = EditorGUILayout.TextField("输出文件", _outputPath);
 
+            EditorGUILayout.BeginHorizontal();
+            _artAssetRoot = EditorGUILayout.TextField("美术资源目录（Unity）", _artAssetRoot);
+            if (GUILayout.Button("选择", GUILayout.Width(48)))
+                BrowseArtAssetRoot();
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.HelpBox(
+                "导出 XML 不会写入 Assets 路径；只写文件名 imageFile。\n" +
+                "PNG 会尝试复制到 XML 同目录（可选）；Figma 插件只需 metadata.assetFileNames 中的文件名，在用户自选资源文件夹里按名匹配。",
+                MessageType.None);
+
             EditorGUILayout.Space();
             DrawExportProfileSection();
 
             EditorGUILayout.Space();
             EditorGUILayout.HelpBox(_statusMessage, MessageType.None);
 
-            GUI.enabled = _prefab != null && !string.IsNullOrWhiteSpace(_sourceExportDir);
+            GUI.enabled = _prefab != null && FigmaExportPackage.IsSupportedDocumentPath(_sourceDocumentPath);
             if (GUILayout.Button("导出到 Figma", GUILayout.Height(32)))
                 RunExport();
             GUI.enabled = true;
@@ -101,11 +108,15 @@ namespace FigmaUnity.UI.Editor.Export
                 var sourceFormat = _sourceFormat == FigmaDocumentFormat.Auto
                     ? FigmaDocumentFormat.Auto
                     : _sourceFormat;
-                if (!FigmaExportPackage.TryLocate(_sourceExportDir, out var templatePath, out var screenName, sourceFormat))
+                if (!FigmaExportPackage.TryResolveSource(_sourceDocumentPath, out var templatePath, out var screenName, sourceFormat))
                 {
-                    _statusMessage = "Source 目录中未找到 *-full.xml 或 *-full.json。";
+                    _statusMessage = sourceFormat == FigmaDocumentFormat.Auto
+                        ? "请选择有效的 Figma 源文件（.xml 或 .json）。"
+                        : $"源文件不存在，或与所选格式（{sourceFormat}）不一致。";
                     return;
                 }
+
+                var assetDir = FigmaExportPackage.GetAssetDirectory(templatePath);
 
                 var outputFormat = _outputFormat == FigmaDocumentFormat.Auto
                     ? FigmaDocumentSerializer.DetectFormat(templatePath)
@@ -129,14 +140,14 @@ namespace FigmaUnity.UI.Editor.Export
                     }
 
                     _outputPath = ResolveOutputPath(
-                        _sourceExportDir,
+                        assetDir,
                         screenName,
                         templatePath,
                         outputFormat,
                         _outputPath);
                     if (PathsEqual(_outputPath, templatePath))
                     {
-                        _statusMessage = "Output 不能与 *-full 模板相同，请另选输出路径。";
+                        _statusMessage = "输出文件不能与源模板相同，请另选输出路径。";
                         return;
                     }
 
@@ -147,7 +158,8 @@ namespace FigmaUnity.UI.Editor.Export
                         new FigmaDocumentMerger.MergeOptions
                         {
                             ExportProfile = _exportProfile?.Clone() ?? ExportProfile.DefaultUnityToFigma()
-                        });
+                        },
+                        _artAssetRoot);
 
                     string alternatePath = null;
                     if (_alsoWriteJson && outputFormat != FigmaDocumentFormat.Auto)
@@ -249,6 +261,42 @@ namespace FigmaUnity.UI.Editor.Export
                 _exportProfile.PruneMissingNodes);
         }
 
+        void BrowseSourceFile()
+        {
+            var startDir = GetSourceDirectory();
+            var picked = EditorUtility.OpenFilePanel(
+                "选择 Figma 源文件（XML 或 JSON）",
+                startDir,
+                "xml,json");
+            if (string.IsNullOrEmpty(picked))
+                return;
+
+            _sourceDocumentPath = picked.Replace('\\', '/');
+            UpdateOutputPath();
+        }
+
+        string GetSourceDirectory()
+        {
+            var dir = FigmaExportPackage.GetAssetDirectory(_sourceDocumentPath);
+            return string.IsNullOrEmpty(dir) ? Application.dataPath : dir;
+        }
+
+        void BrowseArtAssetRoot()
+        {
+            var picked = EditorUtility.OpenFolderPanel(
+                "选择美术资源目录（Unity Assets 下）",
+                Path.GetFullPath(Path.Combine(Application.dataPath, "UI/Art")),
+                string.Empty);
+            if (string.IsNullOrEmpty(picked))
+                return;
+
+            var dataPath = Path.GetFullPath(Application.dataPath).Replace('\\', '/');
+            picked = Path.GetFullPath(picked).Replace('\\', '/');
+            _artAssetRoot = picked.StartsWith(dataPath, StringComparison.OrdinalIgnoreCase)
+                ? "Assets" + picked.Substring(dataPath.Length)
+                : picked;
+        }
+
         static bool PathsEqual(string a, string b)
         {
             if (string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b))
@@ -261,16 +309,17 @@ namespace FigmaUnity.UI.Editor.Export
 
         void UpdateOutputPath()
         {
-            if (FigmaExportPackage.TryLocate(
-                    _sourceExportDir,
+            if (FigmaExportPackage.TryResolveSource(
+                    _sourceDocumentPath,
                     out var templatePath,
                     out var screenName,
                     _sourceFormat == FigmaDocumentFormat.Auto ? FigmaDocumentFormat.Auto : _sourceFormat))
             {
+                var assetDir = FigmaExportPackage.GetAssetDirectory(templatePath);
                 var outputFormat = _outputFormat == FigmaDocumentFormat.Auto
                     ? FigmaDocumentSerializer.DetectFormat(templatePath)
                     : _outputFormat;
-                _outputPath = BuildDefaultOutputPath(_sourceExportDir, screenName, templatePath, outputFormat);
+                _outputPath = BuildDefaultOutputPath(assetDir, screenName, templatePath, outputFormat);
             }
         }
 
@@ -300,20 +349,28 @@ namespace FigmaUnity.UI.Editor.Export
             return Path.ChangeExtension(primaryPath, ".xml");
         }
 
-        static string TryGetDefaultSourceExportDir()
+        static string TryGetDefaultSourceDocumentPath()
         {
             var assets = Application.dataPath.Replace('\\', '/');
-            var candidates = new[]
+            var dirs = new[]
             {
+                Path.GetFullPath(Path.Combine(assets, "../../figmajson/testjson")),
+                Path.GetFullPath(Path.Combine(assets, "../figmajson/testjson")),
                 Path.GetFullPath(Path.Combine(assets, "../../figmajson/main-screen-1080x2340-export")),
-                Path.GetFullPath(Path.Combine(assets, "../../figmajson/examples/main-screen-1080x2340-export")),
-                Path.GetFullPath(Path.Combine(assets, "../figmajson/main-screen-1080x2340-export"))
+                Path.GetFullPath(Path.Combine(assets, "../../figmajson/examples/main-screen-1080x2340-export"))
             };
 
-            foreach (var dir in candidates)
+            foreach (var dir in dirs)
             {
-                if (FigmaExportPackage.TryLocate(dir, out _, out _))
-                    return dir.Replace('\\', '/');
+                if (!Directory.Exists(dir))
+                    continue;
+
+                var xml = Path.Combine(dir, "main-screen-1080x2340-full.xml");
+                if (File.Exists(xml))
+                    return xml.Replace('\\', '/');
+
+                if (FigmaExportPackage.TryLocate(dir, out var docPath, out _))
+                    return docPath.Replace('\\', '/');
             }
 
             return string.Empty;

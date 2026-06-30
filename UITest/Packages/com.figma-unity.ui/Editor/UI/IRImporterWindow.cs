@@ -338,9 +338,9 @@ namespace FigmaUnity.UI.Editor.UI
                     $"目标：{_prefabPath}\n\n" +
                     $"当前 Prefab 含 {bindingCount} 个 IRBinding 节点。\n" +
                     (extraComponents > 0
-                        ? $"检测到约 {extraComponents} 个自定义组件（如 Button、脚本），Merge 模式下会保留。\n\n"
-                        : "\n") +
-                    "Merge：按 irId 更新 Figma 布局/视觉；无 IRBinding 的子物体会保留。\n" +
+                        ? $"检测到 {extraComponents} 个自定义组件/脚本，合并时会全部保留。\n\n"
+                        : "合并时会自动保留 Prefab 上已有的全部脚本与自定义组件。\n\n") +
+                    "按 irId 更新 Figma 布局/视觉；无 IRBinding 的子物体也会保留。\n" +
                     "Figma 中已删除的 IR 节点可从 Prefab 移除（见 Prune 选项）。\n\n" +
                     "是否继续？",
                     "合并更新",
@@ -540,7 +540,7 @@ namespace FigmaUnity.UI.Editor.UI
             EditorGUILayout.HelpBox(
                 "选择 Figma 数据如何应用到 Unity Prefab。\n" +
                 "★ 日常推荐【视觉合并】：策划/UI 改布局与视觉，程序已设的锚点与适配会保留。\n" +
-                "★ 首次导入或整页重做：选【静态绝对布局】或【全量导入】+ 重建模式选「全量重建」。",
+                "★ 首次导入或整页重做：选【静态绝对布局】，下方点【全量重建】。",
                 MessageType.None);
 
             EditorGUILayout.BeginHorizontal();
@@ -552,11 +552,20 @@ namespace FigmaUnity.UI.Editor.UI
                 _importProfile = ImportProfile.StaticAbsolute();
             EditorGUILayout.EndHorizontal();
 
-            var rebuildLabels = new[] { "合并更新（保留脚本/Button）", "全量重建（删除后重做）" };
-            _importProfile.RebuildMode = (ImportRebuildMode)EditorGUILayout.Popup(
-                "重建模式",
-                (int)_importProfile.RebuildMode,
-                rebuildLabels);
+            EditorGUILayout.LabelField("重建模式", EditorStyles.miniLabel);
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Toggle(
+                    _importProfile.RebuildMode == ImportRebuildMode.Merge,
+                    "合并更新",
+                    EditorStyles.miniButtonLeft))
+                _importProfile.RebuildMode = ImportRebuildMode.Merge;
+            if (GUILayout.Toggle(
+                    _importProfile.RebuildMode == ImportRebuildMode.Replace,
+                    "全量重建",
+                    EditorStyles.miniButtonRight))
+                _importProfile.RebuildMode = ImportRebuildMode.Replace;
+            EditorGUILayout.EndHorizontal();
+
             if (_importProfile.RebuildMode == ImportRebuildMode.Merge)
             {
                 _importProfile.PruneMissingNodes = EditorGUILayout.ToggleLeft(
@@ -566,8 +575,8 @@ namespace FigmaUnity.UI.Editor.UI
                     "合并时保留锚点（按 Figma 坐标更新位置/尺寸）",
                     _importProfile.PreserveAnchorsOnMerge);
                 EditorGUILayout.HelpBox(
-                    "合并更新：按节点 id 匹配，更新布局与视觉；保留 Button、脚本及无绑定的子物体。\n" +
-                    "保留锚点：已有节点不改 anchor/pivot，程序设的适配不会被 Figma 冲掉。",
+                    "合并更新：按节点 id 匹配并更新 Figma 布局/视觉。\n" +
+                    "自动保留：Prefab 上全部脚本与自定义组件、无 IRBinding 的子物体、程序挂的锚点/适配（见上项）。无需额外勾选。",
                     MessageType.None);
             }
             else

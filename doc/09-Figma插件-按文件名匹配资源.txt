@@ -1,0 +1,223 @@
+Figma 插件 — 按文件名匹配美术资源（交付说明）
+==============================================
+
+版本：v1（2026-06-30）
+适用：Figma Tool 2「Unity XML/JSON importer」
+原则：**不传、不读任何用户本机绝对路径**；只认**资源文件名**。
+
+
+一、约定（Unity ↔ Figma 共用）
+------------------------------
+
+  1. 权威键 = 文件名（basename only）
+
+     fills[].imageFile = "rectangle.png"
+
+     ✓ rectangle.png
+     ✗ Assets/UI/Art/rectangle.png
+     ✗ E:/project/figmajson/testjson/rectangle.png
+     ✗ icons/banner.png（v1 不支持子目录）
+
+  2. Figma 侧：用户指定**一个资源文件夹**
+
+     插件设置里让用户选一次，例如：
+       D:/team-assets/ui/
+       或插件旁 assets/ 目录
+
+     文件夹内平铺所有 PNG（文件名与 XML 中 imageFile 一致）。
+
+  3. Unity 侧：用户在 Importer 里指定自己的 Art 目录
+
+     同样只按文件名查找，与 Figma 资源文件夹互不影响。
+
+
+二、XML 里插件要读什么
+----------------------
+
+  2.1 每个节点（按 id 匹配后）
+
+    <fills>
+      <fill>
+        <type>IMAGE</type>
+        <imageFile>rectangle.png</imageFile>
+        <imageHash>...</imageHash>   <!-- 可选；没有也要贴图 -->
+        <scaleMode>FILL</scaleMode>  <!-- FILL | FIT | TILE | STRETCH，默认 FILL -->
+        <opacity>1</opacity>
+      </fill>
+    </fills>
+
+    仅当 type=IMAGE 且 imageFile 非空时，才做资源匹配。
+
+  2.2 metadata（可选辅助，不是路径）
+
+    <metadata>
+      <assetMatchMode>filename</assetMatchMode>
+      <assetFileNames>
+        <item>rectangle.png</item>
+        <item>banner.png</item>
+      </assetFileNames>
+    </metadata>
+
+    JSON 等价：
+
+    "metadata": {
+      "assetMatchMode": "filename",
+      "assetFileNames": ["rectangle.png", "banner.png"]
+    }
+
+    说明：
+      - assetFileNames = 整份文档引用的去重文件名列表（Unity 导出时生成）
+      - 插件**不必**读 metadata.assetDir / unityArtRoot（若有，忽略）
+      - 用 assetFileNames 做导入前预检：「资源文件夹里缺哪些文件」
+
+  2.3 不是贴图的节点（不要当 IMAGE 处理）
+
+    - fills 为空 / fills empty="true"
+    - fills.type = SOLID  → 同步纯色 + cornerRadius + effects（与贴图无关）
+    - 程序圆角 rounded_*.png 不应出现（Unity 已改回 SOLID）
+
+
+三、插件 UI 建议
+----------------
+
+  ┌─────────────────────────────────────┐
+  │ Unity XML Import                       │
+  ├─────────────────────────────────────┤
+  │ XML 文件:  [选择 *.xml]              │
+  │ 资源文件夹: [选择文件夹]  ← 用户统一放图 │
+  │ ☑ 同步美术资源（按文件名 imageFile）   │
+  │ ☑ 同步位置/尺寸  ☑ 同步文案 ...       │
+  │ [Import & Sync]                      │
+  └─────────────────────────────────────┘
+
+  资源文件夹：一次配置，可记住上次路径（localStorage）。
+
+
+四、核心算法（伪代码）
+--------------------
+
+  // 1. 解析 XML，得到 root 树 + metadata
+
+  const assetsFolder = userSelectedAssetsFolder;  // 用户选的文件夹，不是 XML 里的路径
+
+  function resolveImageBytes(imageFile: string): Uint8Array | null {
+    const name = basename(imageFile).trim();
+    if (!name) return null;
+
+    // 先精确匹配
+    let path = join(assetsFolder, name);
+    if (fileExists(path)) return readFile(path);
+
+    // 再大小写不敏感匹配（Windows 友好）
+    for (const f of listFiles(assetsFolder)) {
+      if (equalsIgnoreCase(f, name)) return readFile(join(assetsFolder, f));
+    }
+    return null;
+  }
+
+  function applyImageToNode(figmaNode, fill) {
+    if (fill.type !== 'IMAGE' || !fill.imageFile) return;
+
+    const bytes = resolveImageBytes(fill.imageFile);
+    if (!bytes) {
+      report.missing.push(fill.imageFile);
+      return;
+    }
+
+    const image = figma.createImage(bytes);
+  //  Figma API：对矩形/Frame 设置 IMAGE fill
+    figmaNode.fills = [{
+      type: 'IMAGE',
+      imageHash: image.hash,
+      scaleMode: fill.scaleMode || 'FILL',
+      opacity: fill.opacity ?? 1,
+    }];
+    report.updated++;
+  }
+
+  // 2. 遍历 XML 节点，按 id 找 Figma 节点
+  for (const xmlNode of walk(xmlRoot)) {
+    const figmaNode = findById(xmlNode.id);
+    if (!figmaNode) { report.skipped++; continue; }
+
+    if (syncImageAssets) {
+      for (const fill of xmlNode.fills ?? []) {
+        applyImageToNode(figmaNode, fill);
+      }
+    }
+    // ... 位置、文案等其它同步
+  }
+
+  // 3. 导入结束报告
+  showReport({
+    imagesUpdated: report.updated,
+    imagesMissing: report.missing,   // 文件夹里没有的文件名
+    imagesSkipped: report.skipped,
+  });
+
+
+五、匹配规则明细
+----------------
+
+  | 规则 | 说明 |
+  |------|------|
+  | 主键 | fills.imageFile 的文件名部分 |
+  | 节点主键 | XML id ↔ Figma 节点 id（已有逻辑） |
+  | 路径 | 仅 join(用户资源文件夹, 文件名) |
+  | imageHash | 有则导入后可比对；**无 hash 仍要贴图** |
+  | 大小写 | 建议不敏感匹配（rectangle.png / Rectangle.png） |
+  | 子目录 | v1 不支持；imageFile 不得含 `/` |
+  | 缺失文件 | 不创建占位图；记入 missing 列表，节点保持原样或仅更新几何 |
+
+
+六、Figma Tool 1 导出（给 Unity 时）也需遵守
+------------------------------------------
+
+  有真实贴图的节点必须导出：
+
+    type: IMAGE
+    imageFile: "真实文件名.png"    // 不能一直是 null
+
+  PNG 与 full.xml 放在同一导出包（方便 Unity 首次 Import）；  
+  Figma 插件 Import Unity 回导 XML 时，则只用用户指定的**资源文件夹**按名匹配。
+
+
+七、Unity 导出给你什么（当前实现）
+----------------------------------
+
+  勾选「美术资源」后，每个真实贴图节点：
+
+    fills[].imageFile = Unity 里 Texture/Sprite 的文件名
+    例：rectangle.png
+
+  metadata：
+
+    assetMatchMode = "filename"
+    assetFileNames = [ 文档内所有 imageFile 去重 ]
+
+  Unity **不会**在 XML 里写各用户的 Assets 路径；  
+  你可把 assetFileNames 打印在插件 UI 里，提示用户「资源文件夹应包含这些文件」。
+
+
+八、本屏（main-screen）当前真实贴图文件名示例
+--------------------------------------------
+
+  以 Figma full 导出为准，带 IMAGE 的通常是：
+
+    rectangle.png          ← 居中草地/场景图（RECTANGLE 6:117）
+
+  HUD、底栏、试卷卡片 = SOLID 白色 + cornerRadius，**没有 imageFile**，  
+  插件应同步 SOLID 颜色与圆角，不要找 PNG。
+
+  Unity 回导后 assetFileNames 以当次 XML metadata 为准。
+
+
+九、验收 checklist
+------------------
+
+  □ 用户只选 XML + 一个资源文件夹，不填绝对路径
+  □ rectangle.png 放在资源文件夹 → 导入后 6:117 有图
+  □ 故意缺少某 file → 报告 imagesMissing，不崩溃
+  □ imageHash 为空仍能贴图
+  □ imageFile 大小写与磁盘不一致仍能匹配（建议）
+  □ SOLID 节点不走 IMAGE 逻辑

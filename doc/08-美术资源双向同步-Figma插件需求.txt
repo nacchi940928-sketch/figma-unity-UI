@@ -38,8 +38,21 @@
 
   2.4 Unity 回导包目录（*-unity-export.xml 同目录）
 
-    metadata.assetDir = 该目录绝对路径
-    每个被引用的 imageFile 对应一个 PNG 文件，与 xml 同级
+    metadata.assetDir = 该目录绝对路径（本机路径，给 Figma 桌面插件读文件用）
+    metadata.assetFiles = ["rectangle.png", ...]   // 本次包内应存在的文件名列表
+    metadata.unityArtRoot.path = "Assets/UI/Art"   // 仅给人看，Figma 不会读 Unity 工程
+
+    ★ XML 节点里只有 fills.imageFile="rectangle.png"（文件名），没有 Assets/UI/Art/...
+
+  2.5 Figma 插件如何取图（必须实现）
+
+    base = metadata.assetDir ?? dirname(用户选择的 xml 文件)
+    bytes = readFile(base + "/" + fills.imageFile)
+    figma.createImage(bytes) → 设为节点 IMAGE fill
+
+    ✗ Figma 对话/AI 无法读你电脑上的文件
+    ✗ 不能指望用户手动拖拽每张图（仅作兜底）
+    ✓ 由 Unity XML Importer 插件在 Import 时批量读 assetDir
 
 
 三、XML / JSON 节点字段（已有 + Unity 新用法）

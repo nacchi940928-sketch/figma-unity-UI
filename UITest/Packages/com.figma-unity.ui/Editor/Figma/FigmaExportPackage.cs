@@ -6,6 +6,39 @@ namespace FigmaUnity.UI.Editor.Figma
 {
     public static class FigmaExportPackage
     {
+        /// <summary>
+        /// Resolves a Figma template from a file path or export directory.
+        /// File path: any *.xml / *.json the user picks (no *-full naming required).
+        /// Directory: legacy scan for *-full.xml / *-full.json.
+        /// </summary>
+        public static bool TryResolveSource(
+            string pathOrDir,
+            out string documentPath,
+            out string screenName,
+            FigmaDocumentFormat format = FigmaDocumentFormat.Auto)
+        {
+            documentPath = null;
+            screenName = null;
+            if (string.IsNullOrWhiteSpace(pathOrDir))
+                return false;
+
+            var normalized = Path.GetFullPath(pathOrDir.Trim()).Replace('\\', '/');
+            if (File.Exists(normalized) && IsSupportedDocumentExtension(normalized))
+            {
+                if (!FormatMatches(normalized, format))
+                    return false;
+
+                documentPath = normalized;
+                screenName = GetScreenNameFromDocumentPath(documentPath);
+                return true;
+            }
+
+            if (Directory.Exists(normalized))
+                return TryLocate(normalized, out documentPath, out screenName, format);
+
+            return false;
+        }
+
         public static bool TryLocate(
             string dir,
             out string documentPath,
@@ -80,14 +113,30 @@ namespace FigmaUnity.UI.Editor.Figma
             return fileName;
         }
 
-        public static bool IsSupportedDocumentPath(string path)
+        public static bool IsSupportedDocumentExtension(string path)
         {
-            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+            if (string.IsNullOrWhiteSpace(path))
                 return false;
 
             var ext = Path.GetExtension(path);
             return string.Equals(ext, ".xml", StringComparison.OrdinalIgnoreCase)
                 || string.Equals(ext, ".json", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool IsSupportedDocumentPath(string path)
+        {
+            return IsSupportedDocumentExtension(path) && File.Exists(path);
+        }
+
+        static bool FormatMatches(string path, FigmaDocumentFormat format)
+        {
+            if (format == FigmaDocumentFormat.Auto)
+                return true;
+
+            var ext = Path.GetExtension(path);
+            return format == FigmaDocumentFormat.Xml
+                ? string.Equals(ext, ".xml", StringComparison.OrdinalIgnoreCase)
+                : string.Equals(ext, ".json", StringComparison.OrdinalIgnoreCase);
         }
 
         public static string GetAssetDirectory(string documentPath)
