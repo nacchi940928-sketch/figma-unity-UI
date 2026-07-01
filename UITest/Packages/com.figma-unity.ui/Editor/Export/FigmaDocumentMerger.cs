@@ -44,6 +44,7 @@ namespace FigmaUnity.UI.Editor.Export
             public int AutoLayoutBrokenCount;
             public int ImagesChangedCount;
             public int ImagesExportedCount;
+            public int AddedCount;
             public List<string> Warnings = new List<string>();
             public List<string> PrunedIrIds = new List<string>();
         }
@@ -132,6 +133,8 @@ namespace FigmaUnity.UI.Editor.Export
                 node.width = patch.width;
                 node.height = patch.height;
                 node.rotation = patch.rotation;
+                node.scaleX = patch.scaleX;
+                node.scaleY = patch.scaleY;
             }
 
             if (profile.SyncConstraints)

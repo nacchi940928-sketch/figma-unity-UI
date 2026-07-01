@@ -14,9 +14,12 @@ namespace FigmaUnity.UI.Editor.IR
         public float y;
         public float width;
         public float height;
+        public float scaleX = 1f;
+        public float scaleY = 1f;
         public string anchor = "top-left";
         public List<IRFill> fills = new List<IRFill>();
         public IRStroke stroke;
+        public IRPaintData paint;
         public float opacity = 1f;
         public float cornerRadius;
         public float rotation;
@@ -66,6 +69,14 @@ namespace FigmaUnity.UI.Editor.IR
         public string alignVertical;
         public bool bold;
         public bool italic;
+        /// <summary>Figma textAutoResize: NONE | HEIGHT | WIDTH | WIDTH_AND_HEIGHT</summary>
+        public string textAutoResize;
+        public bool wordWrap = true;
+        /// <summary>0 = unlimited.</summary>
+        public int maxLines;
+        /// <summary>TMP overflow: truncate | overflow | ellipsis</summary>
+        public string overflow = "truncate";
+        public float lineSpacing;
     }
 
     [Serializable]

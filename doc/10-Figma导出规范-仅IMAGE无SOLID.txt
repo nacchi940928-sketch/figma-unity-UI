@@ -1,0 +1,303 @@
+Figma 导出规范 — 仅 IMAGE，禁止 SOLID 颜色输出
+================================================
+
+版本：v1（2026-07-01）
+适用：Figma 导出插件、美术、Unity 程序
+原则：**界面视觉一律用 PNG 贴图（IMAGE fill）；不向 Unity 输出 SOLID / GRADIENT 颜色字段。**
+      需要程序调色的区域：美术出**纯白底图**，Unity 用 `Image.color` tint。
+
+关联文档
+--------
+  doc/09-Figma插件-按文件名匹配资源.txt   — 文件名匹配、资源文件夹
+  doc/05-Figma导出插件制作规范.txt         — 坐标、节点结构
+  doc/08-美术资源双向同步-Figma插件需求.txt — 双向贴图同步
+
+
+一、为什么要这样
+----------------
+
+  团队约定：
+    - Figma 侧：所有可见 UI 块都用「图片填充（IMAGE）」
+    - 纯色 / 圆角底：美术出**白色**可拉伸圆角 PNG，程序在 Unity 里 `Image.color` 调色
+    - 真实美术（背景纹理、图标）：出**成品彩色** PNG，Unity 不改色
+
+  禁止 SOLID 的原因：
+    - Unity 与 Figma 对「纯色 + 圆角」的实现路径不一致（程序圆角 / SOLID 同步）
+    - 全 IMAGE 后，形状、圆角、描边（若需要）都 baked 在 PNG alpha 里，表现一致
+    - 资源统一走 `Assets/UI/Art/` 文件名匹配，便于共用与版本管理
+
+
+二、三类 PNG（必须区分）
+------------------------
+
+  类型 A — 白底模板（程序 tint）
+  ─────────────────────────────
+    用途：按钮底、卡片底、HUD 条、任意「可换色纯色块」
+    PNG 要求：
+      - RGB 全白 #FFFFFF（或近白，导入前须校验）
+      - 形状与圆角做在 **alpha 通道**（透明区域外为白）
+      - 可拉伸圆角由美术在 PNG 中做好（正式版再定 9-slice 方案）
+      - 禁止在 PNG 里烘焙最终品牌色（色由程序 tint）
+
+    命名（推荐，全项目共用）：
+      white_round_{半径}.png      例：white_round_8.png、white_round_32.png
+      white_slice_{用途}.png      例：white_slice_btn.png、white_slice_panel.png
+      white_rect.png              无圆角矩形
+
+    Figma 导出：
+      fills[0].type = IMAGE
+      fills[0].imageFile = "white_round_32.png"
+      fills[0].opacity = 1
+      fills[0].scaleMode = FILL
+
+    Unity：
+      Image.sprite = 上述 PNG
+      Image.color  = 程序 / 主题配置（Importer 默认 #FFFFFF，不读 SOLID）
+
+  类型 B — 成品彩色图（禁止 tint）
+  ─────────────────────────────
+    用途：背景纹理、插画、多色图标、带渐变/纹理的按钮（美术已烘焙好）
+    PNG 要求：最终视觉效果，RGB 即所见
+
+    命名：语义化，与 Figma 图层一致
+      bg-texture.png、castle.png、enter-battle-btn.png …
+
+    Figma 导出：
+      fills[0].type = IMAGE
+      fills[0].imageFile = "castle.png"
+
+    Unity：
+      Image.sprite = PNG
+      Image.color  = #FFFFFF（1,1,1,1），**不要**改 color 做调色
+
+  类型 C — 纯布局容器（无可见填充）
+  ─────────────────────────────
+    用途：Auto Layout 分组、点击区域占位
+    Figma 导出：
+      fills empty="true"  或  不写 fills
+    Unity：透明 Image（color.a = 0）或无 Image，仅 RectTransform + 子节点
+
+
+三、Figma 设计侧规范（美术）
+----------------------------
+
+  3.1 必须 IMAGE，禁止 SOLID / GRADIENT
+
+    ✓ 矩形 / Frame / 组件底 → 图片填充，选对应 PNG
+    ✗ 颜色面板填 SOLID 纯色
+    ✗ 线性 / 径向渐变填充（若最终是纯色效果，改用类型 A 白底图）
+
+    例外（仍可不导出 SOLID）：
+      - 渐变 / 复杂描边 / 阴影按钮 → 类型 B，美术直接导出**成品 PNG**（一张图包含全部效果）
+      - 文字 → 见 §3.2
+
+  3.2 文字（TEXT）
+
+    TEXT 节点仍用 Figma 文字工具（不是 PNG），导出 type=TEXT。
+    字色写入 text 相关字段（fills 或 segments.color），**不**要求改成 IMAGE。
+
+    若美术坚持「文字也 rasterize 成 PNG」：按类型 B 处理，节点 type 改为 IMAGE/VECTOR，
+    但失去 Unity 动态改字能力，须项目组明确批准。
+
+  3.3 圆角
+
+    圆角做在 PNG 里（类型 A / B），不要依赖导出里的 cornerRadius 在 Unity 侧程序画圆角。
+    导出时 cornerRadius 可保留作**参考/调试**，Unity Importer **不**据此生成 rounded_*.png。
+
+  3.4 描边与阴影
+
+    - 简单描边：烘焙进 PNG（推荐）
+    - 需要程序单独控制的描边：单独一层 PNG 或 Unity 脚本（超出本规范 v1）
+    - 阴影：烘焙进类型 B 成品图；或独立 shadow PNG 叠层
+
+  3.5 Figma 里如何预览「白底 + 色」
+
+    设计稿要看到品牌色，任选其一（不影响导出）：
+      (1) 白底 IMAGE 上再叠一层 SOLID 矩形，导出前插件删除该 SOLID 层（仅预览）
+      (2) 使用 Figma 变量 / 样式做预览，导出插件只导出底层 white PNG
+      (3) 接受设计稿为白底，色稿对照 Unity 主题文档
+
+    **导出 XML/JSON 中不得出现 SOLID fill**（TEXT 字色除外，见 §五）。
+
+
+四、导出 XML / JSON 规范（插件开发者）
+--------------------------------------
+
+  4.1 视觉 Frame / Rectangle / Ellipse（有可见底）
+
+    必须：
+
+    <fills>
+      <fill>
+        <type>IMAGE</type>
+        <imageFile>white_round_32.png</imageFile>
+        <imageHash>...</imageHash>          <!-- 可选 -->
+        <scaleMode>FILL</scaleMode>
+        <opacity>1</opacity>
+        <blendMode>NORMAL</blendMode>
+      </fill>
+    </fills>
+
+    JSON 等价：
+
+    "fills": [{
+      "type": "IMAGE",
+      "imageFile": "white_round_32.png",
+      "scaleMode": "FILL",
+      "opacity": 1
+    }]
+
+  4.2 禁止出现在导出中的 fill 类型
+
+    ✗ "type": "SOLID"
+    ✗ "type": "GRADIENT_LINEAR"
+    ✗ "type": "GRADIENT_RADIAL"
+    ✗ "type": "GRADIENT_ANGULAR"
+    ✗ "type": "GRADIENT_DIAMOND"
+
+    插件行为（推荐）：
+      - 导出前扫描：若节点 fills 含 SOLID/GRADIENT → **报错并列出节点 id/name**
+      - 或自动降级：SOLID + cornerRadius → 提示美术改用 white_round_{r}.png（不自动静默转换）
+
+  4.3 IMAGE 但 imageFile 为空
+
+    ✗ 不允许（除 TEXT 占位等文档明确列出的例外）
+    预检：metadata.assetFileNames 中每个 imageFile 在资源文件夹必须存在对应 PNG
+
+  4.4 可选：程序 tint 色（扩展字段，v1 推荐）
+
+    IMAGE 本身无 color 字段。若需在 Import 时自动设 Unity Image.color（仍不写 SOLID），
+    可在节点 metadata 增加（插件从 Figma 自定义属性或命名约定读取）：
+
+    <metadata>
+      <tintColor>#2f2f3d</tintColor>       <!-- 仅类型 A 白底模板 -->
+      <tintOpacity>1</tintOpacity>
+    </metadata>
+
+    Unity Importer（待实现）：
+      - 若 imageFile 匹配 white_*.png 且存在 tintColor → Image.color = tintColor
+      - 若无 tintColor → Image.color = 白色，由程序运行时主题覆盖
+
+    若不实现 tintColor：类型 A 节点 Import 后一律白色，**程序负责**设色。
+
+  4.5 资源清单 metadata
+
+    <metadata>
+      <assetMatchMode>filename</assetMatchMode>
+      <fillPolicy>image-only</fillPolicy>              <!-- 新增：声明本包遵守本规范 -->
+      <assetFileNames>
+        <item>white_round_32.png</item>
+        <item>bg-texture.png</item>
+      </assetFileNames>
+    </metadata>
+
+
+五、TEXT 与 IMAGE 的边界
+-------------------------
+
+  节点 type          fills 导出                     Unity 组件
+  ───────────────    ───────────────────────────    ──────────────
+  TEXT               字色在 fills/segments（SOLID）  TMP.fontColor
+                     （TEXT 是唯一允许 SOLID 的     （允许 SOLID 字色）
+                      颜色来源）
+
+  FRAME/RECT/…       必须 IMAGE                     Image / RawImage
+  VECTOR（图标）     IMAGE + imageFile              Image
+
+
+六、Unity 侧规范（程序）
+------------------------
+
+  6.1 资源目录
+
+    统一：Assets/UI/Art/（或 Importer 配置的「美术资源目录」）
+    平铺 PNG，按 imageFile 文件名匹配（见 doc/09）
+    白底模板与彩色图可同目录；通过文件名前缀 white_ 区分
+
+  6.2 Import 行为（目标态）
+
+    imageFile 以 white_ 开头：
+      → Image.sprite = PNG
+      → Image.color = metadata.tintColor 或 白色
+      → **不**生成 _roundedSprites/rounded_*.png
+      → **不**走 Paint Stack 烘焙
+
+    imageFile 为普通彩色 PNG：
+      → Image.sprite = PNG，Image.color = 白
+
+    fills 为空：
+      → 透明容器
+
+    若 XML 仍含 SOLID（旧包）：
+      → Importer 警告：「违反 doc/10，请美术改为 IMAGE」
+      → 可保留兼容模式（临时）：SOLID → Image.color（deprecated）
+
+  6.3 运行时主题
+
+    类型 A 节点建议程序按 irId / 节点名 / 主题键设置 Image.color，例如：
+
+      Theme.Apply(panelBackground, binding.irId);
+
+    Merge 更新 Prefab 时：**保留**程序设置的 color（若开启保留脚本/组件选项）
+
+  6.4 导出回 Figma
+
+    Unity → Figma 时：
+      - 有 Sprite → 写 IMAGE + imageFile（文件名）
+      - white_ 模板 + 有 tint → 可选写 metadata.tintColor，**不写** SOLID fill
+      - 禁止把程序 rounded_*.png 写回 Figma
+
+
+七、命名速查表
+--------------
+
+  前缀 / 模式              含义                    Unity color
+  ─────────────────────    ─────────────────────   ─────────────
+  white_round_{n}.png      白底圆角 n px           程序 tint
+  white_slice_{name}.png   白底可拉伸圆角图          程序 tint
+  white_rect.png           白底无圆角              程序 tint
+  bg-*.png / icon-*.png    成品图                  白色 (1,1,1,1)
+  enter-*-btn.png 等       成品按钮（含渐变）      白色，勿 tint
+
+  同一 white_round_8.png 全项目所有界面共用一份。
+
+
+八、导出包验收清单
+------------------
+
+  美术 / 插件自测：
+    □ 除 TEXT 外，无任何节点 fills.type = SOLID / GRADIENT_*
+    □ 每个 IMAGE 节点 imageFile 非空且磁盘有对应 PNG
+    □ 类型 A PNG 为白底（抽检 RGB ≈ 255,255,255）
+    □ metadata.fillPolicy = image-only（若插件支持）
+    □ assetFileNames 与包内 PNG 一致、无缺失
+
+  Unity Import 自测：
+    □ Importer 预检 0 missing png
+    □ 白底节点 Image.color 符合预期（主题或 tintColor）
+    □ 彩色图节点未被错误 tint
+    □ 无 _roundedSprites 新生成（image-only 模式下）
+    □ 无 _figmaPaint 烘焙（除非仍使用类型 B 复杂图且走旧 Paint Stack）
+
+
+九、与旧规范 / 旧资源的迁移
+---------------------------
+
+  当前 roguelite-main-screen 等包含大量 SOLID → 迁移步骤：
+
+    1. 美术为每个 SOLID 圆角块选定 white_round_{r}.png 或出专属 white_slice
+    2. Figma 改 fills 为 IMAGE，删除 SOLID
+    3. 程序在主题表记录原 SOLID 色值 → 对应 irId 的 Image.color
+    4. 重新 Export full.xml → Unity Merge Import
+    5. 验证视觉一致后，关闭 Importer SOLID 兼容模式
+
+  doc/09 §2.3 中「SOLID 同步纯色 + cornerRadius」**仅适用于未迁移的旧项目**；
+  迁移完成后以本文档为准。
+
+
+十、一句话摘要
+--------------
+
+  Figma 不向 Unity 输出颜色 fill；界面可见部分一律 IMAGE + PNG。
+  可换色 = 白底 PNG（white_*）+ Unity Image.color；不可换色 = 成品彩色 PNG。
+  TEXT 字色是唯一允许导出的 SOLID 颜色。

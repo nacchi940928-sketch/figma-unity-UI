@@ -17,10 +17,11 @@ namespace FigmaUnity.UI.Editor.Figma
                 case "LINE":
                     return "frame";
                 case "RECTANGLE":
+                case "ELLIPSE":
+                case "FRAME":
                     if (HasImageFill(node))
                         return "image";
                     return "frame";
-                case "FRAME":
                 default:
                     return "frame";
             }

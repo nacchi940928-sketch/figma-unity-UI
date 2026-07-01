@@ -122,8 +122,9 @@ namespace FigmaUnity.UI.Editor.Export
                     if (!File.Exists(source))
                         continue;
 
-                    File.Copy(source, Path.Combine(exportDir, fileName), true);
-                    return true;
+                    var destFull = Path.Combine(exportDir, fileName);
+                    if (FileCopyHelper.TryCopy(source, destFull, out _))
+                        return true;
                 }
             }
 

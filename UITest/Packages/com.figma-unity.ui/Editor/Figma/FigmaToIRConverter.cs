@@ -28,12 +28,19 @@ namespace FigmaUnity.UI.Editor.Figma
             exportDir ??= Path.GetDirectoryName(documentPath);
             screenName ??= FigmaExportPackage.GetScreenNameFromDocumentPath(documentPath);
 
-            var doc = FigmaDocumentSerializer.LoadDocument(documentPath);
+            var rootJ = FigmaDocumentSerializer.Load(documentPath);
+            var doc = rootJ.ToObject<FigmaExportDocument>(FigmaDocumentSerializer.GetDocumentDeserializer());
             if (doc?.node == null)
                 throw new JsonException("Invalid Figma export: missing node.");
 
             var copiedAssets = new System.Collections.Generic.Dictionary<string, string>();
             var root = FigmaV2NodeMapper.MapNode(doc.node, null, true, settings, exportDir, screenName, copiedAssets);
+            if (rootJ["node"] is Newtonsoft.Json.Linq.JObject figmaRoot)
+            {
+                PaintMapper.AttachFromDocument(root, figmaRoot);
+                NodeLayoutDocumentMapper.AttachFromDocument(root, figmaRoot);
+                TextStyleDocumentMapper.AttachFromDocument(root, figmaRoot);
+            }
             if (doc.metadata != null)
             {
                 root.meta["screenName"] = doc.metadata.componentName;

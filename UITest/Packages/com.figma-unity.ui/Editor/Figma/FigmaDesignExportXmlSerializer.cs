@@ -22,6 +22,7 @@ namespace FigmaUnity.UI.Editor.Figma
             ["strokes"] = "stroke",
             ["effects"] = "effect",
             ["segments"] = "segment",
+            ["stops"] = "stop",
             ["layoutGrids"] = "layoutGrid",
             ["dashPattern"] = "item"
         };

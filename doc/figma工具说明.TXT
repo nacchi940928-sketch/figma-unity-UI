@@ -122,7 +122,8 @@ json code
 
 json code
 { "type": "IMAGE", "imageFile": null, "imageHash": null, "scaleMode": "FILL", "opacity": 1.0 }
-⚠️ Unity 返回 JSON 时，图片容器的 imageFile 和 imageHash 保持 null，Figma 不会修改 Figma 端已有的图片内容。
+⚠️ Unity 返回 JSON 时，普通图片容器的 imageFile 可写共享文件名（如 reward-plate.png）。
+imageHash 可保持 null。
 
 五、文字节点额外字段
 json code
@@ -174,7 +175,7 @@ json code
 七、Unity 修改与回传规则
 ✅ 可以修改的字段：
 
-x, y, width, height, rotation
+x, y, width, height, rotation, scaleX, scaleY
 visible, opacity
 fills（颜色、渐变；图片保持 null）
 strokes, strokeWeight, effects

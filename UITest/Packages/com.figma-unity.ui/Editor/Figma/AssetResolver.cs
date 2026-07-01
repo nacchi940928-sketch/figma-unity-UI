@@ -22,10 +22,25 @@ namespace FigmaUnity.UI.Editor.Figma
             }
 
             var destAsset = Path.Combine(destDir, imageFile).Replace('\\', '/');
+            return CopyFileToAssetPath(source, destAsset);
+        }
+
+        static string CopyFileToAssetPath(string sourceFullPath, string destAsset)
+        {
             var destFull = Path.GetFullPath(destAsset);
             Directory.CreateDirectory(Path.GetDirectoryName(destFull)!);
-            File.Copy(source, destFull, true);
+
+            if (!FileCopyHelper.TryCopy(sourceFullPath, destFull, out var error))
+            {
+                UnityEngine.Debug.LogWarning($"[Figma UI] {error}");
+                return File.Exists(destFull) ? destAsset : null;
+            }
+
             AssetDatabase.ImportAsset(destAsset);
+
+            if (UiSpriteImporter.IsUiAssetPath(destAsset))
+                UiSpriteImporter.Configure(destAsset);
+
             return destAsset;
         }
 

@@ -23,6 +23,8 @@ namespace FigmaUnity.UI.Editor.Export
         [SerializeField] FigmaDocumentFormat _outputFormat = FigmaDocumentFormat.Xml;
         [SerializeField] bool _alsoWriteJson;
         [SerializeField] string _artAssetRoot = ArtAssetResolver.DefaultArtRoot;
+        List<UnityNodeBindingInfo> _pendingNodes = new List<UnityNodeBindingInfo>();
+        GameObject _lastScannedPrefab;
 
         [MenuItem("Tools/Figma UI 导出 (Exporter)")]
         public static void Open()
@@ -50,7 +52,7 @@ namespace FigmaUnity.UI.Editor.Export
             EditorGUILayout.HelpBox(
                 "把 Unity Prefab 的改动写回 Figma 用的 XML/JSON。\n" +
                 "改完 Prefab 务必 Ctrl+S 保存；在 Prefab 编辑模式导出最准确。\n" +
-                "默认输出 *-unity-export.xml，供 Figma 插件「Import & sync」使用。",
+                "Unity 新增的节点需先点「补全节点」添加 IRBinding，再导出到 Figma。",
                 MessageType.Info);
 
             EditorGUILayout.HelpBox(
@@ -88,6 +90,9 @@ namespace FigmaUnity.UI.Editor.Export
                 "导出 XML 不会写入 Assets 路径；只写文件名 imageFile。\n" +
                 "PNG 会尝试复制到 XML 同目录（可选）；Figma 插件只需 metadata.assetFileNames 中的文件名，在用户自选资源文件夹里按名匹配。",
                 MessageType.None);
+
+            EditorGUILayout.Space();
+            DrawNodeBindingSection();
 
             EditorGUILayout.Space();
             DrawExportProfileSection();
@@ -132,11 +137,29 @@ namespace FigmaUnity.UI.Editor.Export
                         return;
                     }
 
+                    var profile = _exportProfile?.Clone() ?? ExportProfile.DefaultUnityToFigma();
                     var patches = PrefabIRExporter.Export(scope.Root);
                     if (patches == null || patches.Count == 0)
                     {
-                        _statusMessage = "Prefab 中没有 IRBinding 节点。";
+                        _statusMessage = "Prefab 中没有可导出的 UI 节点。新增节点请先点「补全节点」。";
                         return;
+                    }
+
+                    var pendingUnityAdded = 0;
+                    foreach (var patch in patches.Values)
+                    {
+                        if (patch.isUnityAdded)
+                            pendingUnityAdded++;
+                    }
+
+                    if (profile.SyncUnityAddedNodes && pendingUnityAdded > 0)
+                    {
+                        Debug.Log($"[Figma UI Exporter] 将写入 Figma 的新增节点: {pendingUnityAdded}");
+                    }
+                    else if (pendingUnityAdded > 0)
+                    {
+                        Debug.LogWarning(
+                            $"[Figma UI Exporter] 有 {pendingUnityAdded} 个已补全节点未勾选「写入 Figma 的新增节点」，本次不会创建 Figma 图层。");
                     }
 
                     _outputPath = ResolveOutputPath(
@@ -157,7 +180,7 @@ namespace FigmaUnity.UI.Editor.Export
                         _outputPath,
                         new FigmaDocumentMerger.MergeOptions
                         {
-                            ExportProfile = _exportProfile?.Clone() ?? ExportProfile.DefaultUnityToFigma()
+                            ExportProfile = profile
                         },
                         _artAssetRoot);
 
@@ -193,6 +216,7 @@ namespace FigmaUnity.UI.Editor.Export
                         $"格式: {outputFormat}\n" +
                         $"大小: {fileSizeKb:F0} KB\n" +
                         $"Unity 节点: {patches.Count}\n" +
+                        $"新增 Figma 节点: {merge.AddedCount}\n" +
                         $"文档节点: {merge.TotalElements}\n" +
                         $"已删除节点: {merge.RemovedCount}\n" +
                         $"坐标/尺寸变更: {merge.LayoutChangedCount}\n" +
@@ -220,6 +244,149 @@ namespace FigmaUnity.UI.Editor.Export
                 _statusMessage = "Export 失败：\n" + ex.Message;
                 Debug.LogException(ex);
                 EditorUtility.DisplayDialog("Figma 导出失败", ex.Message, "确定");
+            }
+        }
+
+        void DrawNodeBindingSection()
+        {
+            EditorGUILayout.LabelField("节点补全", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(
+                "在 Unity 里手动新增的 UI 节点（如 red-point）没有 IRBinding，Figma 无法识别。\n" +
+                "请先点「补全节点」，工具会添加 IRBinding 并告知节点名称与 irId。",
+                MessageType.None);
+
+            RefreshPendingNodesIfNeeded();
+
+            if (_prefab == null)
+            {
+                EditorGUILayout.HelpBox("请先选择 Prefab。", MessageType.None);
+            }
+            else if (_pendingNodes.Count == 0)
+            {
+                EditorGUILayout.HelpBox("当前没有待补全节点。", MessageType.Info);
+            }
+            else
+            {
+                var preview = new System.Text.StringBuilder();
+                preview.AppendLine($"待补全 {_pendingNodes.Count} 个：");
+                foreach (var node in _pendingNodes)
+                    preview.AppendLine("• " + node.objectName + "  （路径: " + node.hierarchyPath + "）");
+                EditorGUILayout.HelpBox(preview.ToString(), MessageType.Warning);
+            }
+
+            GUI.enabled = _prefab != null;
+            if (GUILayout.Button("补全节点", GUILayout.Height(28)))
+                RunCompleteBindings();
+            GUI.enabled = true;
+        }
+
+        void RefreshPendingNodesIfNeeded()
+        {
+            if (_prefab == _lastScannedPrefab)
+                return;
+
+            _lastScannedPrefab = _prefab;
+            _pendingNodes = ScanPendingNodes(_prefab);
+        }
+
+        static List<UnityNodeBindingInfo> ScanPendingNodes(GameObject prefab)
+        {
+            if (prefab == null)
+                return new List<UnityNodeBindingInfo>();
+
+            using (var scope = ExportHierarchyUtil.ExportScope.Create(prefab))
+            {
+                if (scope.Root == null)
+                    return new List<UnityNodeBindingInfo>();
+                return UnityNodeBindingCompleter.FindPendingNodes(scope.Root);
+            }
+        }
+
+        void RunCompleteBindings()
+        {
+            try
+            {
+                var assetPath = ExportHierarchyUtil.ExportScope.ResolvePrefabAssetPath(_prefab);
+                var stage = PrefabStageUtility.GetCurrentPrefabStage();
+                List<UnityNodeBindingInfo> completed;
+
+                if (stage?.prefabContentsRoot != null
+                    && (_prefab == stage.prefabContentsRoot
+                        || _prefab.transform.IsChildOf(stage.prefabContentsRoot.transform)))
+                {
+                    completed = UnityNodeBindingCompleter.CompleteBindings(stage.prefabContentsRoot);
+                    if (completed.Count > 0)
+                    {
+                        EditorUtility.SetDirty(stage.prefabContentsRoot);
+                        PrefabUtility.SaveAsPrefabAsset(stage.prefabContentsRoot, stage.assetPath);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(assetPath))
+                {
+                    var root = PrefabUtility.LoadPrefabContents(assetPath);
+                    try
+                    {
+                        completed = UnityNodeBindingCompleter.CompleteBindings(root);
+                        if (completed.Count > 0)
+                            PrefabUtility.SaveAsPrefabAsset(root, assetPath);
+                    }
+                    finally
+                    {
+                        PrefabUtility.UnloadPrefabContents(root);
+                    }
+                }
+                else
+                {
+                    using (var scope = ExportHierarchyUtil.ExportScope.Create(_prefab))
+                    {
+                        if (scope.Root == null)
+                        {
+                            _statusMessage = "请选择有效的 Prefab。";
+                            return;
+                        }
+
+                        completed = UnityNodeBindingCompleter.CompleteBindings(scope.Root);
+                    }
+
+                    if (completed.Count > 0)
+                    {
+                        _statusMessage = "已补全节点，但未能自动保存 Prefab。请在 Prefab 编辑模式中操作或手动保存。";
+                        EditorUtility.DisplayDialog(
+                            "节点补全",
+                            UnityNodeBindingCompleter.FormatBindingSummary(completed) +
+                            "\n\n请手动保存 Prefab（Ctrl+S）。",
+                            "确定");
+                        return;
+                    }
+                }
+
+                _lastScannedPrefab = null;
+                RefreshPendingNodesIfNeeded();
+
+                var summary = UnityNodeBindingCompleter.FormatBindingSummary(completed);
+                _statusMessage = completed.Count > 0
+                    ? "节点补全完成\n" + summary
+                    : "没有需要补全的节点。";
+
+                foreach (var node in completed)
+                {
+                    Debug.Log(
+                        "[Figma UI Exporter] 补全节点: " + node.objectName +
+                        " → irId=" + node.irId +
+                        ", 父级=" + node.parentName +
+                        " (" + node.parentIrId + ")");
+                }
+
+                EditorUtility.DisplayDialog(
+                    completed.Count > 0 ? "节点补全完成" : "节点补全",
+                    summary + (completed.Count > 0 ? "\n\nPrefab 已保存，可继续「导出到 Figma」。" : string.Empty),
+                    "确定");
+            }
+            catch (Exception ex)
+            {
+                _statusMessage = "节点补全失败：\n" + ex.Message;
+                Debug.LogException(ex);
+                EditorUtility.DisplayDialog("节点补全失败", ex.Message, "确定");
             }
         }
 
@@ -256,6 +423,9 @@ namespace FigmaUnity.UI.Editor.Export
             _exportProfile.SyncLayoutAdjustments = EditorGUILayout.ToggleLeft(
                 "自动布局转绝对定位（layoutAdjustments）",
                 _exportProfile.SyncLayoutAdjustments);
+            _exportProfile.SyncUnityAddedNodes = EditorGUILayout.ToggleLeft(
+                "写入 Figma 的新增节点（已补全且 figmaNodeId 为空）",
+                _exportProfile.SyncUnityAddedNodes);
             _exportProfile.PruneMissingNodes = EditorGUILayout.ToggleLeft(
                 "移除 Prefab 中已删除的节点",
                 _exportProfile.PruneMissingNodes);
@@ -403,8 +573,12 @@ namespace FigmaUnity.UI.Editor.Export
                     patch.irId,
                     patch.x,
                     patch.y,
+                    patch.rootX,
+                    patch.rootY,
                     patch.width,
                     patch.height,
+                    patch.scaleX,
+                    patch.scaleY,
                     patch.constraintHorizontal,
                     patch.constraintVertical
                 });

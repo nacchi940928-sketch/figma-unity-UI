@@ -94,7 +94,7 @@ namespace FigmaUnity.UI.Editor.Figma
             var weight = ResolveFontWeight(node);
             var fontSize = node.fontSize > 0 ? node.fontSize : ResolveFontSize(node, 14f);
 
-            return new IRText
+            var text = new IRText
             {
                 content = node.characters ?? string.Empty,
                 fontSize = fontSize,
@@ -103,8 +103,76 @@ namespace FigmaUnity.UI.Editor.Figma
                 align = MapTextAlignHorizontal(node.textAlignHorizontal),
                 alignVertical = MapTextAlignVertical(node.textAlignVertical),
                 bold = weight >= 700,
-                italic = false
+                italic = false,
+                textAutoResize = node.textAutoResize
             };
+            ApplyTextLayout(text, node.textAutoResize, node.maxLines);
+            return text;
+        }
+
+        public static void ApplyTextLayout(IRText text, string textAutoResize, int maxLines)
+        {
+            if (text == null)
+                return;
+
+            text.textAutoResize = textAutoResize;
+            text.maxLines = maxLines;
+            text.wordWrap = MapWordWrap(textAutoResize);
+            text.overflow = MapTextOverflow(textAutoResize, maxLines);
+        }
+
+        public static bool MapWordWrap(string textAutoResize)
+        {
+            if (string.IsNullOrWhiteSpace(textAutoResize))
+                return true;
+
+            switch (textAutoResize.Trim().ToUpperInvariant())
+            {
+                case "WIDTH":
+                case "WIDTH_AND_HEIGHT":
+                    return false;
+                default:
+                    return true;
+            }
+        }
+
+        public static string MapTextOverflow(string textAutoResize, int maxLines)
+        {
+            if (maxLines > 0)
+                return "truncate";
+
+            if (string.IsNullOrWhiteSpace(textAutoResize))
+                return "truncate";
+
+            switch (textAutoResize.Trim().ToUpperInvariant())
+            {
+                case "HEIGHT":
+                case "WIDTH":
+                case "WIDTH_AND_HEIGHT":
+                    return "overflow";
+                default:
+                    return "truncate";
+            }
+        }
+
+        public static float MapLineSpacing(float fontSize, Newtonsoft.Json.Linq.JObject lineHeight)
+        {
+            if (lineHeight == null || fontSize <= 0f)
+                return 0f;
+
+            var unit = lineHeight.Value<string>("unit");
+            if (string.IsNullOrWhiteSpace(unit)
+                || string.Equals(unit, "AUTO", System.StringComparison.OrdinalIgnoreCase))
+                return 0f;
+
+            var value = lineHeight.Value<float?>("value") ?? 0f;
+            if (string.Equals(unit, "PERCENT", System.StringComparison.OrdinalIgnoreCase))
+                return fontSize * (value / 100f - 1f);
+
+            if (string.Equals(unit, "PIXELS", System.StringComparison.OrdinalIgnoreCase))
+                return value - fontSize;
+
+            return 0f;
         }
 
         public static int ResolveFontWeight(FigmaNode node)
@@ -122,8 +190,39 @@ namespace FigmaUnity.UI.Editor.Figma
         {
             if (node.fontSize > 0)
                 return node.fontSize;
-            if (node.segments != null && node.segments.Count > 0 && node.segments[0].fontSize > 0)
-                return node.segments[0].fontSize;
+
+            return ResolvePrimarySegmentFontSize(node.segments, fallback);
+        }
+
+        public static float ResolvePrimarySegmentFontSize(System.Collections.Generic.List<FigmaTextSegment> segments, float fallback)
+        {
+            if (segments == null || segments.Count == 0)
+                return fallback;
+
+            var bestSize = 0f;
+            var bestLen = 0;
+            foreach (var segment in segments)
+            {
+                if (segment == null || segment.fontSize <= 0)
+                    continue;
+
+                var len = (segment.text ?? string.Empty).Trim().Length;
+                if (len >= bestLen)
+                {
+                    bestLen = len;
+                    bestSize = segment.fontSize;
+                }
+            }
+
+            if (bestSize > 0f)
+                return bestSize;
+
+            foreach (var segment in segments)
+            {
+                if (segment?.fontSize > 0f)
+                    return segment.fontSize;
+            }
+
             return fallback;
         }
 
@@ -184,19 +283,31 @@ namespace FigmaUnity.UI.Editor.Figma
             return node.strokes[0];
         }
 
-        static string MapTextAlignHorizontal(string align)
+        public static string MapTextAlignHorizontal(string align)
         {
-            if (align == "CENTER") return "center";
-            if (align == "RIGHT") return "right";
-            if (align == "JUSTIFIED") return "justified";
-            return "left";
+            if (string.IsNullOrWhiteSpace(align))
+                return "left";
+
+            switch (align.Trim().ToUpperInvariant())
+            {
+                case "CENTER": return "center";
+                case "RIGHT": return "right";
+                case "JUSTIFIED": return "justified";
+                default: return "left";
+            }
         }
 
-        static string MapTextAlignVertical(string align)
+        public static string MapTextAlignVertical(string align)
         {
-            if (align == "CENTER") return "center";
-            if (align == "BOTTOM") return "bottom";
-            return "top";
+            if (string.IsNullOrWhiteSpace(align))
+                return "top";
+
+            switch (align.Trim().ToUpperInvariant())
+            {
+                case "CENTER": return "center";
+                case "BOTTOM": return "bottom";
+                default: return "top";
+            }
         }
 
         static string MapAxisAlign(string align)

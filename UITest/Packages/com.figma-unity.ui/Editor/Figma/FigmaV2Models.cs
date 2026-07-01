@@ -36,6 +36,8 @@ namespace FigmaUnity.UI.Editor.Figma
         public float rootY;
         public float width;
         public float height;
+        public float scaleX = 1f;
+        public float scaleY = 1f;
         public float rotation;
         public float opacity = 1f;
         public List<FigmaFill> fills = new List<FigmaFill>();
@@ -54,6 +56,8 @@ namespace FigmaUnity.UI.Editor.Figma
         public int fontWeight;
         public string textAlignHorizontal;
         public string textAlignVertical;
+        public string textAutoResize;
+        public int maxLines;
         public List<FigmaTextSegment> segments = new List<FigmaTextSegment>();
         public List<FigmaNode> children = new List<FigmaNode>();
     }

@@ -20,6 +20,7 @@ namespace FigmaUnity.UI.Editor.Config
         public bool SyncImageAssets = true;
         public bool SyncLayoutAdjustments = true;
         public bool PruneMissingNodes = true;
+        public bool SyncUnityAddedNodes = true;
 
         public static ExportProfile DefaultUnityToFigma() => new ExportProfile();
 
@@ -43,7 +44,8 @@ namespace FigmaUnity.UI.Editor.Config
                 SyncFills = SyncFills,
                 SyncImageAssets = SyncImageAssets,
                 SyncLayoutAdjustments = SyncLayoutAdjustments,
-                PruneMissingNodes = PruneMissingNodes
+                PruneMissingNodes = PruneMissingNodes,
+                SyncUnityAddedNodes = SyncUnityAddedNodes
             };
         }
 
@@ -60,7 +62,8 @@ namespace FigmaUnity.UI.Editor.Config
                 ["syncFills"] = SyncFills,
                 ["syncImageAssets"] = SyncImageAssets,
                 ["syncLayoutAdjustments"] = SyncLayoutAdjustments,
-                ["pruneMissingNodes"] = PruneMissingNodes
+                ["pruneMissingNodes"] = PruneMissingNodes,
+                ["syncUnityAddedNodes"] = SyncUnityAddedNodes
             };
         }
     }

@@ -13,12 +13,20 @@ namespace FigmaUnity.UI.Editor.Export
     {
         public string irId;
         public string figmaNodeId;
+        public string name;
+        public string parentIrId;
+        public bool isUnityAdded;
+        public int hierarchyDepth;
         public string type;
         public bool visible;
         public float x;
         public float y;
+        public float rootX;
+        public float rootY;
         public float width;
         public float height;
+        public float scaleX = 1f;
+        public float scaleY = 1f;
         public float rotation;
         public float opacity;
         public string constraintHorizontal = "MIN";
@@ -39,6 +47,7 @@ namespace FigmaUnity.UI.Editor.Export
             if (prefabRoot == null)
                 return patches;
 
+            var prefabRootRt = prefabRoot.GetComponent<RectTransform>();
             var bindings = prefabRoot.GetComponentsInChildren<IRBinding>(true);
             foreach (var binding in bindings)
             {
@@ -53,7 +62,14 @@ namespace FigmaUnity.UI.Editor.Export
                 if (binding.gameObject != prefabRoot)
                     parentRt = rt.transform.parent?.GetComponent<RectTransform>();
 
-                var patch = ExtractPatch(binding.gameObject, rt, parentRt, binding);
+                var patch = ExtractPatch(binding.gameObject, rt, parentRt, prefabRootRt, binding);
+                if (UnityNodeBindingCompleter.IsUnityAddedBinding(binding))
+                {
+                    patch.isUnityAdded = true;
+                    patch.parentIrId = UnityNodeBindingCompleter.FindParentIrId(rt.transform, prefabRoot);
+                    patch.hierarchyDepth = UnityNodeBindingCompleter.GetHierarchyDepth(rt.transform, prefabRoot.transform);
+                }
+
                 patches[binding.irId] = patch;
             }
 
@@ -135,11 +151,7 @@ namespace FigmaUnity.UI.Editor.Export
                 if (binding.gameObject != prefabRoot)
                     parentRt = rt.transform.parent?.GetComponent<RectTransform>();
 
-                CoordReverseTranslator.ReadRectFromTransform(rt, parentRt, out var x, out var y, out var width, out var height);
-                patch.x = x;
-                patch.y = y;
-                patch.width = width;
-                patch.height = height;
+                ScaleExportHelper.ExportLayout(patch, rt, parentRt, rootRt);
                 patch.rotation = -rt.localEulerAngles.z;
 
                 var serialized = RectTransformSerializedReader.Read(rt);
@@ -147,26 +159,40 @@ namespace FigmaUnity.UI.Editor.Export
             }
         }
 
-        static UnityNodePatch ExtractPatch(GameObject go, RectTransform rt, RectTransform parentRt, IRBinding binding)
+        static UnityNodePatch ExtractPatch(
+            GameObject go,
+            RectTransform rt,
+            RectTransform parentRt,
+            RectTransform prefabRootRt,
+            IRBinding binding)
         {
-            CoordReverseTranslator.ReadRectFromTransform(rt, parentRt, out var x, out var y, out var width, out var height);
+            var patch = ExtractPatchFromTransform(go, rt, parentRt, prefabRootRt);
+            patch.irId = binding.irId;
+            patch.figmaNodeId = binding.figmaNodeId;
+            patch.name = go.name;
+            return patch;
+        }
+
+        static UnityNodePatch ExtractPatchFromTransform(
+            GameObject go,
+            RectTransform rt,
+            RectTransform parentRt,
+            RectTransform prefabRootRt)
+        {
             var serialized = RectTransformSerializedReader.Read(rt);
             ConstraintReverseTranslator.ReadConstraints(serialized, out var horizontal, out var vertical);
 
             var patch = new UnityNodePatch
             {
-                irId = binding.irId,
-                figmaNodeId = binding.figmaNodeId,
+                name = go.name,
                 visible = go.activeSelf,
-                x = x,
-                y = y,
-                width = width,
-                height = height,
                 rotation = -rt.localEulerAngles.z,
                 opacity = ResolveOpacity(go),
                 constraintHorizontal = horizontal,
                 constraintVertical = vertical
             };
+
+            ScaleExportHelper.ExportLayout(patch, rt, parentRt, prefabRootRt);
 
             if (go.TryGetComponent<TextMeshProUGUI>(out var tmp))
             {
@@ -219,9 +245,6 @@ namespace FigmaUnity.UI.Editor.Export
                 if (image.color.a < 1f)
                     patch.opacity *= image.color.a;
             }
-
-            if (string.IsNullOrEmpty(fileName))
-                return;
 
             if (string.IsNullOrEmpty(fileName))
                 return;

@@ -228,8 +228,8 @@ namespace FigmaUnity.UI.Editor.Figma
 
             if (!string.IsNullOrEmpty(exportDir))
             {
-                var path = Path.Combine(exportDir, imageFile);
-                if (File.Exists(path))
+                var exportMatch = ArtAssetResolver.FindExistingFile(exportDir, imageFile);
+                if (exportMatch != null)
                     return true;
             }
 

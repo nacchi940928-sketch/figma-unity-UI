@@ -233,6 +233,8 @@ namespace FigmaUnity.UI.Editor.Figma
                     node[child.Name.LocalName] = ReadArrayElement(child);
                 else if (child.HasAttributes)
                     node[child.Name.LocalName] = ReadObjectElement(child);
+                else if (!string.IsNullOrEmpty(child.Value))
+                    node[child.Name.LocalName] = ParseToken(child.Value);
                 else
                     node[child.Name.LocalName] = new JObject();
             }

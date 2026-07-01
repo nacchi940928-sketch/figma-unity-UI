@@ -119,6 +119,62 @@ Figma ↔ Unity 坐标系约定
     不读 anchoredPosition。
 
 
+七-b、scaleX / scaleY（Unity Export → Figma Import）
+-----------------------------------------------
+
+  Unity RectTransform.localScale 在 Prefab 中可能叠加父级缩放，Export 使用 lossyScale：
+
+    scaleX = rectTransform.lossyScale.x
+    scaleY = rectTransform.lossyScale.y
+
+  width / height 写未缩放原始尺寸（rect.width / rect.height），不乘 scale。
+  Figma Import 侧计算有效尺寸：
+
+    effectiveWidth  = width  × scaleX
+    effectiveHeight = height × scaleY
+
+  当 scale ≠ 1 时，x/y 需做 pivot 修正（Figma 左上角坐标系，Y 向下）：
+
+    pivotX = rectTransform.pivot.x
+    pivotY = 1 - rectTransform.pivot.y
+    dx = origWidth  × pivotX × (1 - scaleX)
+    dy = origHeight × pivotY × (1 - scaleY)
+    figmaX += dx
+    figmaY += dy
+
+  例：100×100、center pivot(0.5,0.5)、scale 0.5 → dx=dy=25，Figma 显示 50×50 且位置正确。
+
+  实现：Unity 包 Editor/Export/ScaleExportHelper.cs（2026-07 已合入）。
+  注意：Unity Import 已写回 localScale（ScaleImportHelper，见 doc/11 §二）。
+
+  XML/JSON 字段示例：
+
+    <width>100</width>
+    <height>100</height>
+    <scaleX>0.5</scaleX>
+    <scaleY>0.5</scaleY>
+
+
+七-c、Unity 自建节点的 Anchors / Pivot（Export 前必读）
+-----------------------------------------------------
+
+  Figma 的 x/y = 相对父节点**左上角**，Y 向下。
+  Unity 在 Hierarchy 里新建的 UI 子物体，Inspector 默认常为：
+    Anchors / Pivot = 居中 (0.5, 0.5)
+  若不做调整就 Export，Figma 侧读到的位置容易出现偏移（与 Figma 设计稿对不齐）。
+
+  当前推荐（与 Figma Import 子节点习惯一致）：
+
+    Anchors Min = (0, 1)    Anchors Max = (0, 1)    ← 父级左上角
+    Pivot     = (0, 1)                              ← 自身左上角
+    Scale     = 设计值（Export 会写 scaleX/scaleY）
+
+  从 Figma Import 进 Unity 的节点：Import 会按 constraints 设锚点，通常为左上，一般无需手改。
+  仅「Unity 里手搓的新节点」（如 red-point）需要在 Export 前检查 RectTransform。
+
+  详见 doc/11-字段同步现状与全量对照.txt §七。
+
+
 八、rootX / rootY
 -----------------
 
@@ -137,7 +193,7 @@ Figma ↔ Unity 坐标系约定
   输出：*-unity-export.json
 
   从 Unity 写入（layout 可调整）：
-    x, y, width, height, rotation
+    x, y, width, height, rotation, scaleX, scaleY
     constraints.horizontal / vertical
     characters（文案变更）
     textAlignHorizontal, textAlignVertical（TMP 对齐）

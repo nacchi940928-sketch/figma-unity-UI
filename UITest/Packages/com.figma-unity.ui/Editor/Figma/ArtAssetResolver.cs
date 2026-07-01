@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -33,17 +34,33 @@ namespace FigmaUnity.UI.Editor.Figma
                     return candidate.Replace('\\', '/');
             }
 
-            if (string.IsNullOrEmpty(figmaExportDir))
+            if (!string.IsNullOrEmpty(figmaExportDir))
+            {
+                var exportMatch = FindFileCaseInsensitive(figmaExportDir, imageFile);
+                if (exportMatch != null && copyFromExportDir)
+                    return AssetResolver.CopyImage(figmaExportDir, Path.GetFileName(exportMatch), screenName, generatedRoot);
+            }
+
+            return null;
+        }
+
+        public static string FindExistingFile(string directory, string fileName)
+        {
+            return FindFileCaseInsensitive(directory, fileName);
+        }
+
+        static string FindFileCaseInsensitive(string directory, string fileName)
+        {
+            if (string.IsNullOrEmpty(directory) || string.IsNullOrEmpty(fileName) || !Directory.Exists(directory))
                 return null;
 
-            var exportSource = Path.Combine(figmaExportDir, imageFile);
-            if (!File.Exists(exportSource))
-                return null;
+            foreach (var path in Directory.GetFiles(directory))
+            {
+                if (string.Equals(Path.GetFileName(path), fileName, StringComparison.OrdinalIgnoreCase))
+                    return path;
+            }
 
-            if (!copyFromExportDir)
-                return null;
-
-            return AssetResolver.CopyImage(figmaExportDir, imageFile, screenName, generatedRoot);
+            return null;
         }
 
         public static string GetTextureFileName(Texture texture)
@@ -96,7 +113,12 @@ namespace FigmaUnity.UI.Editor.Figma
 
             Directory.CreateDirectory(exportDir);
             var destFull = Path.GetFullPath(Path.Combine(exportDir, imageFile));
-            File.Copy(sourceFull, destFull, true);
+            if (!FileCopyHelper.TryCopy(sourceFull, destFull, out var error))
+            {
+                Debug.LogWarning($"[Figma UI] {error}");
+                return File.Exists(destFull);
+            }
+
             return true;
         }
 
@@ -145,15 +167,54 @@ namespace FigmaUnity.UI.Editor.Figma
             generatedRoot = NormalizeFolder(generatedRoot);
             screenName = screenName?.Trim();
 
+            foreach (var folder in EnumerateSearchFolders(artAssetRoot, screenName, generatedRoot))
+            {
+                var match = FindAssetPathInFolder(folder, imageFile);
+                if (!string.IsNullOrEmpty(match))
+                    yield return match;
+            }
+        }
+
+        static IEnumerable<string> EnumerateSearchFolders(string artAssetRoot, string screenName, string generatedRoot)
+        {
             if (!string.IsNullOrEmpty(artAssetRoot))
             {
-                yield return $"{artAssetRoot}/{imageFile}";
+                yield return artAssetRoot;
                 if (!string.IsNullOrEmpty(screenName))
-                    yield return $"{artAssetRoot}/{screenName}/{imageFile}";
+                    yield return $"{artAssetRoot}/{screenName}";
             }
 
             if (!string.IsNullOrEmpty(generatedRoot) && !string.IsNullOrEmpty(screenName))
-                yield return $"{generatedRoot}/{screenName}/{imageFile}";
+                yield return $"{generatedRoot}/{screenName}";
+        }
+
+        static string FindAssetPathInFolder(string assetFolder, string imageFile)
+        {
+            assetFolder = NormalizeFolder(assetFolder);
+            if (string.IsNullOrEmpty(assetFolder))
+                return null;
+
+            var projectRoot = Directory.GetParent(Application.dataPath)?.FullName;
+            if (string.IsNullOrEmpty(projectRoot))
+                return null;
+
+            var absoluteFolder = Path.GetFullPath(Path.Combine(projectRoot, assetFolder));
+            var match = FindFileCaseInsensitive(absoluteFolder, imageFile);
+            if (match == null)
+                return null;
+
+            var relative = ToAssetsRelativePath(match);
+            return string.IsNullOrEmpty(relative) ? null : relative;
+        }
+
+        static string ToAssetsRelativePath(string absolutePath)
+        {
+            absolutePath = Path.GetFullPath(absolutePath).Replace('\\', '/');
+            var dataPath = Path.GetFullPath(Application.dataPath).Replace('\\', '/');
+            if (!absolutePath.StartsWith(dataPath, StringComparison.OrdinalIgnoreCase))
+                return null;
+
+            return ("Assets" + absolutePath.Substring(dataPath.Length)).Replace('\\', '/');
         }
 
         static string NormalizeFolder(string folder)
@@ -169,6 +230,14 @@ namespace FigmaUnity.UI.Editor.Figma
                 return false;
 
             assetPath = assetPath.Replace('\\', '/');
+            var projectRoot = Directory.GetParent(Application.dataPath)?.FullName;
+            if (string.IsNullOrEmpty(projectRoot))
+                return false;
+
+            var absolutePath = Path.GetFullPath(Path.Combine(projectRoot, assetPath));
+            if (!File.Exists(absolutePath))
+                return false;
+
             return AssetDatabase.LoadAssetAtPath<Texture>(assetPath) != null
                 || AssetDatabase.LoadAssetAtPath<Sprite>(assetPath) != null;
         }

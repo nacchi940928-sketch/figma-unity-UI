@@ -244,6 +244,8 @@ namespace FigmaUnity.UI.Editor.UI
             {
                 var assetDir = FigmaExportPackage.GetAssetDirectory(_documentPath);
                 var screenName = FigmaExportPackage.GetScreenNameFromDocumentPath(_documentPath);
+                var layoutBoundsWarnings = FigmaLayoutBoundsValidator.ValidateDocument(
+                    FigmaDocumentSerializer.Load(_documentPath));
                 var settings = new FigmaImportSettings
                 {
                     CopyAssets = true,
@@ -270,15 +272,21 @@ namespace FigmaUnity.UI.Editor.UI
                         report.MergeCreatedCount = mergeResult.CreatedCount;
                         report.MergeRemovedCount = mergeResult.RemovedCount;
                         report.MergePreservedUnityChildren = mergeResult.PreservedUnityChildCount;
+                        report.RemappedIdCount = mergeResult.RemappedIdCount;
 
                         foreach (var w in validation)
                             report.Warnings.Add("[validate] " + w);
+                        foreach (var w in layoutBoundsWarnings)
+                            report.Warnings.Add("[layout-bounds] " + w);
 
                         PrefabUtility.SaveAsPrefabAsset(root, _prefabPath);
                         SetPreview(
                             $"Merge 完成 → {_prefabPath}\n" +
                             $"更新: {mergeResult.UpdatedCount}  新建: {mergeResult.CreatedCount}  " +
                             $"删除: {mergeResult.RemovedCount}  保留 Unity 子节点: {mergeResult.PreservedUnityChildCount}" +
+                            (mergeResult.RemappedIdCount > 0
+                                ? $"  irId 重映射: {mergeResult.RemappedIdCount}"
+                                : string.Empty) +
                             (report.MergePreservedAnchorsCount > 0
                                 ? $"  保留锚点并同步布局: {report.MergePreservedAnchorsCount}"
                                 : string.Empty),
@@ -296,6 +304,8 @@ namespace FigmaUnity.UI.Editor.UI
 
                     foreach (var w in validation)
                         report.Warnings.Add("[validate] " + w);
+                    foreach (var w in layoutBoundsWarnings)
+                        report.Warnings.Add("[layout-bounds] " + w);
 
                     if (existing != null)
                         AssetDatabase.DeleteAsset(_prefabPath);
@@ -311,6 +321,20 @@ namespace FigmaUnity.UI.Editor.UI
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(_prefabPath);
                 Selection.activeObject = prefab;
                 report.LogSummary();
+
+                if (layoutBoundsWarnings.Count > 0)
+                {
+                    var preview = layoutBoundsWarnings.Count > 8
+                        ? string.Join("\n", layoutBoundsWarnings.GetRange(0, 8)) +
+                          $"\n… 另有 {layoutBoundsWarnings.Count - 8} 条"
+                        : string.Join("\n", layoutBoundsWarnings);
+                    EditorUtility.DisplayDialog(
+                        "布局坐标警告",
+                        "以下节点的坐标/尺寸超出父节点范围，可能是导出时将绝对坐标误写为相对坐标：\n\n" +
+                        preview,
+                        "确定");
+                }
+
                 EditorUtility.DisplayDialog("Figma 导入完成", $"已保存 Prefab：\n{_prefabPath}", "确定");
             }
             catch (System.Exception ex)
@@ -539,7 +563,8 @@ namespace FigmaUnity.UI.Editor.UI
             EditorGUILayout.LabelField("导入配置", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox(
                 "选择 Figma 数据如何应用到 Unity Prefab。\n" +
-                "★ 日常推荐【视觉合并】：策划/UI 改布局与视觉，程序已设的锚点与适配会保留。\n" +
+                "★ 日常推荐【视觉合并】：Figma 改尺寸/字号/对齐后会同步到 Prefab。\n" +
+                "★ 若程序已手动改过锚点且要保留：勾选「合并时保留锚点」。\n" +
                 "★ 首次导入或整页重做：选【静态绝对布局】，下方点【全量重建】。",
                 MessageType.None);
 

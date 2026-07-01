@@ -16,6 +16,8 @@ namespace FigmaUnity.UI.Editor.IR
         public int MergeRemovedCount;
         public int MergePreservedUnityChildren;
         public int MergePreservedAnchorsCount;
+        public int PaintStackCount;
+        public int RemappedIdCount;
         public readonly List<string> Warnings = new List<string>();
         public readonly List<string> MissingAssets = new List<string>();
 
@@ -29,7 +31,8 @@ namespace FigmaUnity.UI.Editor.IR
             UnityEngine.Debug.Log(
                 $"[Figma UI Import] nodes={NodeCount} text={TextCount} image={ImageCount} " +
                 $"vectorPlaceholders={VectorPlaceholderCount} lines={LineCount} " +
-                $"layoutFillGroups={LayoutFillGroupCount} shadowsSkipped={ShadowSkippedCount}{mergePart} " +
+                $"layoutFillGroups={LayoutFillGroupCount} shadowsSkipped={ShadowSkippedCount} " +
+                $"paintStacks={PaintStackCount}{mergePart} " +
                 $"warnings={Warnings.Count} missingAssets={MissingAssets.Count}");
             foreach (var w in Warnings)
                 UnityEngine.Debug.LogWarning($"[Figma UI Import] {w}");

@@ -41,7 +41,7 @@ namespace FigmaUnity.UI.Editor.Config
         };
 
         /// <summary>
-        /// Figma updates layout/visuals; programmer anchors/adaptation on existing nodes are kept.
+        /// Figma updates layout/visuals on merge. Disable to keep programmer anchor/pivot tweaks.
         /// </summary>
         public static ImportProfile VisualMerge() => new ImportProfile
         {
@@ -51,7 +51,7 @@ namespace FigmaUnity.UI.Editor.Config
             ApplyAutoLayoutFill = false,
             ApplyTypography = true,
             ApplyTextAlignment = true,
-            PreserveAnchorsOnMerge = true
+            PreserveAnchorsOnMerge = false
         };
 
         public ImportProfile Clone()

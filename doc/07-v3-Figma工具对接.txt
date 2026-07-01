@@ -1,8 +1,8 @@
 Figma ↔ Unity v3 工具对接说明
 ================================
 
-更新：2026-06-29
-关联：doc/figma工具说明.TXT | doc/06-坐标系约定.txt
+更新：2026-07-01
+关联：doc/figma工具说明.TXT | doc/06-坐标系约定.txt | doc/11-字段同步现状与全量对照.txt
 
 一、工具分工
 ------------
@@ -55,7 +55,7 @@ Figma ↔ Unity v3 工具对接说明
   Text alignment                TMP horizontalAlignment / verticalAlignment
 
   始终导入（不可关）：
-    x, y, width, height, rotation, visible, opacity
+    x, y, width, height, rotation, scaleX, scaleY → localScale, visible, opacity
     fills, strokes, cornerRadius（FrameBuilder）
     characters, text.color
     IRBinding.figmaNodeId = JSON id
@@ -79,13 +79,14 @@ Figma ↔ Unity v3 工具对接说明
 
   选项                          写回 JSON 字段
   ────────────────────────────  ───────────────────────────────
-  Position / size / rotation    x, y, width, height, rotation
+  Position / size / rotation    x, y, width, height, rotation, scaleX, scaleY
   Visibility / opacity            visible, opacity
   Constraints                     constraints.horizontal / vertical
   Text content                    characters, segments[].text
   Text alignment                  textAlignHorizontal / Vertical
   Typography                      fontFamily, fontSize, fontWeight, segments 字体
   Fills                           fills（SOLID，来自 Unity Image/TMP 色）
+  Image assets                    fills.imageFile + 导出 PNG
   Auto Layout → absolute          layoutMode=NONE + metadata.layoutAdjustments
   Remove deleted nodes            从 children 移除 Prefab 中不存在的节点
 
@@ -99,6 +100,7 @@ Figma ↔ Unity v3 工具对接说明
 
   已用于 Import/build：
     id, name, type, visible, x/y, width/height, rotation, opacity
+    scaleX, scaleY（Import → localScale；Export 写 lossyScale）
     fills, strokes, cornerRadius, effects（shadow 降级）
     layout（mode, padding, spacing, align）
     layoutSizingHorizontal / Vertical（FILL → LayoutElement）
@@ -133,6 +135,21 @@ Figma ↔ Unity v3 工具对接说明
   3. 程序设锚点/适配；改 Prefab 后 Export（Default，constraints 默认关闭）
   4. Figma Tool 2 Import（不勾 constraints）
   5. 策划/UI 改 Figma → Unity 再 Import（Visual Merge）
+
+  Unity 自建节点 Export 前：Anchors / Pivot 设为左上角 (0, 1)，见 doc/06 §七-c、doc/11 §七。
+
+
+九、字段同步现状（摘要）
+------------------------
+
+  完整对照表见 doc/11-字段同步现状与全量对照.txt。
+
+  要点：
+    · Figma = 全量导出；Unity Export = 模板 Patch，非 Prefab 全量。
+    · scale：Unity↔Figma Export/Import 均已支持 scaleX/Y。
+    · 自建节点：默认居中锚点会导致 Figma 位置偏移，Export 前改左上锚点。
+    · Figma 独有字段（strokes 细节、组件属性等）靠模板保留。
+    · Unity 独有（Button、脚本）靠 Prefab Merge 保留，不进 XML。
 
 
 八、XML 格式（与 JSON 等价）

@@ -41,8 +41,11 @@ namespace FigmaUnity.UI.Editor.Export
             result.ImagesChangedCount = 0;
             result.ImagesExportedCount = 0;
 
-            var index = IndexNodesByIrId(node);
-            ApplyPatches(index, patches, matched, result, options);
+            var index = new Dictionary<string, JObject>();
+            var parentIrIdByChild = new Dictionary<string, string>();
+            FigmaCoordExporter.IndexTree(node, null, index, parentIrIdByChild);
+            ApplyPatches(index, parentIrIdByChild, patches, matched, result, options);
+            InsertUnityAddedNodes(index, parentIrIdByChild, patches, matched, result, options);
             result.UnityNodeCount = patches.Count;
 
             AutoLayoutExportPatcher.NormalizeResult layoutNormalize = null;
@@ -76,6 +79,9 @@ namespace FigmaUnity.UI.Editor.Export
 
             result.TotalElements = RecomputeRootCoords(node, 0f, 0f);
 
+            foreach (var boundsWarning in FigmaLayoutBoundsValidator.ValidateDocument(root))
+                result.Warnings.Add("[layout-bounds] " + boundsWarning);
+
             if (options.IncludeLayout
                 && root["metadata"]?.Value<bool?>("rootNormalized") == true)
             {
@@ -85,10 +91,12 @@ namespace FigmaUnity.UI.Editor.Export
                 node["rootY"] = 0;
             }
 
-            foreach (var irId in patches.Keys)
+            foreach (var pair in patches)
             {
-                if (!matched.Contains(irId))
-                    result.Warnings.Add($"Unity node not found in template JSON: {irId}");
+                if (pair.Value.isUnityAdded)
+                    continue;
+                if (!matched.Contains(pair.Key))
+                    result.Warnings.Add($"Unity node not found in template JSON: {pair.Key}");
             }
 
             if (root["metadata"] is JObject metadata)
@@ -96,6 +104,7 @@ namespace FigmaUnity.UI.Editor.Export
                 metadata["exportedAt"] = DateTime.UtcNow.ToString("o");
                 metadata["totalElements"] = result.TotalElements;
                 metadata["unityNodeCount"] = result.UnityNodeCount;
+                metadata["unityAddedNodeCount"] = result.AddedCount;
                 metadata["removedNodeCount"] = result.RemovedCount;
                 metadata["preserveTypography"] = options.PreserveTypography;
                 metadata["exportProfile"] = options.ExportProfile.ToMetadataJson();
@@ -111,7 +120,7 @@ namespace FigmaUnity.UI.Editor.Export
                     ["figmaRootAnchor"] = "top-left",
                     ["unityRootAnchor"] = "center",
                     ["rootNormalized"] = root["metadata"]?.Value<bool?>("rootNormalized") ?? true,
-                    ["note"] = "JSON x/y are Figma semantics. Unity root uses center anchor; child coords are relative to parent top-left."
+                    ["note"] = "JSON x/y are parent-relative Figma coords. Export derives them from Unity rootX/rootY minus the Figma template parent's rootX/rootY."
                 };
 
                 if (layoutNormalize != null)
@@ -171,34 +180,110 @@ namespace FigmaUnity.UI.Editor.Export
             return result;
         }
 
-        static Dictionary<string, JObject> IndexNodesByIrId(JObject node)
+        static void InsertUnityAddedNodes(
+            Dictionary<string, JObject> index,
+            Dictionary<string, string> parentIrIdByChild,
+            Dictionary<string, UnityNodePatch> patches,
+            HashSet<string> matched,
+            FigmaDocumentMerger.MergeResult result,
+            FigmaDocumentMerger.MergeOptions options)
         {
-            var index = new Dictionary<string, JObject>();
-            IndexNode(node, index);
-            return index;
+            if (!options.ExportProfile.SyncUnityAddedNodes)
+                return;
+
+            var added = new List<UnityNodePatch>();
+            foreach (var patch in patches.Values)
+            {
+                if (!patch.isUnityAdded)
+                    continue;
+                if (index.ContainsKey(patch.irId))
+                {
+                    matched.Add(patch.irId);
+                    continue;
+                }
+
+                added.Add(patch);
+            }
+
+            added.Sort((a, b) => a.hierarchyDepth.CompareTo(b.hierarchyDepth));
+
+            foreach (var patch in added)
+            {
+                if (index.ContainsKey(patch.irId))
+                    continue;
+
+                if (string.IsNullOrEmpty(patch.parentIrId)
+                    || !index.TryGetValue(patch.parentIrId, out var parent))
+                {
+                    result.Warnings.Add(
+                        $"Unity added node '{patch.name}' ({patch.irId}): parent not found ({patch.parentIrId}).");
+                    continue;
+                }
+
+                var newNode = BuildNewNodeFromPatch(patch);
+                ApplyPatch(newNode, patch, options, result, parentIrIdByChild, patches, index);
+
+                if (parent["children"] is not JArray children)
+                {
+                    children = new JArray();
+                    parent["children"] = children;
+                }
+
+                children.Add(newNode);
+                index[patch.irId] = newNode;
+                matched.Add(patch.irId);
+                result.AddedCount++;
+                result.UpdatedCount++;
+            }
         }
 
-        static void IndexNode(JObject node, Dictionary<string, JObject> index)
+        static JObject BuildNewNodeFromPatch(UnityNodePatch patch)
         {
-            if (node == null)
-                return;
+            var figmaType = patch.type switch
+                {
+                    "text" => "TEXT",
+                    "image" => "RECTANGLE",
+                    "frame" => "FRAME",
+                    _ => "FRAME"
+                };
 
-            var irId = node.Value<string>("irId");
-            if (!string.IsNullOrEmpty(irId) && !index.ContainsKey(irId))
-                index[irId] = node;
-
-            if (node["children"] is not JArray children)
-                return;
-
-            foreach (var childToken in children)
+            var node = new JObject
             {
-                if (childToken is JObject child)
-                    IndexNode(child, index);
-            }
+                ["irId"] = patch.irId,
+                ["name"] = string.IsNullOrEmpty(patch.name) ? patch.irId : patch.name,
+                ["type"] = figmaType,
+                ["visible"] = patch.visible,
+                ["locked"] = false,
+                ["x"] = patch.x,
+                ["y"] = patch.y,
+                ["width"] = patch.width,
+                ["height"] = patch.height,
+                ["rotation"] = patch.rotation,
+                ["scaleX"] = patch.scaleX,
+                ["scaleY"] = patch.scaleY,
+                ["opacity"] = patch.opacity,
+                ["blendMode"] = "PASS_THROUGH",
+                ["children"] = new JArray(),
+                ["constraints"] = new JObject
+                {
+                    ["horizontal"] = patch.constraintHorizontal ?? "MIN",
+                    ["vertical"] = patch.constraintVertical ?? "MIN"
+                },
+                ["layout"] = new JObject
+                {
+                    ["layoutMode"] = "NONE"
+                },
+                ["layoutSizingHorizontal"] = "FIXED",
+                ["layoutSizingVertical"] = "FIXED",
+                ["layoutPositioning"] = "AUTO"
+            };
+
+            return node;
         }
 
         static void ApplyPatches(
             Dictionary<string, JObject> index,
+            Dictionary<string, string> parentIrIdByChild,
             Dictionary<string, UnityNodePatch> patches,
             HashSet<string> matched,
             FigmaDocumentMerger.MergeResult result,
@@ -209,7 +294,7 @@ namespace FigmaUnity.UI.Editor.Export
                 if (!index.TryGetValue(pair.Key, out var node))
                     continue;
 
-                ApplyPatch(node, pair.Value, options, result);
+                ApplyPatch(node, pair.Value, options, result, parentIrIdByChild, patches, index);
                 matched.Add(pair.Key);
                 result.UpdatedCount++;
             }
@@ -333,7 +418,10 @@ namespace FigmaUnity.UI.Editor.Export
             JObject node,
             UnityNodePatch patch,
             FigmaDocumentMerger.MergeOptions options,
-            FigmaDocumentMerger.MergeResult result)
+            FigmaDocumentMerger.MergeResult result,
+            Dictionary<string, string> parentIrIdByChild,
+            Dictionary<string, UnityNodePatch> patches,
+            Dictionary<string, JObject> templateIndex)
         {
             var profile = options.ExportProfile;
 
@@ -345,14 +433,26 @@ namespace FigmaUnity.UI.Editor.Export
 
             if (profile.SyncTransform)
             {
-                if (LayoutDiffers(node, patch))
+                var nodeIrId = node.Value<string>("irId");
+                FigmaCoordExporter.ResolveFigmaLocalCoords(
+                    patch,
+                    nodeIrId,
+                    parentIrIdByChild,
+                    patches,
+                    templateIndex,
+                    out var localX,
+                    out var localY);
+
+                if (LayoutDiffers(node, patch, localX, localY))
                     result.LayoutChangedCount++;
 
-                node["x"] = patch.x;
-                node["y"] = patch.y;
+                node["x"] = localX;
+                node["y"] = localY;
                 node["width"] = patch.width;
                 node["height"] = patch.height;
                 node["rotation"] = patch.rotation;
+                node["scaleX"] = patch.scaleX;
+                node["scaleY"] = patch.scaleY;
             }
 
             if (profile.SyncConstraints)
@@ -583,13 +683,15 @@ namespace FigmaUnity.UI.Editor.Export
                 node["textAlignVertical"] = patch.text.alignVertical.ToUpperInvariant();
         }
 
-        static bool LayoutDiffers(JObject node, UnityNodePatch patch)
+        static bool LayoutDiffers(JObject node, UnityNodePatch patch, float localX, float localY)
         {
-            return !NearlyEqual(node.Value<float?>("x"), patch.x)
-                || !NearlyEqual(node.Value<float?>("y"), patch.y)
+            return !NearlyEqual(node.Value<float?>("x"), localX)
+                || !NearlyEqual(node.Value<float?>("y"), localY)
                 || !NearlyEqual(node.Value<float?>("width"), patch.width)
                 || !NearlyEqual(node.Value<float?>("height"), patch.height)
-                || !NearlyEqual(node.Value<float?>("rotation"), patch.rotation);
+                || !NearlyEqual(node.Value<float?>("rotation"), patch.rotation)
+                || ScaleExportHelper.ScalesDiffer(node.Value<float?>("scaleX"), patch.scaleX)
+                || ScaleExportHelper.ScalesDiffer(node.Value<float?>("scaleY"), patch.scaleY);
         }
 
         static bool ConstraintsDiffer(JObject node, UnityNodePatch patch)

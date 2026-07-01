@@ -14,6 +14,15 @@ namespace FigmaUnity.UI.Editor.Figma
 
     public static class FigmaDocumentSerializer
     {
+        static readonly JsonSerializer DocumentDeserializer = JsonSerializer.Create(new JsonSerializerSettings
+        {
+            Converters =
+            {
+                new FlexibleFloatConverter(),
+                new FlexibleIntConverter()
+            }
+        });
+
         public static bool IsXmlPath(string path)
         {
             return string.Equals(Path.GetExtension(path), ".xml", StringComparison.OrdinalIgnoreCase);
@@ -69,9 +78,11 @@ namespace FigmaUnity.UI.Editor.Figma
         public static FigmaExportDocument LoadDocument(string path)
         {
             var root = Load(path);
-            return root.ToObject<FigmaExportDocument>()
+            return root.ToObject<FigmaExportDocument>(DocumentDeserializer)
                 ?? throw new JsonException("Invalid Figma export document.");
         }
+
+        public static JsonSerializer GetDocumentDeserializer() => DocumentDeserializer;
 
         public static void SaveDocument(JObject root, string path, bool indent = true)
         {

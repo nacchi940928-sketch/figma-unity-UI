@@ -15,15 +15,18 @@ namespace FigmaUnity.UI.Editor.Figma
             Dictionary<string, string> copiedAssets)
         {
             var irType = TypeMapper.MapIrType(node);
+            var (x, y) = ResolvePosition(node, parent, isRoot, settings);
             var ir = new IRNode
             {
                 version = "1.0.0",
                 id = node.irId,
                 type = irType,
-                x = isRoot && settings.UseRootNormalized ? 0f : node.x,
-                y = isRoot && settings.UseRootNormalized ? 0f : node.y,
+                x = x,
+                y = y,
                 width = node.width,
                 height = node.height,
+                scaleX = node.scaleX,
+                scaleY = node.scaleY,
                 anchor = "top-left",
                 opacity = node.opacity,
                 cornerRadius = node.cornerRadius,
@@ -52,6 +55,24 @@ namespace FigmaUnity.UI.Editor.Figma
             }
 
             return ir;
+        }
+
+        /// <summary>
+        /// Prefer rootX/rootY delta so GROUP children with absolute x/y still land correctly.
+        /// </summary>
+        static (float x, float y) ResolvePosition(
+            FigmaNode node,
+            FigmaNode parent,
+            bool isRoot,
+            FigmaImportSettings settings)
+        {
+            if (isRoot && settings.UseRootNormalized)
+                return (0f, 0f);
+
+            if (parent != null)
+                return (node.rootX - parent.rootX, node.rootY - parent.rootY);
+
+            return (node.x, node.y);
         }
 
         static Dictionary<string, object> BuildMeta(
@@ -83,12 +104,13 @@ namespace FigmaUnity.UI.Editor.Figma
             if (shadow != null)
                 meta["shadow"] = shadow;
 
-            if (irType == "image" && node.fills != null)
+            if (TypeMapper.HasImageFill(node) && node.fills != null)
             {
                 foreach (var fill in node.fills)
                 {
                     if (fill?.type != "IMAGE" || string.IsNullOrEmpty(fill.imageFile))
                         continue;
+
                     meta["imageFile"] = fill.imageFile;
                     meta["imageHash"] = fill.imageHash;
                     var assetPath = ArtAssetResolver.ResolveUnityAssetPath(

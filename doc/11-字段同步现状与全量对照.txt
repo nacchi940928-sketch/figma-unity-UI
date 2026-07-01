@@ -1,0 +1,144 @@
+Figma ↔ Unity 字段同步现状与全量对照
+====================================
+
+状态：2026-07-01 审计快照（后续随实现更新）
+关联：doc/06-坐标系约定.txt | doc/07-v3-Figma工具对接.txt | doc/figma工具说明.TXT
+
+本文档记录「Figma 全量导出」与「Unity 导出/导入」的字段覆盖差异，
+避免双向同步时误以为 Unity 也在做全量导出。
+
+
+一、架构结论（必读）
+--------------------
+
+  Figma Tool 1  — 全量导出 *-full.xml（完整节点树 + 全部 Figma 字段）
+  Unity Import    — 选择性映射到 IR / Prefab（见 §三）
+  Unity Export    — **不是全量**：以 *-full.xml 为模板做 Patch 合并（FigmaJsonPatchMerger）
+  Figma Tool 2  — 按 id 更新 Figma 画布
+
+  ★ Unity Export 未写入的 Figma 字段，只要模板里还在、且节点未被 Prune，
+    会原样保留在 *-unity-export.xml 中。
+  ★ Unity Prefab 上的自定义组件（Button、脚本等）只在 Prefab Merge 时保留，
+    不会进入 Figma XML。
+
+
+二、scaleX / scaleY 现状
+------------------------
+
+  【Export → Figma】已实现（Editor/Export/ScaleExportHelper.cs）
+    - 读取 rectTransform.lossyScale（含父级叠加缩放）
+    - width/height 写未缩放原始尺寸（rect.width / rect.height）
+    - scale ≠ 1 时对 x/y 做 pivot 修正后写入 XML
+    - 字段：scaleX、scaleY（F4 精度）
+
+  【Figma → Unity Import】已实现（Editor/Build/ScaleImportHelper.cs）
+    - 读 XML/JSON 的 scaleX、scaleY → RectTransform.localScale
+    - width/height 仍为未缩放尺寸（sizeDelta）
+    - 根节点 localScale 恒为 (1,1,1)
+
+  往返：Unity 改 scale → Export → Figma Import → Unity 再 Import 可恢复 localScale。
+
+
+三、共享字段（需双向转换）
+--------------------------
+
+  字段                    Figma→Unity    Unity→Figma      备注
+  ──────────────────────  ─────────────  ───────────────  ──────────────────────────
+  x/y/width/height        ✅             ✅ 默认开        含 Figma 父级 root 换算
+  scaleX/scaleY           ✅ localScale   ✅ Export 已写    往返已打通（2026-07）
+  rotation                ✅             ✅
+  visible / opacity       ✅             ✅ 默认开
+  constraints             ⚠️ 可选        ⚠️ 默认关
+  characters              ✅             ✅ 默认开
+  textAlign H/V           ✅             ✅ 默认开
+  fontFamily/size/color   ⚠️ 可选        ⚠️ 默认关；Exporter 未从 TMP 读字体
+  textAutoResize/wrap 等  ✅             ❌               仅 Figma→Unity
+  IMAGE imageFile         ✅             ✅ SyncImageAssets
+  SOLID fill              ✅             ⚠️ SyncFills 默认关
+  strokes/effects/圆角    ✅ 烘焙/_figmaPaint  ❌ 不回写   靠模板保留
+  layout Auto Layout      ⚠️ 部分         ⚠️ 仅改 NONE    不做完整双向
+
+
+四、Figma 独有（Unity 不生成；Export 靠模板保留）
+------------------------------------------------
+
+  id, type, locked
+  blendMode, isMask, maskType, absoluteRenderBounds
+  完整 strokes（cap/join/dash/分边 weight）、effects、渐变 fill（stops/transform）
+  layoutGrids, layoutPositioning, layoutWrap
+  componentPropertyDefinitions, variantProperties, componentProperties
+  letterSpacing, textDecoration, textCase, 多段 mixed segments
+  imageHash（Figma 资源匹配用）
+
+  规范：Unity 禁止修改 id、type；irId/rootX/rootY 为只读参考。
+
+
+五、Unity 独有（Figma 无；Prefab Merge 保留，Export 不写）
+--------------------------------------------------------
+
+  IRBinding（irId, figmaNodeId, irVersion）
+  Button / BoxCollider / 自定义 MonoBehaviour
+  无 IRBinding 的子节点（需「补全节点」后才进 Figma children）
+  _figmaPaint（渐变/描边/阴影烘焙子节点，Export 跳过）
+  RaycastTarget、Interactable、Animator 等
+  Unity 层级与 Figma 不一致时（如 home-button 挂 Prefab 根下）：
+    Export 用 Figma 模板父级换算 x/y，不改 Figma 树结构
+
+
+六、Unity Export 实际读取（UnityNodePatch）
+------------------------------------------
+
+  从 Prefab 读取：几何、scale、visible、opacity、constraints、
+  文案 content/对齐、IMAGE 文件名、SOLID 降级色。
+
+  未读取：cornerRadius、strokes、effects、layout 参数、letterSpacing、
+  lineHeight、textAutoResize、blendMode 等。
+
+  Sidecar *.patches.json 仅为调试子集，非全量快照。
+
+
+七、Unity 自建节点：锚点 / Pivot（重要）
+---------------------------------------
+
+  现象：
+    在 Unity 里手动新建的 UI 节点（非 Figma Import 生成），若 RectTransform
+    保持默认「居中锚点 / 居中 Pivot」(0.5, 0.5)，导出后在 Figma 中读取位置
+    会出现偏移。
+
+  原因：
+    Figma JSON/XML 的 x/y 语义 = 相对**父节点左上角**，Y 向下。
+    Unity 新建 UI 子物体默认常为 anchor/pivot 居中，与 Figma 左上角语义不一致；
+    再叠加 scale ≠ 1 时，视觉左上角与 (x,y) 框的对应关系更敏感。
+
+  当前推荐（Export 前手动设置，与 Figma Import 子节点一致）：
+
+    Anchors Min / Max : (0, 1)   ← 父级左上角
+    Pivot             : (0, 1)   ← 自身左上角
+    Scale             : 按设计（Export 会写 scaleX/scaleY + pivot 修正）
+
+  参考：doc/06-坐标系约定.txt §七-c
+
+  Figma Import 生成的节点：由 ConstraintTranslator / CoordTranslator 按
+  constraints 设锚点，一般已是 MIN/MIN（左上），无需手调。
+
+  待改进（代码）：Export/Import 全锚点/pivot 组合的无损往返（未实现）。
+
+
+八、已知缺口清单（待后续版本）
+------------------------------
+
+  P0  （已完成）scale Import → localScale
+  P1  Typography Export 从 TMP 读 fontFamily/fontSize/color
+  P1  自建节点 Export 自动规范化 anchor/pivot 或文档+Inspector 提示
+  P2  strokes/effects/corner 从 Unity 回写 Figma
+  P2  textAutoResize / maxLines / lineSpacing Export
+  P3  metadata.unityExtensions 记录 Unity 独有组件清单（审计用，Figma 可忽略）
+
+
+九、文档维护
+------------
+
+  实现变更时请同步更新：
+    - 本文件 §二 scale、§七 锚点、§八 缺口
+    - doc/06-坐标系约定.txt
+    - doc/07-v3-Figma工具对接.txt Export Profile 表
