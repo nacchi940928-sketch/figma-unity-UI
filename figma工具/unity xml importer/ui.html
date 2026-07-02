@@ -1,0 +1,384 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px;
+      background: var(--figma-color-bg, #ffffff);
+      color: var(--figma-color-text, #1e1e1e);
+    }
+    .section-title {
+      font-size: 11px; font-weight: 600;
+      color: var(--figma-color-text-secondary, #666);
+      padding: 8px 12px 4px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .file-row { padding: 4px 12px 6px; }
+    .file-row label { display: block; color: var(--figma-color-text-secondary, #888); margin-bottom: 3px; }
+    .file-input {
+      width: 100%; padding: 4px 6px;
+      border: 1px solid var(--figma-color-border, #e5e5e5);
+      border-radius: 4px; font-size: 10px; font-family: inherit;
+      background: var(--figma-color-bg, #fff);
+      color: var(--figma-color-text, #1e1e1e); cursor: pointer;
+    }
+    .file-input:hover { border-color: var(--figma-color-bg-brand, #0d99ff); }
+    .asset-count {
+      padding: 0 12px 4px;
+      color: var(--figma-color-text-secondary, #888); font-size: 10px;
+    }
+    .expected-files { padding: 2px 12px 4px; }
+    .expected-files-title {
+      font-size: 11px; color: var(--figma-color-text-secondary, #888); margin-bottom: 3px;
+    }
+    .expected-file-item { display: flex; align-items: center; gap: 5px; font-size: 11px; line-height: 1.5; }
+    .expected-file-item .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .expected-file-item .dot.found { background: #18a058; }
+    .expected-file-item .dot.missing { background: var(--figma-color-text-secondary, #888); }
+    .expected-file-item .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .expected-file-item .name.missing { color: var(--figma-color-text-secondary, #888); }
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 12px; }
+    .toggle-label { flex: 1; margin-right: 8px; line-height: 1.4; }
+    .switch { position: relative; display: inline-block; width: 32px; height: 18px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--figma-color-bg-tertiary, #e5e5e5); border-radius: 9px; transition: background 0.2s;
+    }
+    .slider::before {
+      content: ''; position: absolute; width: 14px; height: 14px; left: 2px; bottom: 2px;
+      background: white; border-radius: 50%; transition: transform 0.2s;
+    }
+    input:checked + .slider { background: var(--figma-color-bg-brand, #0d99ff); }
+    input:checked + .slider::before { transform: translateX(14px); }
+    .select-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 12px; }
+    .select-row label { color: var(--figma-color-text-secondary, #888); }
+    .format-select {
+      padding: 3px 6px; border: 1px solid var(--figma-color-border, #e5e5e5);
+      border-radius: 4px; font-size: 11px; font-family: inherit;
+      background: var(--figma-color-bg, #fff); color: var(--figma-color-text, #1e1e1e); cursor: pointer;
+    }
+    .divider { height: 1px; background: var(--figma-color-border, #e5e5e5); margin: 4px 0; }
+    .footer {
+      position: sticky; bottom: 0; display: flex; gap: 6px; padding: 8px 12px;
+      background: var(--figma-color-bg, #fff);
+      border-top: 1px solid var(--figma-color-border, #e5e5e5);
+    }
+    .btn {
+      flex: 1; padding: 6px 0;
+      border: 1px solid var(--figma-color-border, #d5d5d5); border-radius: 6px;
+      background: var(--figma-color-bg, #fff); color: var(--figma-color-text, #1e1e1e);
+      font-size: 11px; font-family: inherit; cursor: pointer; font-weight: 500;
+      transition: background 0.15s, opacity 0.15s;
+    }
+    .btn:hover:not(:disabled) { background: var(--figma-color-bg-secondary, #f5f5f5); }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+  </style>
+</head>
+<body>
+  <div class="section-title">JSON import</div>
+  <div class="file-row">
+    <label>JSON file</label>
+    <input type="file" class="file-input" id="jsonFile" accept=".json">
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">XML import</div>
+  <div class="file-row">
+    <label>XML file</label>
+    <input type="file" class="file-input" id="xmlFile" accept=".xml">
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Art assets</div>
+  <div class="file-row">
+    <label>PNG files</label>
+    <input type="file" class="file-input" id="imageAssets" accept="image/*" multiple>
+  </div>
+  <div id="asset-count" class="asset-count" style="display:none"></div>
+  <div id="expected-files" class="expected-files" style="display:none"></div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Sync settings</div>
+  <div class="toggle-row">
+    <span class="toggle-label">Position, size, rotation, corner radius &amp; constraints</span>
+    <label class="switch"><input type="checkbox" id="syncPosition" checked><span class="slider"></span></label>
+  </div>
+  <div class="toggle-row">
+    <span class="toggle-label">Visibility &amp; opacity</span>
+    <label class="switch"><input type="checkbox" id="syncVisibility" checked><span class="slider"></span></label>
+  </div>
+  <div class="toggle-row">
+    <span class="toggle-label">Text content &amp; font</span>
+    <label class="switch"><input type="checkbox" id="syncText" checked><span class="slider"></span></label>
+  </div>
+  <div class="toggle-row">
+    <span class="toggle-label">Fills, strokes &amp; effects</span>
+    <label class="switch"><input type="checkbox" id="syncFills" checked><span class="slider"></span></label>
+  </div>
+  <div class="toggle-row">
+    <span class="toggle-label">Art assets (imageFile)</span>
+    <label class="switch"><input type="checkbox" id="syncImages" checked><span class="slider"></span></label>
+  </div>
+  <div class="toggle-row">
+    <span class="toggle-label">Nine-slice metadata</span>
+    <label class="switch"><input type="checkbox" id="syncNineSlice" checked><span class="slider"></span></label>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Export</div>
+  <div class="select-row">
+    <label>Format</label>
+    <select class="format-select" id="exportFormat">
+      <option value="json">JSON</option>
+      <option value="xml">XML</option>
+    </select>
+  </div>
+
+  <div class="footer">
+    <button class="btn" id="action-importSync" disabled>Import JSON</button>
+    <button class="btn" id="action-importSyncXml" disabled>Import XML</button>
+    <button class="btn" id="action-export" disabled>Export</button>
+  </div>
+
+  <script>
+    function parseAttrValue(val) {
+      if (val === 'true') return true
+      if (val === 'false') return false
+      if (val !== '' && !isNaN(Number(val))) return Number(val)
+      return val
+    }
+    function xmlElementToObject(el) {
+      const obj = {}
+      for (const attr of el.attributes) obj[attr.name] = parseAttrValue(attr.value)
+      const ARRAY_WRAPPERS = new Set(['fills','strokes','effects','stops','segments','children','nodes','assetFileNames'])
+      const TEXT_ITEM_ARRAYS = new Set(['assetFileNames'])
+      const OBJECT_WRAPPERS = new Set(['layout','constraints','transform','offset'])
+      for (const child of el.children) {
+        const tag = child.tagName
+        if (ARRAY_WRAPPERS.has(tag)) {
+          obj[tag] = TEXT_ITEM_ARRAYS.has(tag)
+            ? Array.from(child.children).map(c => c.textContent || '')
+            : Array.from(child.children).map(c => xmlElementToObject(c))
+        } else if (tag === 'rectangleCornerRadii') {
+          obj[tag] = ['tl','tr','br','bl'].map(k => parseAttrValue(child.getAttribute(k) || '0'))
+        } else if (OBJECT_WRAPPERS.has(tag)) {
+          obj[tag] = xmlElementToObject(child)
+        } else if (child.children.length === 0 && child.attributes.length === 0) {
+          obj[tag] = child.textContent || ''
+        } else {
+          obj[tag] = xmlElementToObject(child)
+        }
+      }
+      return obj
+    }
+    function xmlToImportJson(xmlText) {
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(xmlText, 'text/xml')
+      const parseError = doc.querySelector('parsererror')
+      if (parseError) throw new Error('XML parse error: ' + parseError.textContent)
+      const root = doc.documentElement
+      const tag = root.tagName
+      if (tag === 'node') return JSON.stringify({ node: xmlElementToObject(root) })
+      const nodesEl = root.querySelector(':scope > nodes')
+      if (nodesEl) return JSON.stringify({ nodes: Array.from(nodesEl.children).map(c => xmlElementToObject(c)) })
+      const nodeEls = Array.from(root.children).filter(c => c.tagName === 'node')
+      if (nodeEls.length === 1) return JSON.stringify({ node: xmlElementToObject(nodeEls[0]) })
+      if (nodeEls.length > 1) return JSON.stringify({ nodes: nodeEls.map(c => xmlElementToObject(c)) })
+      throw new Error('No node data found in XML')
+    }
+    async function readFileText(file, forceXml) {
+      const text = await file.text()
+      const isXml = forceXml || file.name.toLowerCase().endsWith('.xml') || file.type === 'text/xml' || file.type === 'application/xml'
+      return { name: file.name, mimeType: file.type, size: file.size, text: isXml ? xmlToImportJson(text) : text }
+    }
+    function extractAssetFileNames(jsonText) {
+      try {
+        const parsed = JSON.parse(jsonText)
+        const meta = parsed && parsed.metadata
+        if (meta && Array.isArray(meta.assetFileNames)) return meta.assetFileNames.filter(n => typeof n === 'string' && n.trim())
+      } catch {}
+      return []
+    }
+
+    const ARRAY_WRAPPERS_EXPORT = new Set(['fills','strokes','effects','stops','segments','children','nodes'])
+    const OBJECT_WRAPPERS_EXPORT = new Set(['layout','constraints','transform','offset'])
+    function escapeXmlAttr(val) {
+      return String(val).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    }
+    function objectToXmlElement(obj, tagName) {
+      let attrs = '', childElements = ''
+      for (const key of Object.keys(obj)) {
+        const value = obj[key]
+        if (value === null || value === undefined) continue
+        if (key === 'rectangleCornerRadii' && Array.isArray(value)) {
+          childElements += '<rectangleCornerRadii tl="'+escapeXmlAttr(value[0])+'" tr="'+escapeXmlAttr(value[1])+'" br="'+escapeXmlAttr(value[2])+'" bl="'+escapeXmlAttr(value[3])+'"/>'; continue
+        }
+        if (ARRAY_WRAPPERS_EXPORT.has(key) && Array.isArray(value)) {
+          const items = value.map(item => typeof item === 'object' && item !== null ? objectToXmlElement(item,'item') : '<item>'+escapeXmlAttr(String(item))+'</item>').join('')
+          childElements += '<'+key+'>'+items+'</'+key+'>'; continue
+        }
+        if (OBJECT_WRAPPERS_EXPORT.has(key) && typeof value === 'object' && !Array.isArray(value)) {
+          childElements += objectToXmlElement(value, key); continue
+        }
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+          attrs += ' '+key+'="'+escapeXmlAttr(value)+'"'
+        }
+      }
+      return childElements ? '<'+tagName+attrs+'>'+childElements+'</'+tagName+'>' : '<'+tagName+attrs+'/>'
+    }
+    function jsonToXml(parsed) {
+      if (parsed.node) return '<?xml version="1.0" encoding="UTF-8"?>\n<root>\n'+objectToXmlElement(parsed.node,'node')+'\n</root>'
+      if (Array.isArray(parsed.nodes)) return '<?xml version="1.0" encoding="UTF-8"?>\n<root>\n<nodes>\n'+parsed.nodes.map(n=>objectToXmlElement(n,'node')).join('\n')+'\n</nodes>\n</root>'
+      return '<?xml version="1.0" encoding="UTF-8"?>\n<root/>'
+    }
+    function downloadFile(content, filename, mimeType) {
+      const blob = new Blob([content], { type: mimeType })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url; a.download = filename
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url)
+    }
+
+    const fileValues = {}
+    let expectedFileNames = []
+    let uploadedFileNamesLower = new Set()
+    let lastActionState = null
+
+    function updateExpectedFilesDisplay() {
+      const container = document.getElementById('expected-files')
+      if (!container) return
+      if (expectedFileNames.length === 0) { container.style.display = 'none'; return }
+      container.style.display = 'block'
+      const title = document.createElement('div')
+      title.className = 'expected-files-title'
+      title.textContent = 'Files needed (' + expectedFileNames.length + '):'
+      container.innerHTML = ''
+      container.appendChild(title)
+      expectedFileNames.forEach(name => {
+        const found = uploadedFileNamesLower.has(name.toLowerCase())
+        const row = document.createElement('div'); row.className = 'expected-file-item'
+        const dot = document.createElement('span'); dot.className = 'dot ' + (found ? 'found' : 'missing')
+        const label = document.createElement('span'); label.className = 'name' + (found ? '' : ' missing')
+        label.textContent = name; label.title = name
+        row.appendChild(dot); row.appendChild(label); container.appendChild(row)
+      })
+    }
+
+    function currentParams() {
+      return {
+        jsonFile: fileValues['jsonFile'] || null,
+        xmlFile: fileValues['xmlFile'] || null,
+        imageAssets: fileValues['imageAssets'] || [],
+        syncPosition: document.getElementById('syncPosition').checked,
+        syncVisibility: document.getElementById('syncVisibility').checked,
+        syncText: document.getElementById('syncText').checked,
+        syncFills: document.getElementById('syncFills').checked,
+        syncImages: document.getElementById('syncImages').checked,
+        syncNineSlice: document.getElementById('syncNineSlice').checked,
+        exportFormat: document.getElementById('exportFormat').value,
+      }
+    }
+
+    function applyActionStates(actions) {
+      if (!actions) return
+      const syncBtn = document.getElementById('action-importSync')
+      const syncXmlBtn = document.getElementById('action-importSyncXml')
+      const exportBtn = document.getElementById('action-export')
+      const a = actions['importSync']
+      if (a && syncBtn) {
+        syncBtn.disabled = !(a.enabled !== false && !!fileValues['jsonFile'])
+        if (typeof a.label === 'string') syncBtn.textContent = a.label
+      }
+      const b = actions['importSyncXml']
+      if (b && syncXmlBtn) {
+        syncXmlBtn.disabled = !(b.enabled !== false && !!fileValues['xmlFile'])
+        if (typeof b.label === 'string') syncXmlBtn.textContent = b.label
+      }
+      const c = actions['export']
+      if (c && exportBtn) exportBtn.disabled = c.enabled === false
+    }
+
+    document.getElementById('action-importSync').addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'action', id: 'importSync', params: currentParams() } }, '*')
+    })
+    document.getElementById('action-importSyncXml').addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'action', id: 'importSyncXml', params: currentParams() } }, '*')
+    })
+    document.getElementById('action-export').addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'action', id: 'export', params: currentParams() } }, '*')
+    })
+
+    window.addEventListener('message', event => {
+      const msg = event.data && event.data.pluginMessage
+      if (!msg) return
+      if (msg.type === 'action-state' && msg.actions) { lastActionState = msg.actions; applyActionStates(lastActionState); return }
+      if (msg.type === 'export-result') {
+        const format = (msg.format || 'json').toLowerCase()
+        if (format === 'xml') {
+          try { downloadFile(jsonToXml(JSON.parse(msg.json)), msg.filename.replace(/\.json$/, '.xml'), 'text/xml') }
+          catch (e) { console.error('XML failed:', e); downloadFile(msg.json, msg.filename, 'application/json') }
+        } else {
+          downloadFile(msg.json, msg.filename, 'application/json')
+        }
+      }
+    })
+
+    document.getElementById('jsonFile').addEventListener('change', async function() {
+      const file = this.files[0]
+      if (!file) { fileValues['jsonFile'] = null; expectedFileNames = []; updateExpectedFilesDisplay() }
+      else {
+        try {
+          const result = await readFileText(file, false)
+          fileValues['jsonFile'] = result; expectedFileNames = extractAssetFileNames(result.text); updateExpectedFilesDisplay()
+        } catch { fileValues['jsonFile'] = null; expectedFileNames = []; updateExpectedFilesDisplay() }
+      }
+      applyActionStates(lastActionState)
+    })
+
+    document.getElementById('xmlFile').addEventListener('change', async function() {
+      const file = this.files[0]
+      if (!file) { fileValues['xmlFile'] = null; expectedFileNames = []; updateExpectedFilesDisplay() }
+      else {
+        try {
+          const result = await readFileText(file, true)
+          fileValues['xmlFile'] = result; expectedFileNames = extractAssetFileNames(result.text); updateExpectedFilesDisplay()
+        } catch { fileValues['xmlFile'] = null; expectedFileNames = []; updateExpectedFilesDisplay() }
+      }
+      applyActionStates(lastActionState)
+    })
+
+    document.getElementById('imageAssets').addEventListener('change', async function() {
+      const countEl = document.getElementById('asset-count')
+      const files = this.files
+      if (!files || files.length === 0) {
+        fileValues['imageAssets'] = []; uploadedFileNamesLower = new Set(); countEl.style.display = 'none'; updateExpectedFilesDisplay()
+      } else {
+        const assets = []; uploadedFileNamesLower = new Set()
+        for (const file of files) {
+          try { const buf = await file.arrayBuffer(); assets.push({ name: file.name, bytes: new Uint8Array(buf) }); uploadedFileNamesLower.add(file.name.toLowerCase()) }
+          catch (err) { console.error('Could not read image:', file.name, err) }
+        }
+        fileValues['imageAssets'] = assets
+        countEl.textContent = assets.length + ' file' + (assets.length !== 1 ? 's' : '') + ' ready'
+        countEl.style.display = assets.length > 0 ? 'block' : 'none'
+        updateExpectedFilesDisplay()
+      }
+      applyActionStates(lastActionState)
+    })
+
+    function reportHeight() {
+      const h = Math.ceil(document.body.getBoundingClientRect().height)
+      if (h > 0) parent.postMessage({ pluginMessage: { type: 'resize', height: h } }, '*')
+    }
+    new ResizeObserver(reportHeight).observe(document.body)
+  </script>
+</body>
+</html>

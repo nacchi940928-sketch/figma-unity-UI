@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px;
+      background: var(--figma-color-bg, #ffffff);
+      color: var(--figma-color-text, #1e1e1e);
+    }
+
+    /* ── Section label ── */
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--figma-color-text-secondary, #666);
+      padding: 8px 12px 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Toggle row ── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 12px;
+    }
+    .toggle-label { font-size: 11px; }
+
+    /* Toggle switch */
+    .switch { position: relative; display: inline-block; width: 32px; height: 18px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--figma-color-bg-tertiary, #e5e5e5);
+      border-radius: 9px;
+      transition: background 0.2s;
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      width: 14px; height: 14px;
+      left: 2px; bottom: 2px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    input:checked + .slider { background: var(--figma-color-bg-brand, #0d99ff); }
+    input:checked + .slider::before { transform: translateX(14px); }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--figma-color-border, #e5e5e5);
+      margin: 4px 0;
+    }
+
+    /* ── Checklist ── */
+    .checklist {
+      padding: 4px 12px 8px;
+      margin: 0;
+      list-style: none;
+      color: var(--figma-color-text-secondary, #888);
+      line-height: 1.8;
+    }
+    .checklist li::before {
+      content: '✓ ';
+      color: var(--figma-color-bg-brand, #0d99ff);
+    }
+
+    /* ── Hint text ── */
+    .hint {
+      padding: 0 12px 10px;
+      color: var(--figma-color-text-secondary, #888);
+      line-height: 1.5;
+      font-size: 10px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--figma-color-bg, #ffffff);
+      border-top: 1px solid var(--figma-color-border, #e5e5e5);
+    }
+    .btn {
+      flex: 1;
+      padding: 6px 0;
+      border: 1px solid var(--figma-color-border, #d5d5d5);
+      border-radius: 6px;
+      background: var(--figma-color-bg, #ffffff);
+      color: var(--figma-color-text, #1e1e1e);
+      font-size: 11px;
+      font-family: inherit;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.15s, opacity 0.15s;
+    }
+    .btn:hover:not(:disabled) { background: var(--figma-color-bg-secondary, #f5f5f5); }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+  </style>
+</head>
+<body>
+  <div class="section-title">Export options</div>
+  <div class="toggle-row">
+    <span class="toggle-label">Export assets (images)</span>
+    <label class="switch">
+      <input type="checkbox" id="includeAssets" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="divider"></div>
+
+  <ul class="checklist">
+    <li>id, name, type, visible, locked</li>
+    <li>x/y, rootX/Y, blendMode, opacity</li>
+    <li>isMask, maskType, absoluteRenderBounds</li>
+    <li>fills, strokes (all paint types)</li>
+    <li>IMAGE fills: imageFile + PNG in ZIP</li>
+    <li>strokeCap, strokeJoin, strokeMiterLimit</li>
+    <li>strokeTopWeight / Right / Bottom / Left</li>
+    <li>effects (with blendMode)</li>
+    <li>cornerRadius / rectangleCornerRadii</li>
+    <li>Auto layout: wrap, counterAxisAlignContent</li>
+    <li>layoutGrids (columns / rows / grid)</li>
+    <li>TEXT: letterSpacing, lineHeight, paragraphSpacing</li>
+    <li>TEXT: textDecoration, textCase, textAutoResize</li>
+    <li>TEXT: maxLines, paragraphIndent, listSpacing</li>
+    <li>Segments: all style fields per run</li>
+    <li>COMPONENT: propertyDefinitions, variantProperties</li>
+    <li>INSTANCE: componentProperties, mainComponentId</li>
+    <li>9-slice: nineSlice, borders (L/R/T/B), fills[0].imageFile</li>
+    <li>9-slice PNG: {name}.png — shared across all instances</li>
+    <li>INSTANCE inherits nineSlice from component</li>
+    <li>Tile children: nineSlicePart=true</li>
+  </ul>
+
+  <div class="hint">imageFile filenames are always written in the XML/JSON (Unity-compatible). With assets on: downloads a ZIP with PNG files. With assets off: XML/JSON only.</div>
+
+  <div class="footer">
+    <button class="btn" id="action-exportJson" disabled>Export JSON</button>
+    <button class="btn" id="action-exportXml" disabled>Export XML</button>
+  </div>
+
+  <script>
+    // ── ZIP encoder ──────────────────────────────────────────────────────────
+    const CRC_TABLE = (() => {
+      const t = new Uint32Array(256)
+      for (let i = 0; i < 256; i++) {
+        let c = i
+        for (let j = 0; j < 8; j++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1
+        t[i] = c
+      }
+      return t
+    })()
+    function crc32(data) {
+      let crc = 0xffffffff
+      for (let i = 0; i < data.length; i++) crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ data[i]) & 0xff]
+      return (crc ^ 0xffffffff) >>> 0
+    }
+    function u16(v) { return [v & 0xff, (v >>> 8) & 0xff] }
+    function u32(v) { return [v & 0xff, (v >>> 8) & 0xff, (v >>> 16) & 0xff, (v >>> 24) & 0xff] }
+    function buildZip(files) {
+      const enc = new TextEncoder()
+      const locals = [], centralEntries = []
+      let localOffset = 0
+      for (const file of files) {
+        const nameBytes = enc.encode(file.name)
+        const data = file.data
+        const crc = crc32(data)
+        const size = data.length
+        const local = new Uint8Array([0x50,0x4b,0x03,0x04,...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(size),...u32(size),...u16(nameBytes.length),...u16(0),...nameBytes])
+        locals.push(local, data)
+        centralEntries.push(new Uint8Array([0x50,0x4b,0x01,0x02,...u16(20),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(size),...u32(size),...u16(nameBytes.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(localOffset),...nameBytes]))
+        localOffset += local.length + size
+      }
+      const cdSize = centralEntries.reduce((s, e) => s + e.length, 0)
+      const eocd = new Uint8Array([0x50,0x4b,0x05,0x06,...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(cdSize),...u32(localOffset),...u16(0)])
+      const allParts = [...locals, ...centralEntries, eocd]
+      const total = allParts.reduce((s, p) => s + p.length, 0)
+      const out = new Uint8Array(total)
+      let pos = 0
+      for (const p of allParts) { out.set(p, pos); pos += p.length }
+      return out
+    }
+    function base64ToBytes(b64) {
+      const bin = atob(b64)
+      const out = new Uint8Array(bin.length)
+      for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i)
+      return out
+    }
+
+    // ── Download helpers ─────────────────────────────────────────────────────
+    function triggerDownload(filename, content) {
+      const mime = filename.endsWith('.xml') ? 'application/xml' : 'application/json'
+      const blob = new Blob([content], { type: mime })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url; a.download = filename
+      document.body.appendChild(a); a.click(); document.body.removeChild(a)
+      setTimeout(() => URL.revokeObjectURL(url), 5000)
+    }
+    function triggerZipDownload(zipName, files) {
+      const zipBytes = buildZip(files)
+      const blob = new Blob([zipBytes], { type: 'application/zip' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url; a.download = zipName
+      document.body.appendChild(a); a.click(); document.body.removeChild(a)
+      setTimeout(() => URL.revokeObjectURL(url), 10000)
+    }
+
+    // ── UI state ─────────────────────────────────────────────────────────────
+    function currentParams() {
+      return { includeAssets: document.getElementById('includeAssets').checked }
+    }
+
+    document.getElementById('action-exportJson').addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'action', id: 'exportJson', params: currentParams() } }, '*')
+    })
+    document.getElementById('action-exportXml').addEventListener('click', () => {
+      parent.postMessage({ pluginMessage: { type: 'action', id: 'exportXml', params: currentParams() } }, '*')
+    })
+
+    // ── Message handler ──────────────────────────────────────────────────────
+    window.onmessage = (event) => {
+      const msg = event.data && event.data.pluginMessage
+      if (!msg) return
+
+      if (msg.type === 'params-change' && msg.params) {
+        if (typeof msg.params.includeAssets === 'boolean') {
+          document.getElementById('includeAssets').checked = msg.params.includeAssets
+        }
+        return
+      }
+
+      if (msg.type === 'action-state' && msg.actions) {
+        const jsonAction = msg.actions['exportJson']
+        const jsonBtn = document.getElementById('action-exportJson')
+        if (jsonAction && jsonBtn) {
+          jsonBtn.disabled = jsonAction.enabled === false
+          if (typeof jsonAction.label === 'string') jsonBtn.textContent = jsonAction.label
+        }
+        const xmlAction = msg.actions['exportXml']
+        const xmlBtn = document.getElementById('action-exportXml')
+        if (xmlAction && xmlBtn) {
+          xmlBtn.disabled = xmlAction.enabled === false
+          if (typeof xmlAction.label === 'string') xmlBtn.textContent = xmlAction.label
+        }
+        return
+      }
+
+      if (msg.type === 'download') {
+        triggerDownload(msg.filename, msg.content)
+        return
+      }
+
+      if (msg.type === 'download-zip') {
+        const enc = new TextEncoder()
+        const files = [{ name: msg.jsonFile.name, data: enc.encode(msg.jsonFile.content) }]
+        for (const img of (msg.imageFiles || [])) files.push({ name: img.name, data: base64ToBytes(img.data) })
+        triggerZipDownload(msg.zipName, files)
+        return
+      }
+    }
+
+    // ── Report height to plugin ───────────────────────────────────────────────
+    function reportHeight() {
+      const h = Math.ceil(document.body.getBoundingClientRect().height)
+      if (h > 0) parent.postMessage({ pluginMessage: { type: 'resize', height: h } }, '*')
+    }
+    new ResizeObserver(reportHeight).observe(document.body)
+  </script>
+</body>
+</html>

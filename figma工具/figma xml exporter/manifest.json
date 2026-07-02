@@ -1,0 +1,16 @@
+{
+  "name": "Full design exporter v2",
+  "id": "3bc4284c-7b77-4024-a251-a0d8c39c3249",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ],
+  "relaunchButtons": [
+    {
+      "command": "3bc4284c-7b77-4024-a251-a0d8c39c3249",
+      "name": "Full design exporter v2"
+    }
+  ],
+  "ui": "ui.html"
+}

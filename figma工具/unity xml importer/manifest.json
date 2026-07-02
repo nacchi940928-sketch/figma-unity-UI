@@ -1,0 +1,16 @@
+{
+  "name": "Unity JSON/XML importer v2",
+  "id": "3dbe66a5-8717-4dc6-9f83-5b27f3a4889a",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": [
+    "figma"
+  ],
+  "relaunchButtons": [
+    {
+      "command": "3dbe66a5-8717-4dc6-9f83-5b27f3a4889a",
+      "name": "Unity JSON/XML importer v2"
+    }
+  ],
+  "ui": "ui.html"
+}
